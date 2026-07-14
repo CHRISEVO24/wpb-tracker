@@ -1,0 +1,12 @@
+# Netlify build config
+# Before deploying, fetches the latest history.json from GitHub Releases
+# so the dashboard always shows the most recent inventory data.
+
+[build]
+  command   = "node fetch-history.js"
+  publish   = "."
+
+[[redirects]]
+  from = "/"
+  to   = "/dashboard.html"
+  status = 200
