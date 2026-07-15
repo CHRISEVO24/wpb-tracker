@@ -5,5 +5,8 @@
   "main": "scrape.js",
   "scripts": {
     "scrape": "node scrape.js"
+  },
+  "dependencies": {
+    "playwright": "^1.44.0"
   }
 }
