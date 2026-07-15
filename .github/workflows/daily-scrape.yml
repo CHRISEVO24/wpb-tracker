@@ -3,9 +3,9 @@ name: WPB Daily Inventory Scrape
 on:
   schedule:
     # 5:00 AM EST = 10:00 AM UTC
-    - cron: '0 10 * * *'
+    - cron: '1 10 * * *'
     # 9:00 AM EST = 14:00 UTC
-    - cron: '0 14 * * *'
+    - cron: '1 14 * * *'
 
   # Manual trigger from GitHub Actions tab
   workflow_dispatch:
