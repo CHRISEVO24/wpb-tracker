@@ -35,6 +35,14 @@ jobs:
       - name: Run inventory scraper
         run: node scrape.js
 
+      - name: Install Playwright for FB scraper (5am only)
+        if: github.event.schedule == '1 10 * * *' || github.event_name == 'workflow_dispatch'
+        run: |
+          if [ -n "${{ secrets.FB_COOKIES }}" ]; then
+            npm install playwright
+            npx playwright install chromium --with-deps
+          fi
+
       - name: Run FB Marketplace scraper (5am only)
         if: github.event.schedule == '1 10 * * *' || github.event_name == 'workflow_dispatch'
         env:
@@ -43,8 +51,6 @@ jobs:
           if [ -z "$FB_COOKIES" ]; then
             echo "FB_COOKIES not set - skipping"
           else
-            npm install playwright
-            npx playwright install chromium --with-deps
             node fb-scraper.js
           fi
 
