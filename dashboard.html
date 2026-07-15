@@ -441,17 +441,45 @@ document.querySelectorAll(".tab").forEach(btn => {
 // ── Auto-load history.json and attribute-cache.json from same folder ──────────
 let ATTR_CACHE = {}; // loaded from attribute-cache.json for FB export enrichment
 
+// ── GitHub direct fetch helpers ───────────────────────────────────────────────
+const GH_REPO = 'CHRISEVO24/wpb-tracker';
+const GH_API  = 'https://api.github.com';
+
+async function fetchLatestReleaseAsset(filename) {
+  // Get latest release metadata
+  const relRes = await fetch(`${GH_API}/repos/${GH_REPO}/releases/latest`, {
+    headers: { 'Accept': 'application/vnd.github.v3+json' }
+  });
+  if (!relRes.ok) throw new Error('Could not fetch releases');
+  const release = await relRes.json();
+  const asset = (release.assets || []).find(a => a.name === filename);
+  if (!asset) throw new Error(`${filename} not found in latest release`);
+  // Download the asset via redirect
+  const fileRes = await fetch(asset.browser_download_url);
+  if (!fileRes.ok) throw new Error(`Download failed: ${fileRes.status}`);
+  return fileRes.json();
+}
+
+async function fetchRepoFile(filename) {
+  const res = await fetch(`${GH_API}/repos/${GH_REPO}/contents/${filename}`, {
+    headers: { 'Accept': 'application/vnd.github.v3.raw' }
+  });
+  if (!res.ok) throw new Error(`${filename} not found (${res.status})`);
+  return res.json();
+}
+
 async function autoLoadHistory() {
   try {
-    const res = await fetch("./history.json?t=" + Date.now());
-    if (!res.ok) throw new Error(`history.json not found (${res.status})`);
+    // Fetch history.json from latest GitHub Release asset
+    HISTORY = await fetchLatestReleaseAsset('history.json');
+    if (!HISTORY) throw new Error('history.json not found in latest release');
     HISTORY = await res.json();
 
     // Also try to load attribute-cache.json for full FB export descriptions
     try {
-      const cacheRes = await fetch("./attribute-cache.json?t=" + Date.now());
-      if (cacheRes.ok) {
-        ATTR_CACHE = await cacheRes.json();
+      const cacheRes = await fetchRepoFile('attribute-cache.json');
+      if (cacheRes) {
+        ATTR_CACHE = cacheRes;
         console.log("Attribute cache loaded:", Object.keys(ATTR_CACHE).length, "products");
       }
     } catch { /* cache is optional — FB export just uses short description */ }
@@ -1341,9 +1369,7 @@ async function loadFBSync() {
   summary.innerHTML = '';
   results.innerHTML = '<p style="color:#888;padding:20px;">Loading FB sync data...</p>';
   try {
-    const res = await fetch('fb-sync-results.json?_=' + Date.now());
-    if (!res.ok) throw new Error('not found');
-    const data = await res.json();
+    const data = await fetchRepoFile('fb-sync-results.json');
     renderFBSync(data);
   } catch(e) {
     results.innerHTML = `<div style="background:#fff8e1;border:1px solid #ffe082;border-radius:10px;padding:24px;color:#5d4037;">
