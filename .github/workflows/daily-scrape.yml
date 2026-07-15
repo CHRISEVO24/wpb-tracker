@@ -9,7 +9,7 @@ on:
 jobs:
   scrape:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
 
     steps:
       - name: Checkout repository
@@ -32,8 +32,19 @@ jobs:
             echo "No existing history.json"
           fi
 
-      - name: Run inventory scraper
-        run: node scrape.js
+      - name: Run inventory scraper (with retry)
+        run: |
+          for attempt in 1 2 3; do
+            echo "Scraper attempt $attempt of 3..."
+            node scrape.js && break
+            if [ $attempt -lt 3 ]; then
+              echo "Attempt $attempt failed, waiting 60s before retry..."
+              sleep 60
+            else
+              echo "All 3 attempts failed"
+              exit 1
+            fi
+          done
 
       - name: Install Playwright for FB scraper (5am only)
         if: github.event.schedule == '1 10 * * *' || github.event_name == 'workflow_dispatch'
