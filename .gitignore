@@ -1,3 +1,4 @@
-history.json
 node_modules/
 *.log
+.fb-cookies.json
+
