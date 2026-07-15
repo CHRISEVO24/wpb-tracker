@@ -443,27 +443,19 @@ let ATTR_CACHE = {}; // loaded from attribute-cache.json for FB export enrichmen
 
 // ── GitHub direct fetch helpers ───────────────────────────────────────────────
 const GH_REPO = 'CHRISEVO24/wpb-tracker';
+const GH_RAW  = 'https://raw.githubusercontent.com/' + GH_REPO + '/main';
 const GH_API  = 'https://api.github.com';
 
 async function fetchLatestReleaseAsset(filename) {
-  // Get latest release metadata
-  const relRes = await fetch(`${GH_API}/repos/${GH_REPO}/releases/latest`, {
-    headers: { 'Accept': 'application/vnd.github.v3+json' }
-  });
-  if (!relRes.ok) throw new Error('Could not fetch releases');
-  const release = await relRes.json();
-  const asset = (release.assets || []).find(a => a.name === filename);
-  if (!asset) throw new Error(`${filename} not found in latest release`);
-  // Download the asset via redirect
-  const fileRes = await fetch(asset.browser_download_url);
-  if (!fileRes.ok) throw new Error(`Download failed: ${fileRes.status}`);
-  return fileRes.json();
+  // For public repos, fetch history.json directly from repo raw URL
+  // (release assets require auth even on public repos)
+  const res = await fetch(`${GH_RAW}/${filename}?_=${Date.now()}`);
+  if (!res.ok) throw new Error(`${filename} not found (${res.status})`);
+  return res.json();
 }
 
 async function fetchRepoFile(filename) {
-  const res = await fetch(`${GH_API}/repos/${GH_REPO}/contents/${filename}`, {
-    headers: { 'Accept': 'application/vnd.github.v3.raw' }
-  });
+  const res = await fetch(`${GH_RAW}/${filename}?_=${Date.now()}`);
   if (!res.ok) throw new Error(`${filename} not found (${res.status})`);
   return res.json();
 }
