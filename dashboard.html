@@ -633,11 +633,12 @@ function downloadCsv(rows, filename) {
   URL.revokeObjectURL(url);
 }
 
-// Inventory tab — exports all filtered rows
+// Inventory tab — exports selected rows if any are checked, otherwise all filtered rows
 function exportInventoryXlsx() {
   const timestamp = new Date().toISOString().slice(0, 10);
   const headers = ["Watch Name","Reference Number","Product Code","Stock Status","Price","Category","Brand","Model","Year","Box","Papers","Condition","Movement","Case","Bracelet","Dial","Bezel","URL"];
-  const rows = [headers, ...filtered.map(w => [
+  const rowsSource = selected.size > 0 ? filtered.filter(w => selected.has(w.id)) : filtered;
+  const rows = [headers, ...rowsSource.map(w => [
     w.name, w.referenceNumber||"", w.productCode||w.sku||"",
     w.stockStatus||"", w.price||"", w.categories||"",
     w.brand||"", w.model||"", w.year||"",
@@ -646,7 +647,7 @@ function exportInventoryXlsx() {
     w.dial||"", w.bezel||"", w.url||""
   ])];
   downloadCsv(rows, `wpb-inventory-${timestamp}.csv`);
-  toast(`✓ Exported ${filtered.length} watch${filtered.length!==1?"es":""} to Excel`);
+  toast(`✓ Exported ${rowsSource.length} watch${rowsSource.length!==1?"es":""} to Excel`);
 }
 
 // Changes/Sold tab — exports both new arrivals and sold watches
