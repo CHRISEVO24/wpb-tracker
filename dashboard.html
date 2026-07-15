@@ -464,8 +464,7 @@ async function autoLoadHistory() {
   try {
     // Fetch history.json from latest GitHub Release asset
     HISTORY = await fetchLatestReleaseAsset('history.json');
-    if (!HISTORY) throw new Error('history.json not found in latest release');
-    HISTORY = await res.json();
+    if (!HISTORY) throw new Error('history.json not found');
 
     // Also try to load attribute-cache.json for full FB export descriptions
     try {
