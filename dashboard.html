@@ -447,16 +447,11 @@ const GH_RAW  = 'https://raw.githubusercontent.com/' + GH_REPO + '/main';
 const GH_API  = 'https://api.github.com';
 
 async function fetchLatestReleaseAsset(filename) {
-  // Fetch latest release info (public endpoint, no auth needed)
-  const relRes = await fetch(`${GH_API}/repos/${GH_REPO}/releases/latest`);
-  if (!relRes.ok) throw new Error('Could not fetch releases');
-  const release = await relRes.json();
-  const asset = (release.assets || []).find(a => a.name === filename);
-  if (!asset) throw new Error(`${filename} not found in latest release`);
-  // browser_download_url is publicly accessible on public repos
-  const fileRes = await fetch(asset.browser_download_url);
-  if (!fileRes.ok) throw new Error(`Download failed: ${fileRes.status}`);
-  return fileRes.json();
+  // history.json is now committed directly to the repo
+  // Use raw.githubusercontent.com which has proper CORS headers
+  const res = await fetch(`${GH_RAW}/${filename}?_=${Date.now()}`);
+  if (!res.ok) throw new Error(`${filename} not found (${res.status})`);
+  return res.json();
 }
 
 async function fetchRepoFile(filename) {
