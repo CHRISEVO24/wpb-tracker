@@ -1,14 +1,8 @@
 {
-  "scraped_at": "2026-07-16T13:10:16.718Z",
-  "scraped_at_et": "7/16/2026, 9:10:16 AM",
-  "total_listings": 25,
+  "scraped_at": "2026-07-16T15:48:54.420Z",
+  "scraped_at_et": "7/16/2026, 11:48:54 AM",
+  "total_listings": 11,
   "listings": [
-    {
-      "title": "RLX Deepsea James Cameron",
-      "price": "$11,900",
-      "status": "In stock",
-      "listed_date": ""
-    },
     {
       "title": "Rolex Datejust 36 Stainless Steel White Roman Dial 126200",
       "price": "$9,000",
@@ -34,12 +28,6 @@
       "listed_date": ""
     },
     {
-      "title": "Audemars Piguet Royal Oak (Limited Edition 20) Frosted White Gold Grey Dial 26522BC.OO.1220BD.01",
-      "price": "$210,500",
-      "status": "In stock",
-      "listed_date": ""
-    },
-    {
       "title": "Panerai Submersible NavySeals Stainless Steel/Ceramic Grey Dial PAM01402",
       "price": "$70,000",
       "status": "In stock",
@@ -52,56 +40,8 @@
       "listed_date": ""
     },
     {
-      "title": "Rolex Daytona ‘Le Mans’ Rose Gold Black Dial 126525LN",
-      "price": "$228,000",
-      "status": "In stock",
-      "listed_date": ""
-    },
-    {
-      "title": "Audemars Piguet Code 11.59 Selfwinding Rose Gold Blue Dial 15210OR.OO.A028CR.01",
-      "price": "$22,200",
-      "status": "In stock",
-      "listed_date": ""
-    },
-    {
-      "title": "Panerai Luminor Equation Of Time Boutique Edition Titanium Blue Arabic Dial PAM00670",
-      "price": "$13,500",
-      "status": "In stock",
-      "listed_date": ""
-    },
-    {
-      "title": "Rolex Daytona Stainless Steel “Zenith Movement” Black Dial 16520",
-      "price": "$26,200",
-      "status": "In stock",
-      "listed_date": ""
-    },
-    {
-      "title": "Patek Philippe Chronograph 41mm White Gold Blue Arabic Dial 5172G-001",
-      "price": "$58,150",
-      "status": "In stock",
-      "listed_date": ""
-    },
-    {
-      "title": "Rolex Submariner Date Stainless Steel “Starbucks” Black Dial 126610LV",
-      "price": "$17,975",
-      "status": "In stock",
-      "listed_date": ""
-    },
-    {
-      "title": "Rolex Oyster Perpetual 41 Stainless Steel “Celebration” Dial 124300",
-      "price": "$23,650",
-      "status": "In stock",
-      "listed_date": ""
-    },
-    {
-      "title": "Cartier Ronde Louis Cartier White Gold Diamond Bezel Ivory Roman Dial WR000251",
-      "price": "$4,850",
-      "status": "In stock",
-      "listed_date": ""
-    },
-    {
       "title": "Rolex Daytona Stainless Steel Ceramic Bezel White Dial 116500LN",
-      "price": "$35,950",
+      "price": "$34,550",
       "status": "In stock",
       "listed_date": ""
     },
@@ -124,32 +64,8 @@
       "listed_date": ""
     },
     {
-      "title": "Rolex Day-Date 36 Platinum Baguette Diamond Bezel Blue Diamond Dial 128396TBR",
-      "price": "$79,650",
-      "status": "In stock",
-      "listed_date": ""
-    },
-    {
-      "title": "Cartier Ronde Solo Cartier Stainless Steel Silver Roman Dial WSRN0012",
-      "price": "$3,050",
-      "status": "In stock",
-      "listed_date": ""
-    },
-    {
-      "title": "Rolex GMT-Master II Rose Gold “Root Beer” Black Dial 126715CHNR",
-      "price": "$49,450",
-      "status": "In stock",
-      "listed_date": ""
-    },
-    {
-      "title": "Rolex Day-Date President 40 Platinum Baguette Diamond Ice Blue Dial 228396TBR",
-      "price": "$115,250",
-      "status": "In stock",
-      "listed_date": ""
-    },
-    {
       "title": "Patek Philippe Annual Calendar Flyback Chronograph Rose Gold Blue Dial 5905R-010",
-      "price": "$68,900",
+      "price": "$66,550",
       "status": "In stock",
       "listed_date": ""
     }

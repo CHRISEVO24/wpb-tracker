@@ -1,14 +1,14 @@
 {
-  "checked_at": "2026-07-16T13:10:16.894Z",
-  "checked_at_et": "7/16/2026, 9:10:16 AM",
-  "fb_scraped_at_et": "7/16/2026, 9:10:16 AM",
+  "checked_at": "2026-07-16T15:48:54.600Z",
+  "checked_at_et": "7/16/2026, 11:48:54 AM",
+  "fb_scraped_at_et": "7/16/2026, 11:48:54 AM",
   "summary": {
-    "total_fb_listings": 25,
+    "total_fb_listings": 11,
     "mark_sold": 0,
     "verify_sold": 1,
-    "no_match": 3,
-    "duplicates": 1,
-    "ok": 20
+    "no_match": 0,
+    "duplicates": 0,
+    "ok": 10
   },
   "mark_sold": [],
   "verify_sold": [
@@ -24,34 +24,8 @@
       "action": "VERIFY_SOLD"
     }
   ],
-  "no_match": [
-    {
-      "fb_title": "RLX Deepsea James Cameron",
-      "fb_status": "In stock",
-      "fb_price": "$11,900",
-      "note": "Not found in WPB inventory"
-    },
-    {
-      "fb_title": "Audemars Piguet Code 11.59 Selfwinding Rose Gold Blue Dial 15210OR.OO.A028CR.01",
-      "fb_status": "In stock",
-      "fb_price": "$22,200",
-      "note": "Not found in WPB inventory"
-    },
-    {
-      "fb_title": "Panerai Luminor Equation Of Time Boutique Edition Titanium Blue Arabic Dial PAM00670",
-      "fb_status": "In stock",
-      "fb_price": "$13,500",
-      "note": "Not found in WPB inventory"
-    }
-  ],
-  "duplicates": [
-    {
-      "fb_title": "Rolex GMT-Master II Rose Gold “Root Beer” Black Dial 126715CHNR",
-      "fb_status": "In stock",
-      "fb_price": "$49,450",
-      "note": "Duplicate FB listing"
-    }
-  ],
+  "no_match": [],
+  "duplicates": [],
   "ok": [
     {
       "fb_title": "Rolex Datejust 36 Stainless Steel White Roman Dial 126200",
@@ -98,17 +72,6 @@
       "action": "OK"
     },
     {
-      "fb_title": "Audemars Piguet Royal Oak (Limited Edition 20) Frosted White Gold Grey Dial 26522BC.OO.1220BD.01",
-      "fb_status": "In stock",
-      "fb_price": "$210,500",
-      "fb_listed": "",
-      "wpb_name": "Audemars Piguet Royal Oak (Limited Edition 20) Frosted White Gold Grey Dial 26522BC.OO.1220BD.01",
-      "product_code": "001.68790.186",
-      "reference_number": "26522BC.OO.1220BD.01",
-      "wpb_stock": "In Stock",
-      "action": "OK"
-    },
-    {
       "fb_title": "Panerai Submersible NavySeals Stainless Steel/Ceramic Grey Dial PAM01402",
       "fb_status": "In stock",
       "fb_price": "$70,000",
@@ -131,75 +94,9 @@
       "action": "OK"
     },
     {
-      "fb_title": "Rolex Daytona ‘Le Mans’ Rose Gold Black Dial 126525LN",
-      "fb_status": "In stock",
-      "fb_price": "$228,000",
-      "fb_listed": "",
-      "wpb_name": "Rolex Daytona Le Mans Rose Gold Black Dial 126525LN",
-      "product_code": "001.56476.204",
-      "reference_number": "126525LN",
-      "wpb_stock": "In Stock",
-      "action": "OK"
-    },
-    {
-      "fb_title": "Rolex Daytona Stainless Steel “Zenith Movement” Black Dial 16520",
-      "fb_status": "In stock",
-      "fb_price": "$26,200",
-      "fb_listed": "",
-      "wpb_name": "Rolex Daytona Stainless Steel Black Dial 116520",
-      "product_code": "001.75733.218",
-      "reference_number": "116520",
-      "wpb_stock": "In Stock",
-      "action": "OK"
-    },
-    {
-      "fb_title": "Patek Philippe Chronograph 41mm White Gold Blue Arabic Dial 5172G-001",
-      "fb_status": "In stock",
-      "fb_price": "$58,150",
-      "fb_listed": "",
-      "wpb_name": "Patek Philippe Aquanaut Chronograph White Gold Blue Arabic Dial 5968G-001",
-      "product_code": "001.71343.134",
-      "reference_number": "5968G-001",
-      "wpb_stock": "In Stock",
-      "action": "OK"
-    },
-    {
-      "fb_title": "Rolex Submariner Date Stainless Steel “Starbucks” Black Dial 126610LV",
-      "fb_status": "In stock",
-      "fb_price": "$17,975",
-      "fb_listed": "",
-      "wpb_name": "Rolex Submariner Date Stainless Steel “Starbucks” Black Dial 126610LV",
-      "product_code": "001.78077.160",
-      "reference_number": "126610LV",
-      "wpb_stock": "In Stock",
-      "action": "OK"
-    },
-    {
-      "fb_title": "Rolex Oyster Perpetual 41 Stainless Steel “Celebration” Dial 124300",
-      "fb_status": "In stock",
-      "fb_price": "$23,650",
-      "fb_listed": "",
-      "wpb_name": "Rolex Oyster Perpetual 41 Stainless Steel Green Stick Dial 124300",
-      "product_code": "001.48910.933",
-      "reference_number": "124300",
-      "wpb_stock": "In Stock",
-      "action": "OK"
-    },
-    {
-      "fb_title": "Cartier Ronde Louis Cartier White Gold Diamond Bezel Ivory Roman Dial WR000251",
-      "fb_status": "In stock",
-      "fb_price": "$4,850",
-      "fb_listed": "",
-      "wpb_name": "Cartier Tank Basculante Yellow Gold Diamond Bezel White Roman Dial WA202251",
-      "product_code": "001.38896.173",
-      "reference_number": "WA202251",
-      "wpb_stock": "In Stock",
-      "action": "OK"
-    },
-    {
       "fb_title": "Rolex Daytona Stainless Steel Ceramic Bezel White Dial 116500LN",
       "fb_status": "In stock",
-      "fb_price": "$35,950",
+      "fb_price": "$34,550",
       "fb_listed": "",
       "wpb_name": "Rolex Daytona Stainless Steel Black Dial 116500LN",
       "product_code": "001.86153.286",
@@ -230,42 +127,9 @@
       "action": "OK"
     },
     {
-      "fb_title": "Rolex Day-Date 36 Platinum Baguette Diamond Bezel Blue Diamond Dial 128396TBR",
-      "fb_status": "In stock",
-      "fb_price": "$79,650",
-      "fb_listed": "",
-      "wpb_name": "Rolex Day-Date 36 Platinum Baguette Diamond Bezel Blue Diamond Dial 128396TBR",
-      "product_code": "001.92612.754",
-      "reference_number": "128396TBR",
-      "wpb_stock": "In Stock",
-      "action": "OK"
-    },
-    {
-      "fb_title": "Cartier Ronde Solo Cartier Stainless Steel Silver Roman Dial WSRN0012",
-      "fb_status": "In stock",
-      "fb_price": "$3,050",
-      "fb_listed": "",
-      "wpb_name": "Cartier Ronde Must de Cartier Stainless Steel Silver Roman Dial WSRN0034",
-      "product_code": "001.98361.280",
-      "reference_number": "WSRN0034",
-      "wpb_stock": "In Stock",
-      "action": "OK"
-    },
-    {
-      "fb_title": "Rolex Day-Date President 40 Platinum Baguette Diamond Ice Blue Dial 228396TBR",
-      "fb_status": "In stock",
-      "fb_price": "$115,250",
-      "fb_listed": "",
-      "wpb_name": "Rolex Day-Date 36 Platinum Baguette Diamond Bezel Blue Diamond Dial 128396TBR",
-      "product_code": "001.92612.754",
-      "reference_number": "128396TBR",
-      "wpb_stock": "In Stock",
-      "action": "OK"
-    },
-    {
       "fb_title": "Patek Philippe Annual Calendar Flyback Chronograph Rose Gold Blue Dial 5905R-010",
       "fb_status": "In stock",
-      "fb_price": "$68,900",
+      "fb_price": "$66,550",
       "fb_listed": "",
       "wpb_name": "Patek Philippe Annual Calendar Flyback Chronograph Rose Gold Blue Dial 5905R-010",
       "product_code": "001.51506.644",
