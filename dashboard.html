@@ -1380,10 +1380,10 @@ function renderFBSync(data) {
   meta.textContent = 'Last checked: ' + data.checked_at_et + '  ·  FB scraped: ' + data.fb_scraped_at_et;
   const s = data.summary;
   const cards = [
-    { count: s.mark_sold,          label: 'Mark as Sold', color: '#e53e3e', bg: '#fff5f5', border: '#fc8181' },
-    { count: s.active_fb_listings, label: 'Active on FB', color: '#1877f2', bg: '#f0f4ff', border: '#93c5fd' },
-    { count: s.no_match,           label: 'Not in WPB',   color: '#dd6b20', bg: '#fffaf0', border: '#fbd38d' },
-    { count: s.ok,                 label: 'All Clear',    color: '#38a169', bg: '#f0fff4', border: '#9ae6b4' },
+    { count: s.mark_sold,        label: 'Mark as Sold',   color: '#e53e3e', bg: '#fff5f5', border: '#fc8181' },
+    { count: s.no_match,         label: 'Not in WPB',     color: '#dd6b20', bg: '#fffaf0', border: '#fbd38d' },
+    { count: s.total_fb_listings,label: 'Total Listed',   color: '#666',    bg: '#f7f7f7', border: '#ddd' },
+    { count: s.ok,               label: 'All Clear',      color: '#38a169', bg: '#f0fff4', border: '#9ae6b4' },
   ];
   summary.innerHTML = cards.map(c => `<div style="background:${c.bg};border:1px solid ${c.border};border-radius:10px;padding:14px 20px;min-width:110px;"><div style="font-size:26px;font-weight:700;color:${c.color};">${c.count}</div><div style="font-size:12px;color:#666;margin-top:2px;">${c.label}</div></div>`).join('');
   let html = '';
