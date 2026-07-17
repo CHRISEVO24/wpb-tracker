@@ -1,29 +1,17 @@
 {
-  "checked_at": "2026-07-17T10:01:28.622Z",
-  "checked_at_et": "7/17/2026, 6:01:28 AM",
-  "fb_scraped_at_et": "7/17/2026, 6:01:28 AM",
+  "checked_at": "2026-07-17T15:02:17.150Z",
+  "checked_at_et": "7/17/2026, 11:02:17 AM",
+  "fb_scraped_at_et": "7/17/2026, 11:02:16 AM",
   "summary": {
-    "total_fb_listings": 11,
+    "total_fb_listings": 6,
     "mark_sold": 0,
-    "verify_sold": 1,
+    "verify_sold": 0,
     "no_match": 0,
     "duplicates": 0,
-    "ok": 10
+    "ok": 6
   },
   "mark_sold": [],
-  "verify_sold": [
-    {
-      "fb_title": "Cartier Calibre De Cartier Diver Stainless Steel Blue Roman Dial WSCA0010",
-      "fb_status": "Sold",
-      "fb_price": "$5,050",
-      "fb_listed": "",
-      "wpb_name": "Cartier Calibre De Cartier Diver Stainless Steel Blue Roman Dial WSCA0010",
-      "product_code": "001.68406.460",
-      "reference_number": "WSCA0010",
-      "wpb_stock": "In Stock",
-      "action": "VERIFY_SOLD"
-    }
-  ],
+  "verify_sold": [],
   "no_match": [],
   "duplicates": [],
   "ok": [
@@ -90,50 +78,6 @@
       "wpb_name": "Panerai Radiomir Bronze Green Ombre Dial PAM 00760",
       "product_code": "561.10232.9",
       "reference_number": "PAM 00760",
-      "wpb_stock": "In Stock",
-      "action": "OK"
-    },
-    {
-      "fb_title": "Rolex Daytona Stainless Steel Ceramic Bezel White Dial 116500LN",
-      "fb_status": "In stock",
-      "fb_price": "$34,550",
-      "fb_listed": "",
-      "wpb_name": "Rolex Daytona Stainless Steel Black Dial 116500LN",
-      "product_code": "001.86153.286",
-      "reference_number": "116500LN",
-      "wpb_stock": "In Stock",
-      "action": "OK"
-    },
-    {
-      "fb_title": "Rolex Sky-Dweller Stainless Steel and White Gold Green Stick Dial 336934",
-      "fb_status": "Active",
-      "fb_price": "$29,000",
-      "fb_listed": "",
-      "wpb_name": "Rolex Sky-Dweller Stainless Steel and White Gold Mint Green Stick Dial 336934",
-      "product_code": "001.84932.261",
-      "reference_number": "336934",
-      "wpb_stock": "In Stock",
-      "action": "OK"
-    },
-    {
-      "fb_title": "Rolex Daytona Cosmograph Yellow Gold “Pickachu” Dial 126508",
-      "fb_status": "Active",
-      "fb_price": "$72,250",
-      "fb_listed": "",
-      "wpb_name": "Rolex Cosmograph Daytona Yellow Gold and White Dial 126508",
-      "product_code": "001.93702.536",
-      "reference_number": "126508",
-      "wpb_stock": "In Stock",
-      "action": "OK"
-    },
-    {
-      "fb_title": "Patek Philippe Annual Calendar Flyback Chronograph Rose Gold Blue Dial 5905R-010",
-      "fb_status": "In stock",
-      "fb_price": "$66,550",
-      "fb_listed": "",
-      "wpb_name": "Patek Philippe Annual Calendar Flyback Chronograph Rose Gold Blue Dial 5905R-010",
-      "product_code": "001.51506.644",
-      "reference_number": "5905R-010",
       "wpb_stock": "In Stock",
       "action": "OK"
     }
