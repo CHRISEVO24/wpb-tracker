@@ -1379,63 +1379,102 @@ function renderFBSync(data) {
   const results = document.getElementById('fb-sync-results');
   meta.textContent = 'Last checked: ' + data.checked_at_et + '  ·  FB scraped: ' + data.fb_scraped_at_et;
   const s = data.summary;
+
+  // 4 cards: Total Listed | Available for Sale | Not in WPB | Sold/OOS on FB
+  const soldOnFB = (data.sold_on_fb || []).length;
+  const available = s.active_fb_listings || s.ok || 0;
   const cards = [
-    { count: s.mark_sold,        label: 'Mark as Sold',   color: '#e53e3e', bg: '#fff5f5', border: '#fc8181' },
-    { count: s.no_match,         label: 'Not in WPB',     color: '#dd6b20', bg: '#fffaf0', border: '#fbd38d' },
-    { count: s.total_fb_listings,label: 'Total Listed',   color: '#666',    bg: '#f7f7f7', border: '#ddd' },
-    { count: s.ok,               label: 'All Clear',      color: '#38a169', bg: '#f0fff4', border: '#9ae6b4' },
+    { count: s.total_fb_listings, label: 'Total Listed',      color: '#444',    bg: '#f7f7f7', border: '#ddd' },
+    { count: available,           label: 'Available for Sale', color: '#1877f2', bg: '#f0f4ff', border: '#93c5fd' },
+    { count: s.no_match,          label: 'Not in WPB',        color: '#dd6b20', bg: '#fffaf0', border: '#fbd38d' },
+    { count: s.mark_sold,         label: 'Mark as Sold',      color: '#e53e3e', bg: '#fff5f5', border: '#fc8181' },
   ];
-  summary.innerHTML = cards.map(c => `<div style="background:${c.bg};border:1px solid ${c.border};border-radius:10px;padding:14px 20px;min-width:110px;"><div style="font-size:26px;font-weight:700;color:${c.color};">${c.count}</div><div style="font-size:12px;color:#666;margin-top:2px;">${c.label}</div></div>`).join('');
+  summary.innerHTML = cards.map(c => `<div style="background:${c.bg};border:1px solid ${c.border};border-radius:10px;padding:14px 20px;min-width:130px;"><div style="font-size:28px;font-weight:700;color:${c.color};">${c.count !== undefined ? c.count : 0}</div><div style="font-size:12px;color:#666;margin-top:2px;">${c.label}</div></div>`).join('');
+
+  // Helper: FB link for a listing
+  function fbLink(item) {
+    if (item.fb_url) return `<a href="${item.fb_url}" target="_blank" style="color:#1877f2;font-size:11px;text-decoration:none;margin-left:6px;" title="Open on Facebook">↗ FB</a>`;
+    return `<a href="https://www.facebook.com/marketplace/you/selling" target="_blank" style="color:#aaa;font-size:11px;text-decoration:none;margin-left:6px;" title="Go to your selling page">↗ FB</a>`;
+  }
+
+  // Helper: WPB link
+  function wpbLink(item) {
+    if (item.wpb_url) return `<a href="${item.wpb_url}" target="_blank" style="color:#333;font-size:11px;text-decoration:none;margin-left:6px;" title="Open on WPB">↗ WPB</a>`;
+    return '';
+  }
+
   let html = '';
-  function makeTable(items, cols) {
-    return `<table style="width:100%;border-collapse:collapse;background:white;border-radius:10px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.1);">
-      <thead><tr style="background:#1a1a2e;color:white;">${cols.map(c=>`<th style="padding:10px 14px;text-align:left;font-size:12px;">${c.h}</th>`).join('')}</tr></thead>
-      <tbody>${items.map(item=>`<tr style="border-bottom:1px solid #f0f0f0;">${cols.map(c=>`<td style="padding:10px 14px;font-size:13px;${c.style||''}">${c.val(item)}</td>`).join('')}</tr>`).join('')}</tbody>
-    </table>`;
-  }
+
+  // MARK SOLD section
   if (data.mark_sold && data.mark_sold.length) {
-    html += `<div style="margin-bottom:24px;"><h3 style="color:#c53030;font-size:15px;margin:0 0 12px;padding:8px 14px;background:#fff5f5;border-radius:8px;border-left:4px solid #e53e3e;">🔴 Mark as Sold on Facebook (${data.mark_sold.length})</h3>` +
-      makeTable(data.mark_sold, [
-        {h:'FB Listing', val: i=>i.fb_title},
-        {h:'FB Price', val: i=>i.fb_price, style:'font-weight:600;'},
-        {h:'Product Code', val: i=>`<span style="font-family:monospace;font-size:11px;background:#f7f7f7;padding:2px 6px;border-radius:4px;">${i.product_code}</span>`},
-        {h:'WPB Stock', val: i=>`<span style="background:#fff5f5;color:#c53030;border:1px solid #fc8181;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;">Out of Stock</span>`}
-      ]) + '</div>';
+    html += `<div style="margin-bottom:24px;">
+      <h3 style="color:#c53030;font-size:15px;margin:0 0 12px;padding:8px 14px;background:#fff5f5;border-radius:8px;border-left:4px solid #e53e3e;">
+        🔴 Mark as Sold on Facebook (${data.mark_sold.length})
+      </h3>
+      <table style="width:100%;border-collapse:collapse;background:white;border-radius:10px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.1);">
+        <thead><tr style="background:#1a1a2e;color:white;">
+          <th style="padding:10px 14px;text-align:left;font-size:12px;">FB Listing</th>
+          <th style="padding:10px 14px;text-align:left;font-size:12px;">FB Price</th>
+          <th style="padding:10px 14px;text-align:left;font-size:12px;">Product Code</th>
+          <th style="padding:10px 14px;text-align:left;font-size:12px;">WPB Status</th>
+        </tr></thead>
+        <tbody>${data.mark_sold.map(i => `<tr style="border-bottom:1px solid #f0f0f0;">
+          <td style="padding:10px 14px;font-size:13px;">${i.fb_title}${fbLink(i)}</td>
+          <td style="padding:10px 14px;font-size:13px;font-weight:600;">${i.fb_price}</td>
+          <td style="padding:10px 14px;font-size:12px;font-family:monospace;background:#f7f7f7;">${i.product_code}${wpbLink(i)}</td>
+          <td style="padding:10px 14px;"><span style="background:#fff5f5;color:#c53030;border:1px solid #fc8181;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;">Out of Stock</span></td>
+        </tr>`).join('')}</tbody>
+      </table></div>`;
   }
-  if (data.verify_sold && data.verify_sold.length) {
-    html += `<div style="margin-bottom:24px;"><h3 style="color:#975a16;font-size:15px;margin:0 0 12px;padding:8px 14px;background:#fffff0;border-radius:8px;border-left:4px solid #d69e2e;">🟡 Verify — Sold on FB but In Stock on WPB (${data.verify_sold.length})</h3>` +
-      makeTable(data.verify_sold, [
-        {h:'FB Listing', val: i=>i.fb_title},
-        {h:'FB Price', val: i=>i.fb_price, style:'font-weight:600;'},
-        {h:'Product Code', val: i=>`<span style="font-family:monospace;font-size:11px;background:#f7f7f7;padding:2px 6px;border-radius:4px;">${i.product_code}</span>`}
-      ]) + '</div>';
-  }
+
+  // NOT IN WPB section
   if (data.no_match && data.no_match.length) {
-    html += `<div style="margin-bottom:24px;"><h3 style="color:#c05621;font-size:15px;margin:0 0 12px;padding:8px 14px;background:#fffaf0;border-radius:8px;border-left:4px solid #dd6b20;">🟠 Not Found in WPB Inventory (${data.no_match.length})</h3>` +
-      makeTable(data.no_match, [
-        {h:'FB Listing', val: i=>i.fb_title},
-        {h:'FB Price', val: i=>i.fb_price, style:'font-weight:600;'},
-        {h:'Status', val: i=>i.fb_status}
-      ]) + '</div>';
+    html += `<div style="margin-bottom:24px;">
+      <h3 style="color:#c05621;font-size:15px;margin:0 0 12px;padding:8px 14px;background:#fffaf0;border-radius:8px;border-left:4px solid #dd6b20;">
+        🟠 Not Found in WPB Inventory (${data.no_match.length})
+      </h3>
+      <table style="width:100%;border-collapse:collapse;background:white;border-radius:10px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.1);">
+        <thead><tr style="background:#1a1a2e;color:white;">
+          <th style="padding:10px 14px;text-align:left;font-size:12px;">FB Listing</th>
+          <th style="padding:10px 14px;text-align:left;font-size:12px;">FB Price</th>
+          <th style="padding:10px 14px;text-align:left;font-size:12px;">Listed</th>
+        </tr></thead>
+        <tbody>${data.no_match.map(i => `<tr style="border-bottom:1px solid #f0f0f0;">
+          <td style="padding:10px 14px;font-size:13px;">${i.fb_title}${fbLink(i)}</td>
+          <td style="padding:10px 14px;font-size:13px;font-weight:600;">${i.fb_price}</td>
+          <td style="padding:10px 14px;font-size:12px;color:#888;">${i.fb_listed}</td>
+        </tr>`).join('')}</tbody>
+      </table></div>`;
   }
-  if (data.duplicates && data.duplicates.length) {
-    html += `<div style="margin-bottom:24px;"><h3 style="color:#c05621;font-size:15px;margin:0 0 12px;padding:8px 14px;background:#fffaf0;border-radius:8px;border-left:4px solid #dd6b20;">🟠 Duplicate FB Listings (${data.duplicates.length})</h3>` +
-      makeTable(data.duplicates, [
-        {h:'FB Listing', val: i=>i.fb_title},
-        {h:'FB Price', val: i=>i.fb_price, style:'font-weight:600;'}
-      ]) + '</div>';
-  }
+
+  // ALL CLEAR section (collapsed)
   if (data.ok && data.ok.length) {
-    html += `<div style="margin-bottom:24px;"><h3 onclick="document.getElementById('fb-ok').style.display=document.getElementById('fb-ok').style.display==='none'?'block':'none'" style="color:#276749;font-size:15px;margin:0 0 12px;padding:8px 14px;background:#f0fff4;border-radius:8px;border-left:4px solid #38a169;cursor:pointer;">✅ All Clear — ${data.ok.length} listings match inventory <span style="float:right;font-size:12px;color:#888;">click to expand</span></h3>
-      <div id="fb-ok" style="display:none;">` +
-      makeTable(data.ok, [
-        {h:'FB Listing', val: i=>i.fb_title},
-        {h:'Price', val: i=>i.fb_price, style:'font-weight:600;'},
-        {h:'Product Code', val: i=>`<span style="font-family:monospace;font-size:11px;background:#f7f7f7;padding:2px 6px;border-radius:4px;">${i.product_code}</span>`},
-        {h:'WPB Stock', val: i=>`<span style="background:#f0fff4;color:#276749;border:1px solid #9ae6b4;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;">In Stock</span>`}
-      ]) + '</div></div>';
+    html += `<div style="margin-bottom:24px;">
+      <h3 onclick="var el=document.getElementById('fb-ok');el.style.display=el.style.display==='none'?'block':'none'"
+          style="color:#276749;font-size:15px;margin:0 0 12px;padding:8px 14px;background:#f0fff4;border-radius:8px;border-left:4px solid #38a169;cursor:pointer;">
+        ✅ Available for Sale — ${data.ok.length} listings match WPB inventory
+        <span style="float:right;font-size:12px;color:#888;">click to expand ▾</span>
+      </h3>
+      <div id="fb-ok" style="display:none;">
+      <table style="width:100%;border-collapse:collapse;background:white;border-radius:10px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.1);">
+        <thead><tr style="background:#1a1a2e;color:white;">
+          <th style="padding:10px 14px;text-align:left;font-size:12px;">FB Listing</th>
+          <th style="padding:10px 14px;text-align:left;font-size:12px;">Price</th>
+          <th style="padding:10px 14px;text-align:left;font-size:12px;">Product Code</th>
+          <th style="padding:10px 14px;text-align:left;font-size:12px;">Listed</th>
+          <th style="padding:10px 14px;text-align:left;font-size:12px;">Links</th>
+        </tr></thead>
+        <tbody>${data.ok.map(i => `<tr style="border-bottom:1px solid #f0f0f0;">
+          <td style="padding:10px 14px;font-size:13px;">${i.fb_title}</td>
+          <td style="padding:10px 14px;font-size:13px;font-weight:600;">${i.fb_price}</td>
+          <td style="padding:10px 14px;font-size:12px;font-family:monospace;background:#f7f7f7;">${i.product_code}</td>
+          <td style="padding:10px 14px;font-size:12px;color:#888;">${i.fb_listed}</td>
+          <td style="padding:10px 14px;">${fbLink(i)}${wpbLink(i)}</td>
+        </tr>`).join('')}</tbody>
+      </table></div></div>`;
   }
-  results.innerHTML = html || '<div style="text-align:center;padding:40px;color:#888;">✅ No issues found.</div>';
+
+  results.innerHTML = html || '<div style="text-align:center;padding:40px;color:#888;font-size:15px;">✅ Everything looks good — no action needed.</div>';
 }
 
 // Auto-load FB sync when that tab is clicked
