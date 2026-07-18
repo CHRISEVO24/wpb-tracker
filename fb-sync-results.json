@@ -1,16 +1,24 @@
 {
-  "checked_at": "2026-07-18T10:01:50.404Z",
-  "checked_at_et": "7/18/2026, 6:01:50 AM",
-  "fb_scraped_at_et": "7/18/2026, 6:01:50 AM",
+  "checked_at": "2026-07-18T12:43:12.822Z",
+  "checked_at_et": "7/18/2026, 8:43:12 AM",
+  "fb_scraped_at_et": "7/18/2026, 8:43:12 AM",
   "summary": {
-    "total_fb_listings": 21,
-    "active_fb_listings": 20,
+    "total_fb_listings": 56,
+    "active_fb_listings": 36,
     "mark_sold": 0,
-    "no_match": 0,
-    "ok": 19
+    "no_match": 1,
+    "ok": 29
   },
   "mark_sold": [],
-  "no_match": [],
+  "no_match": [
+    {
+      "fb_title": "Audemars Piguet Code 11.59 Selfwinding Rose Gold Blue Dial 15210OR.OO.A028CR.01",
+      "fb_status": "In stock",
+      "fb_price": "$22,200",
+      "fb_listed": "",
+      "note": "Not found in WPB inventory — may be consignment or missing product code"
+    }
+  ],
   "ok": [
     {
       "fb_title": "Omega Seamaster Diver 300 M 007 Titanium Brown Bezel Black Dial 210.90.42.20.01.001",
@@ -238,6 +246,126 @@
       "reference_number": "5905R-010",
       "wpb_stock": "In Stock",
       "wpb_url": "https://wpbwatchco.com/product/patek-philippe-annual-calendar-flyback-chronograph-rose-gold-blue-dial-5905r-010/",
+      "action": "OK"
+    },
+    {
+      "fb_title": "Omega Speedmaster Moonwatch Stainless Steel White Dial 522.30.38.50.04.002",
+      "fb_status": "In stock",
+      "fb_price": "$7,600",
+      "fb_listed": "",
+      "wpb_name": "Omega Speedmaster Moonwatch Stainless Steel White Dial 522.30.38.50.04.002",
+      "product_code": "001.49510.665",
+      "reference_number": "522.30.38.50.04.002",
+      "wpb_stock": "In Stock",
+      "wpb_url": "https://wpbwatchco.com/product/omega-speedmaster-moonwatch-stainless-steel-white-dial-522-30-38-50-04-002/",
+      "action": "OK"
+    },
+    {
+      "fb_title": "Rolex Day-Date 40 Yellow Gold Onyx Diamond Dial 228238A",
+      "fb_status": "In stock",
+      "fb_price": "$74,500",
+      "fb_listed": "",
+      "wpb_name": "Rolex Day-Date 40 Yellow Gold Onyx Diamond Dial 228238A",
+      "product_code": "001.95857.717",
+      "reference_number": "228238A",
+      "wpb_stock": "In Stock",
+      "wpb_url": "https://wpbwatchco.com/product/rolex-day-date-40-yellow-gold-onyx-diamond-dial-228238a/",
+      "action": "OK"
+    },
+    {
+      "fb_title": "Patek Philippe Annual Calendar Flyback Chronograph Rose Gold Black Stick Dial 5905R-001",
+      "fb_status": "In stock",
+      "fb_price": "$61,000",
+      "fb_listed": "",
+      "wpb_name": "Patek Philippe Annual Calendar Flyback Chronograph Rose Gold Blue Dial 5905R-010",
+      "product_code": "001.51506.644",
+      "reference_number": "5905R-010",
+      "wpb_stock": "In Stock",
+      "wpb_url": "https://wpbwatchco.com/product/patek-philippe-annual-calendar-flyback-chronograph-rose-gold-blue-dial-5905r-010/",
+      "action": "OK"
+    },
+    {
+      "fb_title": "Rolex Day-Date 36 Diamond Bezel Rose Gold Eisenkiesel Diamond Dial 128345RBR",
+      "fb_status": "In stock",
+      "fb_price": "$61,300",
+      "fb_listed": "",
+      "wpb_name": "Rolex Day-Date 36 Diamond Bezel Rose Gold Eisenkiesel Diamond Dial 128345RBR",
+      "product_code": "001.35312.593",
+      "reference_number": "128345RBR",
+      "wpb_stock": "In Stock",
+      "wpb_url": "https://wpbwatchco.com/product/rolex-day-date-36-diamond-bezel-rose-gold-eisenkiesel-diamond-dial-128345rbr/",
+      "action": "OK"
+    },
+    {
+      "fb_title": "A. Lange & Söhne Saxonia Thin White Gold Blue Dial 205.086",
+      "fb_status": "In stock",
+      "fb_price": "$24,550",
+      "fb_listed": "",
+      "wpb_name": "A. Lange Söhne Saxonia Thin White Gold Blue Dial 205.086",
+      "product_code": "001.78505.231",
+      "reference_number": "205.086",
+      "wpb_stock": "In Stock",
+      "wpb_url": "https://wpbwatchco.com/product/a-lange-sohne-saxonia-thin-white-gold-blue-dial-205-086-2/",
+      "action": "OK"
+    },
+    {
+      "fb_title": "Rolex Datejust 31 Stainless Steel and Rose Gold Pink Diamond Dial 278341RBR",
+      "fb_status": "In stock",
+      "fb_price": "$17,775",
+      "fb_listed": "",
+      "wpb_name": "Rolex Datejust 31 Stainless Steel and Rose Gold Pink Diamond Dial 278341RBR",
+      "product_code": "001.60379.163",
+      "reference_number": "278341RBR",
+      "wpb_stock": "In Stock",
+      "wpb_url": "https://wpbwatchco.com/product/rolex-datejust-31-stainless-steel-and-rose-gold-pink-diamond-dial-278341rbr/",
+      "action": "OK"
+    },
+    {
+      "fb_title": "IWC Pilot Chronograph Stainless Steel Black Dial IW377709",
+      "fb_status": "In stock",
+      "fb_price": "$3,850",
+      "fb_listed": "",
+      "wpb_name": "IWC Pilot Chronograph Stainless Steel Black Dial IW377709",
+      "product_code": "001.94416.330",
+      "reference_number": "IW377709",
+      "wpb_stock": "In Stock",
+      "wpb_url": "https://wpbwatchco.com/product/iwc-pilot-chronograph-stainless-steel-black-dial-iw377709/",
+      "action": "OK"
+    },
+    {
+      "fb_title": "Rolex Day-Date President 40 Platinum Baguette Diamond Ice Blue Dial 228396TBR",
+      "fb_status": "In stock",
+      "fb_price": "$115,250",
+      "fb_listed": "",
+      "wpb_name": "Rolex Day-Date 36 Platinum Baguette Diamond Bezel Blue Diamond Dial 128396TBR",
+      "product_code": "001.92612.754",
+      "reference_number": "128396TBR",
+      "wpb_stock": "In Stock",
+      "wpb_url": "https://wpbwatchco.com/product/rolex-day-date-36-platinum-baguette-diamond-bezel-blue-diamond-dial-128396tbr/",
+      "action": "OK"
+    },
+    {
+      "fb_title": "Rolex Yacht-Master 40 Rose Gold Black Dial 116655",
+      "fb_status": "In stock",
+      "fb_price": "$30,200",
+      "fb_listed": "",
+      "wpb_name": "Rolex Yacht-Master 40 Rose Gold Black Dial 116655",
+      "product_code": "001.34793.285",
+      "reference_number": "116655",
+      "wpb_stock": "In Stock",
+      "wpb_url": "https://wpbwatchco.com/product/rolex-yacht-master-40-rose-gold-black-dial-116655-2/",
+      "action": "OK"
+    },
+    {
+      "fb_title": "Rolex Day-Date 36 Platinum Baguette Diamond Bezel Blue Diamond Dial 128396TBR",
+      "fb_status": "In stock",
+      "fb_price": "$79,650",
+      "fb_listed": "",
+      "wpb_name": "Rolex Day-Date 36 Platinum Baguette Diamond Bezel Blue Diamond Dial 128396TBR",
+      "product_code": "001.92612.754",
+      "reference_number": "128396TBR",
+      "wpb_stock": "In Stock",
+      "wpb_url": "https://wpbwatchco.com/product/rolex-day-date-36-platinum-baguette-diamond-bezel-blue-diamond-dial-128396tbr/",
       "action": "OK"
     }
   ]

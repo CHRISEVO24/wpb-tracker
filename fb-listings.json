@@ -1,133 +1,511 @@
 {
-  "scraped_at": "2026-07-18T10:01:50.269Z",
-  "scraped_at_et": "7/18/2026, 6:01:50 AM",
-  "total_listings": 21,
+  "scraped_at": "2026-07-18T12:43:12.606Z",
+  "scraped_at_et": "7/18/2026, 8:43:12 AM",
+  "total_listings": 56,
   "listings": [
     {
       "title": "Omega Seamaster Diver 300 M 007 Titanium Brown Bezel Black Dial 210.90.42.20.01.001",
       "price": "$9,150",
       "status": "Active",
-      "listed_date": ""
+      "listed_date": "",
+      "fb_url": "https://www.facebook.com/marketplace/item/1462979289201168/",
+      "share_url": "https://www.facebook.com/share/1BiWT5g6QR/",
+      "item_id": "1462979289201168"
     },
     {
       "title": "Hublot Classic Fusion Chronograph Titanium Black and Black Dial 521.NX.1171.RX",
       "price": "$8,600",
       "status": "Active",
-      "listed_date": ""
+      "listed_date": "",
+      "fb_url": "https://www.facebook.com/marketplace/item/2203058567143597/",
+      "share_url": "https://www.facebook.com/share/1BS6rWf83C/",
+      "item_id": "2203058567143597"
     },
     {
       "title": "Panerai Radiomir Bronze Green Ombre Dial PAM 00760",
       "price": "$13,500",
       "status": "Active",
-      "listed_date": ""
+      "listed_date": "",
+      "fb_url": "https://www.facebook.com/marketplace/item/879700115197757/",
+      "share_url": "https://www.facebook.com/share/1EjTXqzXL1/",
+      "item_id": "879700115197757"
     },
     {
       "title": "Hublot Classic Fusion Racing Titanium Grey Dial 542.NX.7071.RX",
       "price": "$6,300",
       "status": "Active",
-      "listed_date": ""
+      "listed_date": "",
+      "fb_url": "https://www.facebook.com/marketplace/item/1328704819475684/",
+      "share_url": "https://www.facebook.com/share/1EopFbh7eg/",
+      "item_id": "1328704819475684"
     },
     {
       "title": "Hublot Big Bang Unico White Ceramic Skeleton Dial 441.HX.1171.RX",
       "price": "$17,700",
       "status": "Active",
-      "listed_date": ""
+      "listed_date": "",
+      "fb_url": "https://www.facebook.com/marketplace/item/1531066405157236/",
+      "share_url": "https://www.facebook.com/share/1N876yKhLU/",
+      "item_id": "1531066405157236"
     },
     {
       "title": "Bvlgari Serpenti 26mm Rose Gold Black Diamond Dial SPP26BGD1GD.1T",
       "price": "$20,250",
       "status": "Active",
-      "listed_date": ""
+      "listed_date": "",
+      "fb_url": "https://www.facebook.com/marketplace/item/1745393573340255/",
+      "share_url": "https://www.facebook.com/share/195Jvt27ga/",
+      "item_id": "1745393573340255"
     },
     {
       "title": "Rolex GMT-Master II Stainless Steel “Batgirl” Black Dial 126710BLNR",
       "price": "$20,975",
       "status": "Active",
-      "listed_date": ""
+      "listed_date": "",
+      "fb_url": "",
+      "share_url": "",
+      "item_id": ""
     },
     {
       "title": "Rolex GMT-Master II “Bruce Wayne” Stainless Steel Black Dial 126710GRNR",
       "price": "$22,850",
       "status": "Active",
-      "listed_date": ""
+      "listed_date": "",
+      "fb_url": "",
+      "share_url": "",
+      "item_id": ""
     },
     {
       "title": "Audemars Piguet Code 11.59 Stainless Steel Green Stick Dial 15210ST.OO.A056KB.01",
       "price": "$18,950",
       "status": "Active",
-      "listed_date": ""
+      "listed_date": "",
+      "fb_url": "https://www.facebook.com/marketplace/item/1815661572728722/",
+      "share_url": "https://www.facebook.com/share/1DAeHqhLin/",
+      "item_id": "1815661572728722"
     },
     {
       "title": "Rolex Datejust 36 Steel and White Gold Silver “VIIX” Diamond Dial 126284RBR",
       "price": "$19,875",
       "status": "Active",
-      "listed_date": ""
+      "listed_date": "",
+      "fb_url": "",
+      "share_url": "",
+      "item_id": ""
     },
     {
       "title": "Rolex Datejust 36 Stainless Steel White Roman Dial 126200",
       "price": "$9,000",
       "status": "In stock",
-      "listed_date": ""
+      "listed_date": "",
+      "fb_url": "https://www.facebook.com/marketplace/item/1013740581273912/",
+      "share_url": "https://www.facebook.com/share/1DAko5Fn32/",
+      "item_id": "1013740581273912"
     },
     {
       "title": "Rolex GMT-Master II Rose Gold “Root Beer” Black Dial 126715CHNR",
       "price": "$41,200",
       "status": "In stock",
-      "listed_date": ""
+      "listed_date": "",
+      "fb_url": "",
+      "share_url": "",
+      "item_id": ""
     },
     {
       "title": "Rolex Daytona Yellow Gold Green Dial 116508",
       "price": "$72,400",
       "status": "In stock",
-      "listed_date": ""
+      "listed_date": "",
+      "fb_url": "https://www.facebook.com/marketplace/item/1557388235732583/",
+      "share_url": "https://www.facebook.com/share/1PzvdjVtV3/",
+      "item_id": "1557388235732583"
     },
     {
       "title": "Panerai Submersible S Brabus Carbotech Skeletonized Black and Green Dial PAM01283",
       "price": "$44,000",
       "status": "In stock",
-      "listed_date": ""
+      "listed_date": "",
+      "fb_url": "https://www.facebook.com/marketplace/item/1316511620599914/",
+      "share_url": "https://www.facebook.com/share/1HLfoyje92/",
+      "item_id": "1316511620599914"
     },
     {
       "title": "Panerai Submersible NavySeals Stainless Steel/Ceramic Grey Dial PAM01402",
       "price": "$70,000",
       "status": "In stock",
-      "listed_date": ""
+      "listed_date": "",
+      "fb_url": "https://www.facebook.com/marketplace/item/27309987025359346/",
+      "share_url": "https://www.facebook.com/share/1E2VyhESUE/",
+      "item_id": "27309987025359346"
     },
     {
       "title": "Panerai Radiomir Bronze Green Ombre Dial PAM 00760",
       "price": "$13,500",
       "status": "In stock",
-      "listed_date": ""
+      "listed_date": "",
+      "fb_url": "https://www.facebook.com/marketplace/item/879700115197757/",
+      "share_url": "https://www.facebook.com/share/1EjTXqzXL1/",
+      "item_id": "879700115197757"
     },
     {
       "title": "Rolex Daytona Stainless Steel Ceramic Bezel White Dial 116500LN",
       "price": "$34,550",
       "status": "In stock",
-      "listed_date": ""
+      "listed_date": "",
+      "fb_url": "https://www.facebook.com/marketplace/item/1548404803652904/",
+      "share_url": "https://www.facebook.com/share/14nJqjbSYak/",
+      "item_id": "1548404803652904"
     },
     {
       "title": "Cartier Calibre De Cartier Diver Stainless Steel Blue Roman Dial WSCA0010",
       "price": "$5,050",
       "status": "Sold",
-      "listed_date": ""
+      "listed_date": "",
+      "fb_url": "",
+      "share_url": "",
+      "item_id": ""
     },
     {
       "title": "Rolex Sky-Dweller Stainless Steel and White Gold Green Stick Dial 336934",
       "price": "$29,000",
       "status": "Active",
-      "listed_date": ""
+      "listed_date": "",
+      "fb_url": "https://www.facebook.com/marketplace/item/2079844989578754/",
+      "share_url": "https://www.facebook.com/share/1HZqFB8uG2/",
+      "item_id": "2079844989578754"
     },
     {
       "title": "Rolex Daytona Cosmograph Yellow Gold “Pickachu” Dial 126508",
       "price": "$72,250",
       "status": "Active",
-      "listed_date": ""
+      "listed_date": "",
+      "fb_url": "",
+      "share_url": "",
+      "item_id": ""
     },
     {
       "title": "Patek Philippe Annual Calendar Flyback Chronograph Rose Gold Blue Dial 5905R-010",
       "price": "$66,550",
       "status": "In stock",
-      "listed_date": ""
+      "listed_date": "",
+      "fb_url": "https://www.facebook.com/marketplace/item/987577800867190/",
+      "share_url": "https://www.facebook.com/share/1GevAPtTyy/",
+      "item_id": "987577800867190"
+    },
+    {
+      "title": "Omega Speedmaster Moonwatch Stainless Steel White Dial 522.30.38.50.04.002",
+      "price": "$7,600",
+      "status": "In stock",
+      "listed_date": "",
+      "fb_url": "https://www.facebook.com/marketplace/item/983883961160451/",
+      "share_url": "https://www.facebook.com/share/18zu865hHZ/",
+      "item_id": "983883961160451"
+    },
+    {
+      "title": "Rolex Day-Date 40 Yellow Gold Onyx Diamond Dial 228238A",
+      "price": "$74,500",
+      "status": "In stock",
+      "listed_date": "",
+      "fb_url": "https://www.facebook.com/marketplace/item/1807681920216040/",
+      "share_url": "https://www.facebook.com/share/19DZAi4fYS/",
+      "item_id": "1807681920216040"
+    },
+    {
+      "title": "Patek Philippe Annual Calendar Flyback Chronograph Rose Gold Black Stick Dial 5905R-001",
+      "price": "$61,000",
+      "status": "In stock",
+      "listed_date": "",
+      "fb_url": "https://www.facebook.com/marketplace/item/2296088227864077/",
+      "share_url": "https://www.facebook.com/share/1DQNsct9xK/",
+      "item_id": "2296088227864077"
+    },
+    {
+      "title": "the Panerai Submersible Goldtech 42mm (Ref: PAM02164 / PAM 2164)",
+      "price": "$16,000",
+      "status": "Sold",
+      "listed_date": "",
+      "fb_url": "",
+      "share_url": "",
+      "item_id": ""
+    },
+    {
+      "title": "Rolex Day-Date 36 Diamond Bezel Rose Gold Eisenkiesel Diamond Dial 128345RBR",
+      "price": "$61,300",
+      "status": "In stock",
+      "listed_date": "",
+      "fb_url": "https://www.facebook.com/marketplace/item/1401291405177166/",
+      "share_url": "https://www.facebook.com/share/14nVVaGFgUH/",
+      "item_id": "1401291405177166"
+    },
+    {
+      "title": "A. Lange & Söhne Saxonia Thin White Gold Blue Dial 205.086",
+      "price": "$24,550",
+      "status": "In stock",
+      "listed_date": "",
+      "fb_url": "https://www.facebook.com/marketplace/item/1551704009676803/",
+      "share_url": "https://www.facebook.com/share/19F4McViAL/",
+      "item_id": "1551704009676803"
+    },
+    {
+      "title": "Rolex Datejust 31 Stainless Steel and Rose Gold Pink Diamond Dial 278341RBR",
+      "price": "$17,775",
+      "status": "In stock",
+      "listed_date": "",
+      "fb_url": "https://www.facebook.com/marketplace/item/1279483597404006/",
+      "share_url": "https://www.facebook.com/share/1Ds1d3E29b/",
+      "item_id": "1279483597404006"
+    },
+    {
+      "title": "A. Lange & Söhne Lange 1 Rose Gold Silver Dial 191.032",
+      "price": "$32,150",
+      "status": "Sold",
+      "listed_date": "",
+      "fb_url": "",
+      "share_url": "",
+      "item_id": ""
+    },
+    {
+      "title": "Audemars Piguet Code 11.59 Selfwinding Rose Gold Blue Dial 15210OR.OO.A028CR.01",
+      "price": "$22,200",
+      "status": "In stock",
+      "listed_date": "",
+      "fb_url": "",
+      "share_url": "",
+      "item_id": ""
+    },
+    {
+      "title": "IWC Pilot Chronograph Stainless Steel Black Dial IW377709",
+      "price": "$3,850",
+      "status": "In stock",
+      "listed_date": "",
+      "fb_url": "",
+      "share_url": "",
+      "item_id": ""
+    },
+    {
+      "title": "Patek Philippe Annual Calendar Flyback Chronograph Rose Gold Black Stick Dial 5905R-001",
+      "price": "$61,000",
+      "status": "In stock",
+      "listed_date": "",
+      "fb_url": "https://www.facebook.com/marketplace/item/2296088227864077/",
+      "share_url": "https://www.facebook.com/share/1DQNsct9xK/",
+      "item_id": "2296088227864077"
+    },
+    {
+      "title": "Rolex Daytona Rose Gold Black Ceramic Bezel Pink Diamond Dial 116515LN",
+      "price": "$49,350",
+      "status": "Sold",
+      "listed_date": "",
+      "fb_url": "",
+      "share_url": "",
+      "item_id": ""
+    },
+    {
+      "title": "Rolex Day-Date President 40 Platinum Baguette Diamond Ice Blue Dial 228396TBR",
+      "price": "$115,250",
+      "status": "In stock",
+      "listed_date": "",
+      "fb_url": "",
+      "share_url": "",
+      "item_id": ""
+    },
+    {
+      "title": "Patek Philippe Annual Calendar Flyback Chronograph Rose Gold Blue Dial 5905R-010",
+      "price": "$66,550",
+      "status": "In stock",
+      "listed_date": "",
+      "fb_url": "https://www.facebook.com/marketplace/item/987577800867190/",
+      "share_url": "https://www.facebook.com/share/1GevAPtTyy/",
+      "item_id": "987577800867190"
+    },
+    {
+      "title": "Rolex Yacht-Master 40 Rose Gold Black Dial 116655",
+      "price": "$30,200",
+      "status": "In stock",
+      "listed_date": "",
+      "fb_url": "",
+      "share_url": "",
+      "item_id": ""
+    },
+    {
+      "title": "Rolex GMT-Master II Rose Gold “Root Beer” Black Dial 126715CHNR",
+      "price": "$49,450",
+      "status": "In stock",
+      "listed_date": "",
+      "fb_url": "",
+      "share_url": "",
+      "item_id": ""
+    },
+    {
+      "title": "Rolex Day-Date 40 Yellow Gold Onyx Diamond Dial 228238A",
+      "price": "$74,500",
+      "status": "In stock",
+      "listed_date": "",
+      "fb_url": "https://www.facebook.com/marketplace/item/1807681920216040/",
+      "share_url": "https://www.facebook.com/share/19DZAi4fYS/",
+      "item_id": "1807681920216040"
+    },
+    {
+      "title": "Rolex Day-Date 36 Platinum Baguette Diamond Bezel Blue Diamond Dial 128396TBR",
+      "price": "$79,650",
+      "status": "In stock",
+      "listed_date": "",
+      "fb_url": "",
+      "share_url": "",
+      "item_id": ""
+    },
+    {
+      "title": "Omega Speedmaster Moonwatch Stainless Steel White Dial 522.30.38.50.04.002",
+      "price": "$7,600",
+      "status": "In stock",
+      "listed_date": "",
+      "fb_url": "https://www.facebook.com/marketplace/item/983883961160451/",
+      "share_url": "https://www.facebook.com/share/18zu865hHZ/",
+      "item_id": "983883961160451"
+    },
+    {
+      "title": "Audemars Piguet Royal Oak Offshore Diver Stainless Steel Grey Dial 15720ST.OO.A009CA.01",
+      "price": "$24,000",
+      "status": "Sold",
+      "listed_date": "",
+      "fb_url": "",
+      "share_url": "",
+      "item_id": ""
+    },
+    {
+      "title": "Audemars Piguet Royal Oak Offshore Chrono Stainless Steel Smoked Taupe Dial 26420SO.OO.A600CA.01",
+      "price": "$33,500",
+      "status": "Sold",
+      "listed_date": "",
+      "fb_url": "",
+      "share_url": "",
+      "item_id": ""
+    },
+    {
+      "title": "Vacheron Constantin Traditionnelle Moon Phase Diamond Bezel White Gold MOP Dial 83570/000G-9916",
+      "price": "$22,700",
+      "status": "Sold",
+      "listed_date": "",
+      "fb_url": "",
+      "share_url": "",
+      "item_id": ""
+    },
+    {
+      "title": "A. Lange & Söhne Richard Lange White Gold Black Dial 252.029",
+      "price": "$45,750",
+      "status": "Sold",
+      "listed_date": "",
+      "fb_url": "",
+      "share_url": "",
+      "item_id": ""
+    },
+    {
+      "title": "Omega Speedmaster Stainless Steel Black Arabic Dial 3510.5100",
+      "price": "$3,750",
+      "status": "Sold",
+      "listed_date": "",
+      "fb_url": "",
+      "share_url": "",
+      "item_id": ""
+    },
+    {
+      "title": "2023 Rolex Day Date Eisenkiesel Baguette Diamond Dial 228235",
+      "price": "$64,000",
+      "status": "Sold",
+      "listed_date": "",
+      "fb_url": "",
+      "share_url": "",
+      "item_id": ""
+    },
+    {
+      "title": "2023 RLX Sky-Dweller \"Mint Green\" – Jubilee Bracelet (Full Set)",
+      "price": "$27,000",
+      "status": "Sold",
+      "listed_date": "",
+      "fb_url": "",
+      "share_url": "",
+      "item_id": ""
+    },
+    {
+      "title": "Cartier Rose Gold Factory Set Stones 💎Model: WJBB0005 full set open papers",
+      "price": "$28,500",
+      "status": "Sold",
+      "listed_date": "",
+      "fb_url": "",
+      "share_url": "",
+      "item_id": ""
+    },
+    {
+      "title": "TAG Carrera Calibre 16 Chronograph CV2014 (Watch Only)",
+      "price": "$1,500",
+      "status": "Sold",
+      "listed_date": "",
+      "fb_url": "",
+      "share_url": "",
+      "item_id": ""
+    },
+    {
+      "title": "BREITLING SUPEROCEAN HERITAGE BLUE/BLUE CHRONO A13320 46mm",
+      "price": "$3,550",
+      "status": "Sold",
+      "listed_date": "",
+      "fb_url": "",
+      "share_url": "",
+      "item_id": ""
+    },
+    {
+      "title": "Panerai Luminor Marina PAM 005",
+      "price": "$3,900",
+      "status": "Sold",
+      "listed_date": "",
+      "fb_url": "",
+      "share_url": "",
+      "item_id": ""
+    },
+    {
+      "title": "Panerai Luminor Marina PAM 005",
+      "price": "$3,900",
+      "status": "Sold",
+      "listed_date": "",
+      "fb_url": "",
+      "share_url": "",
+      "item_id": ""
+    },
+    {
+      "title": "PANERAI Luminor",
+      "price": "$3,900",
+      "status": "Sold",
+      "listed_date": "",
+      "fb_url": "",
+      "share_url": "",
+      "item_id": ""
+    },
+    {
+      "title": "PANERAI Luminor Marina PAM 005",
+      "price": "$3,900",
+      "status": "Sold",
+      "listed_date": "",
+      "fb_url": "",
+      "share_url": "",
+      "item_id": ""
+    },
+    {
+      "title": "Breitling Navitimer Twin Sixty 2 Chronograph A39022.1",
+      "price": "$2,950",
+      "status": "Sold",
+      "listed_date": "",
+      "fb_url": "",
+      "share_url": "",
+      "item_id": ""
+    },
+    {
+      "title": "Breitling Navitimer Twin Sixty 2 Chronograph A39022.1",
+      "price": "$2,800",
+      "status": "Sold",
+      "listed_date": "",
+      "fb_url": "",
+      "share_url": "",
+      "item_id": ""
     }
   ]
 }
