@@ -1,7 +1,7 @@
 {
-  "scraped_at": "2026-07-17T19:01:24.724Z",
-  "scraped_at_et": "7/17/2026, 3:01:24 PM",
-  "total_listings": 16,
+  "scraped_at": "2026-07-18T10:01:50.269Z",
+  "scraped_at_et": "7/18/2026, 6:01:50 AM",
+  "total_listings": 21,
   "listings": [
     {
       "title": "Omega Seamaster Diver 300 M 007 Titanium Brown Bezel Black Dial 210.90.42.20.01.001",
@@ -96,6 +96,36 @@
     {
       "title": "Panerai Radiomir Bronze Green Ombre Dial PAM 00760",
       "price": "$13,500",
+      "status": "In stock",
+      "listed_date": ""
+    },
+    {
+      "title": "Rolex Daytona Stainless Steel Ceramic Bezel White Dial 116500LN",
+      "price": "$34,550",
+      "status": "In stock",
+      "listed_date": ""
+    },
+    {
+      "title": "Cartier Calibre De Cartier Diver Stainless Steel Blue Roman Dial WSCA0010",
+      "price": "$5,050",
+      "status": "Sold",
+      "listed_date": ""
+    },
+    {
+      "title": "Rolex Sky-Dweller Stainless Steel and White Gold Green Stick Dial 336934",
+      "price": "$29,000",
+      "status": "Active",
+      "listed_date": ""
+    },
+    {
+      "title": "Rolex Daytona Cosmograph Yellow Gold “Pickachu” Dial 126508",
+      "price": "$72,250",
+      "status": "Active",
+      "listed_date": ""
+    },
+    {
+      "title": "Patek Philippe Annual Calendar Flyback Chronograph Rose Gold Blue Dial 5905R-010",
+      "price": "$66,550",
       "status": "In stock",
       "listed_date": ""
     }
