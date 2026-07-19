@@ -1,10 +1,10 @@
 {
-  "checked_at": "2026-07-18T19:01:50.617Z",
-  "checked_at_et": "7/18/2026, 3:01:50 PM",
-  "fb_scraped_at_et": "7/18/2026, 3:01:50 PM",
+  "checked_at": "2026-07-19T10:03:27.354Z",
+  "checked_at_et": "7/19/2026, 6:03:27 AM",
+  "fb_scraped_at_et": "7/19/2026, 6:03:27 AM",
   "summary": {
-    "total_fb_listings": 56,
-    "active_fb_listings": 36,
+    "total_fb_listings": 57,
+    "active_fb_listings": 37,
     "mark_sold": 0,
     "no_match": 1,
     "ok": 29
@@ -20,6 +20,66 @@
     }
   ],
   "ok": [
+    {
+      "fb_title": "Rolex GMT-Master II Rose Gold “Root Beer” Black Dial 126715CHNR",
+      "fb_status": "In stock",
+      "fb_price": "$44,150",
+      "fb_listed": "",
+      "wpb_name": "Rolex GMT-Master II Rose Gold “Root Beer” Black Dial 126715CHNR",
+      "product_code": "001.76250.382",
+      "reference_number": "126715CHNR",
+      "wpb_stock": "In Stock",
+      "wpb_url": "https://wpbwatchco.com/product/rolex-gmt-master-ii-rose-gold-root-beer-black-dial-126715chnr-2/",
+      "action": "OK"
+    },
+    {
+      "fb_title": "Omega Speedmaster Moonwatch Stainless Steel White Dial 522.30.38.50.04.002",
+      "fb_status": "In stock",
+      "fb_price": "$7,600",
+      "fb_listed": "",
+      "wpb_name": "Omega Speedmaster Moonwatch Stainless Steel White Dial 522.30.38.50.04.002",
+      "product_code": "001.49510.665",
+      "reference_number": "522.30.38.50.04.002",
+      "wpb_stock": "In Stock",
+      "wpb_url": "https://wpbwatchco.com/product/omega-speedmaster-moonwatch-stainless-steel-white-dial-522-30-38-50-04-002/",
+      "action": "OK"
+    },
+    {
+      "fb_title": "Rolex Day-Date 40 Yellow Gold Onyx Diamond Dial 228238A",
+      "fb_status": "In stock",
+      "fb_price": "$74,500",
+      "fb_listed": "",
+      "wpb_name": "Rolex Day-Date 40 Yellow Gold Onyx Diamond Dial 228238A",
+      "product_code": "001.95857.717",
+      "reference_number": "228238A",
+      "wpb_stock": "In Stock",
+      "wpb_url": "https://wpbwatchco.com/product/rolex-day-date-40-yellow-gold-onyx-diamond-dial-228238a/",
+      "action": "OK"
+    },
+    {
+      "fb_title": "Patek Philippe Annual Calendar Flyback Chronograph Rose Gold Black Stick Dial 5905R-001",
+      "fb_status": "In stock",
+      "fb_price": "$61,000",
+      "fb_listed": "",
+      "wpb_name": "Patek Philippe Annual Calendar Flyback Chronograph Rose Gold Blue Dial 5905R-010",
+      "product_code": "001.51506.644",
+      "reference_number": "5905R-010",
+      "wpb_stock": "In Stock",
+      "wpb_url": "https://wpbwatchco.com/product/patek-philippe-annual-calendar-flyback-chronograph-rose-gold-blue-dial-5905r-010/",
+      "action": "OK"
+    },
+    {
+      "fb_title": "Patek Philippe Annual Calendar Flyback Chronograph Rose Gold Blue Dial 5905R-010",
+      "fb_status": "In stock",
+      "fb_price": "$66,550",
+      "fb_listed": "",
+      "wpb_name": "Patek Philippe Annual Calendar Flyback Chronograph Rose Gold Blue Dial 5905R-010",
+      "product_code": "001.51506.644",
+      "reference_number": "5905R-010",
+      "wpb_stock": "In Stock",
+      "wpb_url": "https://wpbwatchco.com/product/patek-philippe-annual-calendar-flyback-chronograph-rose-gold-blue-dial-5905r-010/",
+      "action": "OK"
+    },
     {
       "fb_title": "Omega Seamaster Diver 300 M 007 Titanium Brown Bezel Black Dial 210.90.42.20.01.001",
       "fb_status": "Active",
@@ -153,18 +213,6 @@
       "action": "OK"
     },
     {
-      "fb_title": "Rolex GMT-Master II Rose Gold “Root Beer” Black Dial 126715CHNR",
-      "fb_status": "In stock",
-      "fb_price": "$41,200",
-      "fb_listed": "",
-      "wpb_name": "Rolex GMT-Master II Rose Gold “Root Beer” Black Dial 126715CHNR",
-      "product_code": "001.76250.382",
-      "reference_number": "126715CHNR",
-      "wpb_stock": "In Stock",
-      "wpb_url": "https://wpbwatchco.com/product/rolex-gmt-master-ii-rose-gold-root-beer-black-dial-126715chnr-2/",
-      "action": "OK"
-    },
-    {
       "fb_title": "Rolex Daytona Yellow Gold Green Dial 116508",
       "fb_status": "In stock",
       "fb_price": "$72,400",
@@ -214,7 +262,7 @@
     },
     {
       "fb_title": "Rolex Sky-Dweller Stainless Steel and White Gold Green Stick Dial 336934",
-      "fb_status": "Active",
+      "fb_status": "In stock",
       "fb_price": "$29,000",
       "fb_listed": "",
       "wpb_name": "Rolex Sky-Dweller Stainless Steel and White Gold Mint Green Stick Dial 336934",
@@ -226,7 +274,7 @@
     },
     {
       "fb_title": "Rolex Daytona Cosmograph Yellow Gold “Pickachu” Dial 126508",
-      "fb_status": "Active",
+      "fb_status": "In stock",
       "fb_price": "$72,250",
       "fb_listed": "",
       "wpb_name": "Rolex Cosmograph Daytona Yellow Gold and White Dial 126508",
@@ -234,54 +282,6 @@
       "reference_number": "126508",
       "wpb_stock": "In Stock",
       "wpb_url": "https://wpbwatchco.com/product/rolex-cosmograph-daytona-yellow-gold-and-white-dial-126508/",
-      "action": "OK"
-    },
-    {
-      "fb_title": "Patek Philippe Annual Calendar Flyback Chronograph Rose Gold Blue Dial 5905R-010",
-      "fb_status": "In stock",
-      "fb_price": "$66,550",
-      "fb_listed": "",
-      "wpb_name": "Patek Philippe Annual Calendar Flyback Chronograph Rose Gold Blue Dial 5905R-010",
-      "product_code": "001.51506.644",
-      "reference_number": "5905R-010",
-      "wpb_stock": "In Stock",
-      "wpb_url": "https://wpbwatchco.com/product/patek-philippe-annual-calendar-flyback-chronograph-rose-gold-blue-dial-5905r-010/",
-      "action": "OK"
-    },
-    {
-      "fb_title": "Omega Speedmaster Moonwatch Stainless Steel White Dial 522.30.38.50.04.002",
-      "fb_status": "In stock",
-      "fb_price": "$7,600",
-      "fb_listed": "",
-      "wpb_name": "Omega Speedmaster Moonwatch Stainless Steel White Dial 522.30.38.50.04.002",
-      "product_code": "001.49510.665",
-      "reference_number": "522.30.38.50.04.002",
-      "wpb_stock": "In Stock",
-      "wpb_url": "https://wpbwatchco.com/product/omega-speedmaster-moonwatch-stainless-steel-white-dial-522-30-38-50-04-002/",
-      "action": "OK"
-    },
-    {
-      "fb_title": "Rolex Day-Date 40 Yellow Gold Onyx Diamond Dial 228238A",
-      "fb_status": "In stock",
-      "fb_price": "$74,500",
-      "fb_listed": "",
-      "wpb_name": "Rolex Day-Date 40 Yellow Gold Onyx Diamond Dial 228238A",
-      "product_code": "001.95857.717",
-      "reference_number": "228238A",
-      "wpb_stock": "In Stock",
-      "wpb_url": "https://wpbwatchco.com/product/rolex-day-date-40-yellow-gold-onyx-diamond-dial-228238a/",
-      "action": "OK"
-    },
-    {
-      "fb_title": "Patek Philippe Annual Calendar Flyback Chronograph Rose Gold Black Stick Dial 5905R-001",
-      "fb_status": "In stock",
-      "fb_price": "$61,000",
-      "fb_listed": "",
-      "wpb_name": "Patek Philippe Annual Calendar Flyback Chronograph Rose Gold Blue Dial 5905R-010",
-      "product_code": "001.51506.644",
-      "reference_number": "5905R-010",
-      "wpb_stock": "In Stock",
-      "wpb_url": "https://wpbwatchco.com/product/patek-philippe-annual-calendar-flyback-chronograph-rose-gold-blue-dial-5905r-010/",
       "action": "OK"
     },
     {

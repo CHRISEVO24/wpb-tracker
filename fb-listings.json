@@ -1,8 +1,53 @@
 {
-  "scraped_at": "2026-07-18T19:01:50.396Z",
-  "scraped_at_et": "7/18/2026, 3:01:50 PM",
-  "total_listings": 56,
+  "scraped_at": "2026-07-19T10:03:27.103Z",
+  "scraped_at_et": "7/19/2026, 6:03:27 AM",
+  "total_listings": 57,
   "listings": [
+    {
+      "title": "Rolex GMT-Master II Rose Gold “Root Beer” Black Dial 126715CHNR",
+      "price": "$44,150",
+      "status": "In stock",
+      "listed_date": "",
+      "fb_url": "",
+      "share_url": "",
+      "item_id": ""
+    },
+    {
+      "title": "Omega Speedmaster Moonwatch Stainless Steel White Dial 522.30.38.50.04.002",
+      "price": "$7,600",
+      "status": "In stock",
+      "listed_date": "",
+      "fb_url": "https://www.facebook.com/marketplace/item/983883961160451/",
+      "share_url": "https://www.facebook.com/share/18zu865hHZ/",
+      "item_id": "983883961160451"
+    },
+    {
+      "title": "Rolex Day-Date 40 Yellow Gold Onyx Diamond Dial 228238A",
+      "price": "$74,500",
+      "status": "In stock",
+      "listed_date": "",
+      "fb_url": "https://www.facebook.com/marketplace/item/1807681920216040/",
+      "share_url": "https://www.facebook.com/share/19DZAi4fYS/",
+      "item_id": "1807681920216040"
+    },
+    {
+      "title": "Patek Philippe Annual Calendar Flyback Chronograph Rose Gold Black Stick Dial 5905R-001",
+      "price": "$61,000",
+      "status": "In stock",
+      "listed_date": "",
+      "fb_url": "https://www.facebook.com/marketplace/item/2296088227864077/",
+      "share_url": "https://www.facebook.com/share/1DQNsct9xK/",
+      "item_id": "2296088227864077"
+    },
+    {
+      "title": "Patek Philippe Annual Calendar Flyback Chronograph Rose Gold Blue Dial 5905R-010",
+      "price": "$66,550",
+      "status": "In stock",
+      "listed_date": "",
+      "fb_url": "https://www.facebook.com/marketplace/item/987577800867190/",
+      "share_url": "https://www.facebook.com/share/1GevAPtTyy/",
+      "item_id": "987577800867190"
+    },
     {
       "title": "Omega Seamaster Diver 300 M 007 Titanium Brown Bezel Black Dial 210.90.42.20.01.001",
       "price": "$9,150",
@@ -168,7 +213,7 @@
     {
       "title": "Rolex Sky-Dweller Stainless Steel and White Gold Green Stick Dial 336934",
       "price": "$29,000",
-      "status": "Active",
+      "status": "In stock",
       "listed_date": "",
       "fb_url": "https://www.facebook.com/marketplace/item/2079844989578754/",
       "share_url": "https://www.facebook.com/share/1HZqFB8uG2/",
@@ -177,47 +222,11 @@
     {
       "title": "Rolex Daytona Cosmograph Yellow Gold “Pickachu” Dial 126508",
       "price": "$72,250",
-      "status": "Active",
+      "status": "In stock",
       "listed_date": "",
       "fb_url": "",
       "share_url": "",
       "item_id": ""
-    },
-    {
-      "title": "Patek Philippe Annual Calendar Flyback Chronograph Rose Gold Blue Dial 5905R-010",
-      "price": "$66,550",
-      "status": "In stock",
-      "listed_date": "",
-      "fb_url": "https://www.facebook.com/marketplace/item/987577800867190/",
-      "share_url": "https://www.facebook.com/share/1GevAPtTyy/",
-      "item_id": "987577800867190"
-    },
-    {
-      "title": "Omega Speedmaster Moonwatch Stainless Steel White Dial 522.30.38.50.04.002",
-      "price": "$7,600",
-      "status": "In stock",
-      "listed_date": "",
-      "fb_url": "https://www.facebook.com/marketplace/item/983883961160451/",
-      "share_url": "https://www.facebook.com/share/18zu865hHZ/",
-      "item_id": "983883961160451"
-    },
-    {
-      "title": "Rolex Day-Date 40 Yellow Gold Onyx Diamond Dial 228238A",
-      "price": "$74,500",
-      "status": "In stock",
-      "listed_date": "",
-      "fb_url": "https://www.facebook.com/marketplace/item/1807681920216040/",
-      "share_url": "https://www.facebook.com/share/19DZAi4fYS/",
-      "item_id": "1807681920216040"
-    },
-    {
-      "title": "Patek Philippe Annual Calendar Flyback Chronograph Rose Gold Black Stick Dial 5905R-001",
-      "price": "$61,000",
-      "status": "In stock",
-      "listed_date": "",
-      "fb_url": "https://www.facebook.com/marketplace/item/2296088227864077/",
-      "share_url": "https://www.facebook.com/share/1DQNsct9xK/",
-      "item_id": "2296088227864077"
     },
     {
       "title": "the Panerai Submersible Goldtech 42mm (Ref: PAM02164 / PAM 2164)",
