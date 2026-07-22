@@ -1,27 +1,18 @@
 {
   "checked_at": "2026-07-22T21:48:06.985901Z",
-  "checked_at_et": "07/22/2026, 09:48:06 PM",
+  "checked_at_et": "07/22/2026, 09:50:47 PM",
   "fb_scraped_at_et": "7/22/2026, 3:02:22 PM",
   "summary": {
     "total_fb_listings": 57,
     "active_fb_listings": 37,
     "mark_sold": 0,
-    "no_match": 1,
+    "no_match": 0,
     "ok": 31,
     "available_for_sale": 31,
     "unique_active": 32
   },
   "mark_sold": [],
-  "no_match": [
-    {
-      "fb_title": "Audemars Piguet Code 11.59 Selfwinding Rose Gold Blue Dial 15210OR.OO.A028CR.01",
-      "fb_status": "In stock",
-      "fb_price": "$22,200",
-      "fb_listed": "",
-      "fb_url": "",
-      "note": "Not found in WPB inventory"
-    }
-  ],
+  "no_match": [],
   "ok": [
     {
       "fb_title": "Rolex GMT-Master II Rose Gold \u201cRoot Beer\u201d Black Dial 126715CHNR",
