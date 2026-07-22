@@ -69,9 +69,10 @@ async function runCheck() {
 
   for (const fb of activeListings) {
     // Deduplicate
-    const normTitle = normalize(fb.title);
-    if (seen[normTitle]) continue;
-    seen[normTitle] = true;
+    // Deduplicate by title+price — same watch at different prices = separate listings
+    const dedupKey = normalize(fb.title) + '|||' + (fb.price || '');
+    if (seen[dedupKey]) continue;
+    seen[dedupKey] = true;
 
     const match = matchListing(fb.title, inventory);
 
