@@ -12,13 +12,14 @@ function normalize(s) {
 
 function matchListing(fbTitle, inventory) {
   const fbNorm = normalize(fbTitle);
-  const refs = fbTitle.match(/\b([A-Z]{2,}[\d]+[A-Z]*[\d]*|[\d]{4,6}[A-Z]{0,4})\b/g) || [];
+  // Extract reference numbers - including IWC style (IW123456) and others
+  const refs = fbTitle.match(/\b([A-Z]{2,}[\d]{3,}[A-Z]*[\d]*|[\d]{4,6}[A-Z]{0,4})\b/g) || [];
 
-  // 1. Reference number match
+  // 1. Reference number match (exact)
   for (const ref of refs) {
     const match = inventory.find(item =>
       item.referenceNumber &&
-      normalize(String(item.referenceNumber)).includes(normalize(ref))
+      item.referenceNumber.toUpperCase().includes(ref.toUpperCase())
     );
     if (match) return match;
   }
@@ -55,9 +56,21 @@ async function runCheck() {
   // ── ONLY look at listings actively for sale on FB ──────────────────────────
   // "Active" = listed in groups/marketplace, "In stock" = standard active listing
   // Everything else (Out of Stock, Sold, inactive) is already handled — skip it
-  const activeListings = fbData.listings.filter(fb =>
-    ['Active', 'In stock'].includes(fb.status)
-  );
+  // Listings to exclude from sync check (ghost listings not in your selling dashboard)
+  const EXCLUDE_TITLES = [
+    '15210or',  // AP Code 11.59 Rose Gold - ghost listing not in selling dashboard
+  ];
+
+  const activeListings = fbData.listings.filter(fb => {
+    if (!['Active', 'In stock'].includes(fb.status)) return false;
+    // Exclude known ghost listings
+    const titleLower = fb.title.toLowerCase();
+    if (EXCLUDE_TITLES.some(ex => titleLower.includes(ex))) {
+      console.log('Excluding ghost listing:', fb.title);
+      return false;
+    }
+    return true;
+  });
 
   console.log(`Active FB listings (for sale): ${activeListings.length}`);
   console.log(`Skipping ${fbData.listings.length - activeListings.length} listings already marked Out of Stock/Sold on FB`);
