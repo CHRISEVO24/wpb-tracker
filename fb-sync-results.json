@@ -1,13 +1,15 @@
 {
-  "checked_at": "2026-07-22T19:02:22.961Z",
-  "checked_at_et": "7/22/2026, 3:02:22 PM",
+  "checked_at": "2026-07-22T21:48:06.985901Z",
+  "checked_at_et": "07/22/2026, 09:48:06 PM",
   "fb_scraped_at_et": "7/22/2026, 3:02:22 PM",
   "summary": {
     "total_fb_listings": 57,
     "active_fb_listings": 37,
     "mark_sold": 0,
     "no_match": 1,
-    "ok": 29
+    "ok": 31,
+    "available_for_sale": 31,
+    "unique_active": 32
   },
   "mark_sold": [],
   "no_match": [
@@ -16,20 +18,23 @@
       "fb_status": "In stock",
       "fb_price": "$22,200",
       "fb_listed": "",
-      "note": "Not found in WPB inventory — may be consignment or missing product code"
+      "fb_url": "",
+      "note": "Not found in WPB inventory"
     }
   ],
   "ok": [
     {
-      "fb_title": "Rolex GMT-Master II Rose Gold “Root Beer” Black Dial 126715CHNR",
+      "fb_title": "Rolex GMT-Master II Rose Gold \u201cRoot Beer\u201d Black Dial 126715CHNR",
       "fb_status": "In stock",
       "fb_price": "$44,150",
       "fb_listed": "",
-      "wpb_name": "Rolex GMT-Master II Rose Gold “Root Beer” Black Dial 126715CHNR",
+      "wpb_name": "Rolex GMT-Master II Rose Gold \u201cRoot Beer\u201d Black Dial 126715CHNR",
       "product_code": "001.76250.382",
       "reference_number": "126715CHNR",
       "wpb_stock": "In Stock",
       "wpb_url": "https://wpbwatchco.com/product/rolex-gmt-master-ii-rose-gold-root-beer-black-dial-126715chnr-2/",
+      "fb_url": "",
+      "fb_share_url": "",
       "action": "OK"
     },
     {
@@ -42,6 +47,8 @@
       "reference_number": "522.30.38.50.04.002",
       "wpb_stock": "In Stock",
       "wpb_url": "https://wpbwatchco.com/product/omega-speedmaster-moonwatch-stainless-steel-white-dial-522-30-38-50-04-002/",
+      "fb_url": "https://www.facebook.com/marketplace/item/983883961160451/",
+      "fb_share_url": "https://www.facebook.com/share/18zu865hHZ/",
       "action": "OK"
     },
     {
@@ -54,6 +61,8 @@
       "reference_number": "228238A",
       "wpb_stock": "In Stock",
       "wpb_url": "https://wpbwatchco.com/product/rolex-day-date-40-yellow-gold-onyx-diamond-dial-228238a/",
+      "fb_url": "https://www.facebook.com/marketplace/item/1807681920216040/",
+      "fb_share_url": "https://www.facebook.com/share/19DZAi4fYS/",
       "action": "OK"
     },
     {
@@ -66,6 +75,8 @@
       "reference_number": "5905R-010",
       "wpb_stock": "In Stock",
       "wpb_url": "https://wpbwatchco.com/product/patek-philippe-annual-calendar-flyback-chronograph-rose-gold-blue-dial-5905r-010/",
+      "fb_url": "https://www.facebook.com/marketplace/item/2296088227864077/",
+      "fb_share_url": "https://www.facebook.com/share/1DQNsct9xK/",
       "action": "OK"
     },
     {
@@ -78,6 +89,8 @@
       "reference_number": "5905R-010",
       "wpb_stock": "In Stock",
       "wpb_url": "https://wpbwatchco.com/product/patek-philippe-annual-calendar-flyback-chronograph-rose-gold-blue-dial-5905r-010/",
+      "fb_url": "https://www.facebook.com/marketplace/item/987577800867190/",
+      "fb_share_url": "https://www.facebook.com/share/1GevAPtTyy/",
       "action": "OK"
     },
     {
@@ -90,6 +103,8 @@
       "reference_number": "210.90.42.20.01.001",
       "wpb_stock": "In Stock",
       "wpb_url": "https://wpbwatchco.com/product/omega-seamaster-diver-300-m-007-titanium-brown-bezel-black-dial-210-90-42-20-01-001-2/",
+      "fb_url": "https://www.facebook.com/marketplace/item/1462979289201168/",
+      "fb_share_url": "https://www.facebook.com/share/1BiWT5g6QR/",
       "action": "OK"
     },
     {
@@ -102,6 +117,8 @@
       "reference_number": "441.HX.1171.RX",
       "wpb_stock": "In Stock",
       "wpb_url": "https://wpbwatchco.com/product/hublot-big-bang-unico-white-ceramic-skeleton-dial-441-hx-1171-rx/",
+      "fb_url": "https://www.facebook.com/marketplace/item/2203058567143597/",
+      "fb_share_url": "https://www.facebook.com/share/1BS6rWf83C/",
       "action": "OK"
     },
     {
@@ -114,6 +131,8 @@
       "reference_number": "PAM 00760",
       "wpb_stock": "In Stock",
       "wpb_url": "https://wpbwatchco.com/product/panerai-radiomir-bronze-green-ombre-dial-pam-00760/",
+      "fb_url": "https://www.facebook.com/marketplace/item/879700115197757/",
+      "fb_share_url": "https://www.facebook.com/share/1EjTXqzXL1/",
       "action": "OK"
     },
     {
@@ -126,6 +145,8 @@
       "reference_number": "511.NX.7071.RX",
       "wpb_stock": "In Stock",
       "wpb_url": "https://wpbwatchco.com/product/hublot-classic-fusion-racing-grey-dial-511-nx-7071-rx/",
+      "fb_url": "https://www.facebook.com/marketplace/item/1328704819475684/",
+      "fb_share_url": "https://www.facebook.com/share/1EopFbh7eg/",
       "action": "OK"
     },
     {
@@ -138,6 +159,8 @@
       "reference_number": "441.HX.1171.RX",
       "wpb_stock": "In Stock",
       "wpb_url": "https://wpbwatchco.com/product/hublot-big-bang-unico-white-ceramic-skeleton-dial-441-hx-1171-rx/",
+      "fb_url": "https://www.facebook.com/marketplace/item/1531066405157236/",
+      "fb_share_url": "https://www.facebook.com/share/1N876yKhLU/",
       "action": "OK"
     },
     {
@@ -150,30 +173,36 @@
       "reference_number": "SPP26BGD1GD.1T",
       "wpb_stock": "In Stock",
       "wpb_url": "https://wpbwatchco.com/product/bvlgari-serpenti-26mm-rose-gold-black-diamond-dial-spp26bgd1gd-1t/",
+      "fb_url": "https://www.facebook.com/marketplace/item/1745393573340255/",
+      "fb_share_url": "https://www.facebook.com/share/195Jvt27ga/",
       "action": "OK"
     },
     {
-      "fb_title": "Rolex GMT-Master II Stainless Steel “Batgirl” Black Dial 126710BLNR",
+      "fb_title": "Rolex GMT-Master II Stainless Steel \u201cBatgirl\u201d Black Dial 126710BLNR",
       "fb_status": "Active",
       "fb_price": "$20,975",
       "fb_listed": "",
-      "wpb_name": "Rolex GMT-Master II Stainless Steel “Batman” Black Dial 126710BLNR",
+      "wpb_name": "Rolex GMT-Master II Stainless Steel \u201cBatman\u201d Black Dial 126710BLNR",
       "product_code": "001.52552.182",
       "reference_number": "126710BLNR",
       "wpb_stock": "In Stock",
       "wpb_url": "https://wpbwatchco.com/product/rolex-gmt-master-ii-stainless-steel-batman-black-dial-126710blnr-2/",
+      "fb_url": "",
+      "fb_share_url": "",
       "action": "OK"
     },
     {
-      "fb_title": "Rolex GMT-Master II “Bruce Wayne” Stainless Steel Black Dial 126710GRNR",
+      "fb_title": "Rolex GMT-Master II \u201cBruce Wayne\u201d Stainless Steel Black Dial 126710GRNR",
       "fb_status": "Active",
       "fb_price": "$22,850",
       "fb_listed": "",
-      "wpb_name": "Rolex GMT-Master II “Bruce Wayne” Stainless Steel Black Dial 126710GRNR",
+      "wpb_name": "Rolex GMT-Master II \u201cBruce Wayne\u201d Stainless Steel Black Dial 126710GRNR",
       "product_code": "001.70866.215",
       "reference_number": "126710GRNR",
       "wpb_stock": "In Stock",
       "wpb_url": "https://wpbwatchco.com/product/rolex-gmt-master-ii-bruce-wayne-stainless-steel-black-dial-126710grnr/",
+      "fb_url": "",
+      "fb_share_url": "",
       "action": "OK"
     },
     {
@@ -186,18 +215,22 @@
       "reference_number": "15210ST.OO.A056KB.01",
       "wpb_stock": "In Stock",
       "wpb_url": "https://wpbwatchco.com/product/audemars-piguet-code-11-59-stainless-steel-green-stick-dial-15210st-oo-a056kb-01-2/",
+      "fb_url": "https://www.facebook.com/marketplace/item/1815661572728722/",
+      "fb_share_url": "https://www.facebook.com/share/1DAeHqhLin/",
       "action": "OK"
     },
     {
-      "fb_title": "Rolex Datejust 36 Steel and White Gold Silver “VIIX” Diamond Dial 126284RBR",
+      "fb_title": "Rolex Datejust 36 Steel and White Gold Silver \u201cVIIX\u201d Diamond Dial 126284RBR",
       "fb_status": "Active",
       "fb_price": "$19,875",
       "fb_listed": "",
-      "wpb_name": "Rolex Datejust 36 Steel and White Gold Silver “VIIX” Diamond Dial 126284RBR",
+      "wpb_name": "Rolex Datejust 36 Steel and White Gold Silver \u201cVIIX\u201d Diamond Dial 126284RBR",
       "product_code": "001.91609.185",
       "reference_number": "126284RBR",
       "wpb_stock": "In Stock",
       "wpb_url": "https://wpbwatchco.com/product/rolex-datejust-36-steel-and-white-gold-silver-viix-diamond-dial-126284rbr/",
+      "fb_url": "",
+      "fb_share_url": "",
       "action": "OK"
     },
     {
@@ -210,6 +243,22 @@
       "reference_number": "126200",
       "wpb_stock": "In Stock",
       "wpb_url": "https://wpbwatchco.com/product/rolex-datejust-36-domed-bezel-stainless-steel-green-dial-126200/",
+      "fb_url": "https://www.facebook.com/marketplace/item/1013740581273912/",
+      "fb_share_url": "https://www.facebook.com/share/1DAko5Fn32/",
+      "action": "OK"
+    },
+    {
+      "fb_title": "Rolex GMT-Master II Rose Gold \u201cRoot Beer\u201d Black Dial 126715CHNR",
+      "fb_status": "In stock",
+      "fb_price": "$41,200",
+      "fb_listed": "",
+      "wpb_name": "Rolex GMT-Master II Rose Gold \u201cRoot Beer\u201d Black Dial 126715CHNR",
+      "product_code": "001.76250.382",
+      "reference_number": "126715CHNR",
+      "wpb_stock": "In Stock",
+      "wpb_url": "https://wpbwatchco.com/product/rolex-gmt-master-ii-rose-gold-root-beer-black-dial-126715chnr-2/",
+      "fb_url": "",
+      "fb_share_url": "",
       "action": "OK"
     },
     {
@@ -222,6 +271,8 @@
       "reference_number": "116508NG",
       "wpb_stock": "In Stock",
       "wpb_url": "https://wpbwatchco.com/product/rolex-daytona-yellow-gold-white-mop-diamond-dial-116508ng/",
+      "fb_url": "https://www.facebook.com/marketplace/item/1557388235732583/",
+      "fb_share_url": "https://www.facebook.com/share/1PzvdjVtV3/",
       "action": "OK"
     },
     {
@@ -234,6 +285,8 @@
       "reference_number": "PAM01283",
       "wpb_stock": "In Stock",
       "wpb_url": "https://wpbwatchco.com/product/panerai-submersible-s-brabus-carbotech-skeletonized-black-and-green-dial-pam01283/",
+      "fb_url": "https://www.facebook.com/marketplace/item/1316511620599914/",
+      "fb_share_url": "https://www.facebook.com/share/1HLfoyje92/",
       "action": "OK"
     },
     {
@@ -246,6 +299,8 @@
       "reference_number": "PAM01402",
       "wpb_stock": "In Stock",
       "wpb_url": "https://wpbwatchco.com/product/panerai-submersible-navyseals-stainless-steel-ceramic-grey-dial-pam01402/",
+      "fb_url": "https://www.facebook.com/marketplace/item/27309987025359346/",
+      "fb_share_url": "https://www.facebook.com/share/1E2VyhESUE/",
       "action": "OK"
     },
     {
@@ -258,6 +313,8 @@
       "reference_number": "116500LN",
       "wpb_stock": "In Stock",
       "wpb_url": "https://wpbwatchco.com/product/rolex-daytona-stainless-steel-black-dial-116500ln-10/",
+      "fb_url": "https://www.facebook.com/marketplace/item/1548404803652904/",
+      "fb_share_url": "https://www.facebook.com/share/14nJqjbSYak/",
       "action": "OK"
     },
     {
@@ -270,10 +327,12 @@
       "reference_number": "336934",
       "wpb_stock": "In Stock",
       "wpb_url": "https://wpbwatchco.com/product/rolex-sky-dweller-stainless-steel-and-white-gold-mint-green-stick-dial-336934/",
+      "fb_url": "https://www.facebook.com/marketplace/item/2079844989578754/",
+      "fb_share_url": "https://www.facebook.com/share/1HZqFB8uG2/",
       "action": "OK"
     },
     {
-      "fb_title": "Rolex Daytona Cosmograph Yellow Gold “Pickachu” Dial 126508",
+      "fb_title": "Rolex Daytona Cosmograph Yellow Gold \u201cPickachu\u201d Dial 126508",
       "fb_status": "In stock",
       "fb_price": "$72,250",
       "fb_listed": "",
@@ -282,6 +341,8 @@
       "reference_number": "126508",
       "wpb_stock": "In Stock",
       "wpb_url": "https://wpbwatchco.com/product/rolex-cosmograph-daytona-yellow-gold-and-white-dial-126508/",
+      "fb_url": "",
+      "fb_share_url": "",
       "action": "OK"
     },
     {
@@ -294,18 +355,22 @@
       "reference_number": "128345RBR",
       "wpb_stock": "In Stock",
       "wpb_url": "https://wpbwatchco.com/product/rolex-day-date-36-diamond-bezel-rose-gold-eisenkiesel-diamond-dial-128345rbr/",
+      "fb_url": "https://www.facebook.com/marketplace/item/1401291405177166/",
+      "fb_share_url": "https://www.facebook.com/share/14nVVaGFgUH/",
       "action": "OK"
     },
     {
-      "fb_title": "A. Lange & Söhne Saxonia Thin White Gold Blue Dial 205.086",
+      "fb_title": "A. Lange & S\u00f6hne Saxonia Thin White Gold Blue Dial 205.086",
       "fb_status": "In stock",
       "fb_price": "$24,550",
       "fb_listed": "",
-      "wpb_name": "A. Lange Söhne Saxonia Thin White Gold Blue Dial 205.086",
+      "wpb_name": "A. Lange S\u00f6hne Saxonia Thin White Gold Blue Dial 205.086",
       "product_code": "001.78505.231",
       "reference_number": "205.086",
       "wpb_stock": "In Stock",
       "wpb_url": "https://wpbwatchco.com/product/a-lange-sohne-saxonia-thin-white-gold-blue-dial-205-086-2/",
+      "fb_url": "https://www.facebook.com/marketplace/item/1551704009676803/",
+      "fb_share_url": "https://www.facebook.com/share/19F4McViAL/",
       "action": "OK"
     },
     {
@@ -318,6 +383,8 @@
       "reference_number": "278341RBR",
       "wpb_stock": "In Stock",
       "wpb_url": "https://wpbwatchco.com/product/rolex-datejust-31-stainless-steel-and-rose-gold-pink-diamond-dial-278341rbr/",
+      "fb_url": "https://www.facebook.com/marketplace/item/1279483597404006/",
+      "fb_share_url": "https://www.facebook.com/share/1Ds1d3E29b/",
       "action": "OK"
     },
     {
@@ -330,6 +397,8 @@
       "reference_number": "IW377709",
       "wpb_stock": "In Stock",
       "wpb_url": "https://wpbwatchco.com/product/iwc-pilot-chronograph-stainless-steel-black-dial-iw377709/",
+      "fb_url": "",
+      "fb_share_url": "",
       "action": "OK"
     },
     {
@@ -342,6 +411,8 @@
       "reference_number": "128396TBR",
       "wpb_stock": "In Stock",
       "wpb_url": "https://wpbwatchco.com/product/rolex-day-date-36-platinum-baguette-diamond-bezel-blue-diamond-dial-128396tbr/",
+      "fb_url": "",
+      "fb_share_url": "",
       "action": "OK"
     },
     {
@@ -354,6 +425,22 @@
       "reference_number": "116655",
       "wpb_stock": "In Stock",
       "wpb_url": "https://wpbwatchco.com/product/rolex-yacht-master-40-rose-gold-black-dial-116655-2/",
+      "fb_url": "",
+      "fb_share_url": "",
+      "action": "OK"
+    },
+    {
+      "fb_title": "Rolex GMT-Master II Rose Gold \u201cRoot Beer\u201d Black Dial 126715CHNR",
+      "fb_status": "In stock",
+      "fb_price": "$49,450",
+      "fb_listed": "",
+      "wpb_name": "Rolex GMT-Master II Rose Gold \u201cRoot Beer\u201d Black Dial 126715CHNR",
+      "product_code": "001.76250.382",
+      "reference_number": "126715CHNR",
+      "wpb_stock": "In Stock",
+      "wpb_url": "https://wpbwatchco.com/product/rolex-gmt-master-ii-rose-gold-root-beer-black-dial-126715chnr-2/",
+      "fb_url": "",
+      "fb_share_url": "",
       "action": "OK"
     },
     {
@@ -366,6 +453,8 @@
       "reference_number": "128396TBR",
       "wpb_stock": "In Stock",
       "wpb_url": "https://wpbwatchco.com/product/rolex-day-date-36-platinum-baguette-diamond-bezel-blue-diamond-dial-128396tbr/",
+      "fb_url": "",
+      "fb_share_url": "",
       "action": "OK"
     }
   ]
