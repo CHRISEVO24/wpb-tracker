@@ -82,8 +82,8 @@ jobs:
           git config --global user.name "WPB Scraper Bot"
           git config --global user.email "scraper@wpbwatchco.com"
           git add history.json attribute-cache.json fb-listings.json fb-sync-results.json 2>/dev/null || true
-          git diff --staged --quiet || git commit -m "Auto update - $(TZ='America/New_York' date '+%Y-%m-%d %I:%M %p ET')"
           git pull --rebase origin main || true
+          git diff --staged --quiet || git commit -m "Auto update - $(TZ='America/New_York' date '+%Y-%m-%d %I:%M %p ET')"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
