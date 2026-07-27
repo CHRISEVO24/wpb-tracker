@@ -199,7 +199,6 @@
   <button class="tab active" data-tab="inventory">📦 &nbsp;Current Inventory</button>
   <button class="tab" data-tab="changes">🔄 &nbsp;Changes / Sold</button>
   <button class="tab" data-tab="pricechanges">💲 &nbsp;Price Changes</button>
-  <button class="tab" data-tab="fbsync">🔄 &nbsp;FB Sync</button>
 </div>
 
 <!-- ═══════════════════════════════════════════════════
@@ -220,6 +219,10 @@
       <select class="toolbar-filter-select" id="dd-price"><option value="">All Prices</option></select>
     </div>
     <div class="toolbar-filter-group">
+      <span class="toolbar-filter-label">Year</span>
+      <select class="toolbar-filter-select" id="dd-year"><option value="">All Years</option></select>
+    </div>
+    <div class="toolbar-filter-group">
       <span class="toolbar-filter-label">Stock</span>
       <select class="toolbar-filter-select" id="dd-stock"><option value="">All Status</option></select>
     </div>
@@ -238,6 +241,7 @@
           <th class="sortable" data-col="productCode">Product Code</th>
           <th class="sortable" data-col="stockStatus">Stock Status</th>
           <th class="sortable" data-col="price">Price</th>
+          <th class="sortable" data-col="year">Year</th>
           <th class="sortable" data-col="categories">Category</th>
           <th data-col="description">Description</th>
           <th></th>
@@ -249,6 +253,7 @@
           <th><input class="col-filter" data-col="productCode"     placeholder="Filter…"></th>
           <th><select class="col-filter-select" id="cf-stockStatus" data-col="stockStatus"><option value="">All</option></select></th>
           <th><input class="col-filter" data-col="price"           placeholder="Filter…"></th>
+          <th><input class="col-filter" data-col="year"            placeholder="Filter…"></th>
           <th><select class="col-filter-select" id="cf-categories" data-col="categories"><option value="">All</option></select></th>
           <th><input class="col-filter" data-col="description"     placeholder="Filter…"></th>
           <th><button id="clear-filters" title="Clear all filters" style="background:transparent;border:1px solid var(--border);border-radius:5px;color:var(--muted);cursor:pointer;font-size:10px;height:26px;padding:0 8px;white-space:nowrap;">✕ Clear All</button></th>
@@ -398,23 +403,6 @@
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════
-     TAB 4 — FB SYNC
-════════════════════════════════════════════════════ -->
-<div class="tab-panel" id="tab-fbsync">
-  <div style="padding:20px;">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
-      <div>
-        <h2 style="margin:0;font-size:20px;color:#1a1a1a;">🔄 Facebook Marketplace Sync</h2>
-        <p id="fb-sync-meta" style="margin:4px 0 0;color:#888;font-size:13px;">Loading...</p>
-      </div>
-      <button onclick="loadFBSync()" style="background:#1877f2;color:white;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;">↻ Refresh</button>
-    </div>
-    <div id="fb-sync-summary" style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px;"></div>
-    <div id="fb-sync-results"></div>
-  </div>
-</div>
-
 <script>
 // ── FB Marketplace category & condition ──────────────────────────────────────
 const FB_CATEGORY  = "Watches";
@@ -441,36 +429,17 @@ document.querySelectorAll(".tab").forEach(btn => {
 // ── Auto-load history.json and attribute-cache.json from same folder ──────────
 let ATTR_CACHE = {}; // loaded from attribute-cache.json for FB export enrichment
 
-// ── GitHub direct fetch helpers ───────────────────────────────────────────────
-const GH_REPO = 'CHRISEVO24/wpb-tracker';
-const GH_RAW  = 'https://raw.githubusercontent.com/' + GH_REPO + '/main';
-const GH_API  = 'https://api.github.com';
-
-async function fetchLatestReleaseAsset(filename) {
-  // history.json is now committed directly to the repo
-  // Use raw.githubusercontent.com which has proper CORS headers
-  const res = await fetch(`${GH_RAW}/${filename}?_=${Date.now()}`);
-  if (!res.ok) throw new Error(`${filename} not found (${res.status})`);
-  return res.json();
-}
-
-async function fetchRepoFile(filename) {
-  const res = await fetch(`${GH_RAW}/${filename}?_=${Date.now()}`);
-  if (!res.ok) throw new Error(`${filename} not found (${res.status})`);
-  return res.json();
-}
-
 async function autoLoadHistory() {
   try {
-    // Fetch history.json from latest GitHub Release asset
-    HISTORY = await fetchLatestReleaseAsset('history.json');
-    if (!HISTORY) throw new Error('history.json not found');
+    const res = await fetch("./history.json?t=" + Date.now());
+    if (!res.ok) throw new Error(`history.json not found (${res.status})`);
+    HISTORY = await res.json();
 
     // Also try to load attribute-cache.json for full FB export descriptions
     try {
-      const cacheRes = await fetchRepoFile('attribute-cache.json');
-      if (cacheRes) {
-        ATTR_CACHE = cacheRes;
+      const cacheRes = await fetch("./attribute-cache.json?t=" + Date.now());
+      if (cacheRes.ok) {
+        ATTR_CACHE = await cacheRes.json();
         console.log("Attribute cache loaded:", Object.keys(ATTR_CACHE).length, "products");
       }
     } catch { /* cache is optional — FB export just uses short description */ }
@@ -581,6 +550,9 @@ function populateDropdowns(products) {
 
   fillSelect("dd-brand",  brands,      "All Brands");
   fillSelect("dd-stock",  stocks,      "All Status");
+  // Year dropdown — sorted descending (newest first)
+  const years = [...new Set(products.map(p => (p.year||"").trim()).filter(Boolean))].sort((a,b) => b.localeCompare(a));
+  fillSelect("dd-year", years, "All Years");
   fillSelect("cf-stockStatus", stocks, "All");
   fillSelectOptions("dd-price", priceRanges.map(r => ({ value: `${r.min}|${r.max}`, label: r.label })), "All Prices");
   fillSelect("cf-categories",
@@ -633,12 +605,11 @@ function downloadCsv(rows, filename) {
   URL.revokeObjectURL(url);
 }
 
-// Inventory tab — exports selected rows if any are checked, otherwise all filtered rows
+// Inventory tab — exports all filtered rows
 function exportInventoryXlsx() {
   const timestamp = new Date().toISOString().slice(0, 10);
   const headers = ["Watch Name","Reference Number","Product Code","Stock Status","Price","Category","Brand","Model","Year","Box","Papers","Condition","Movement","Case","Bracelet","Dial","Bezel","URL"];
-  const rowsSource = selected.size > 0 ? filtered.filter(w => selected.has(w.id)) : filtered;
-  const rows = [headers, ...rowsSource.map(w => [
+  const rows = [headers, ...filtered.map(w => [
     w.name, w.referenceNumber||"", w.productCode||w.sku||"",
     w.stockStatus||"", w.price||"", w.categories||"",
     w.brand||"", w.model||"", w.year||"",
@@ -647,7 +618,7 @@ function exportInventoryXlsx() {
     w.dial||"", w.bezel||"", w.url||""
   ])];
   downloadCsv(rows, `wpb-inventory-${timestamp}.csv`);
-  toast(`✓ Exported ${rowsSource.length} watch${rowsSource.length!==1?"es":""} to Excel`);
+  toast(`✓ Exported ${filtered.length} watch${filtered.length!==1?"es":""} to Excel`);
 }
 
 // Changes/Sold tab — exports both new arrivals and sold watches
@@ -944,6 +915,10 @@ function applyFiltersAndSort(source) {
   const ddStock = ddFilters["stock"] || "";
   if (ddStock) all = all.filter(w => (w.stockStatus || "").toLowerCase() === ddStock.toLowerCase());
 
+  // Toolbar: Year dropdown
+  const ddYear = ddFilters["year"] || "";
+  if (ddYear) all = all.filter(w => (w.year || "") === ddYear);
+
   // Column text filters
   all = all.filter(w =>
     Object.entries(colFilters).every(([col, q]) => {
@@ -1003,7 +978,7 @@ function updateSortHeaders() {
 function refreshTable() {
   const tbody = document.getElementById("inv-body");
   if (!filtered.length) {
-    tbody.innerHTML = `<tr><td colspan="9" style="padding:40px;text-align:center;color:var(--muted);">No watches match the current filters.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="10" style="padding:40px;text-align:center;color:var(--muted);">No watches match the current filters.</td></tr>`;
     return;
   }
   tbody.innerHTML = filtered.map(w => {
@@ -1018,6 +993,7 @@ function refreshTable() {
       <td><span class="td-sku">${x(code)}</span></td>
       <td>${stockIn ? `<span class="td-stock-in">● In Stock</span>` : `<span class="td-stock-out">● Out of Stock</span>`}</td>
       <td class="td-price">${x(w.price)}</td>
+      <td style="font-size:13px;color:var(--text);font-weight:600;">${x(w.year || "—")}</td>
       <td class="td-cat">${x(w.categories)}</td>
       <td class="td-desc" title="${x(w.description)}">${x(w.description)}</td>
       <td class="td-link"><a href="${w.url}" target="_blank">View →</a></td>
@@ -1059,7 +1035,7 @@ function updateSelCount() {
 // ── Wire up all filter controls ───────────────────────────────────────────────
 
 // Toolbar dropdowns
-["dd-brand", "dd-price", "dd-stock"].forEach(id => {
+["dd-brand", "dd-price", "dd-stock", "dd-year"].forEach(id => {
   const el = document.getElementById(id);
   if (!el) return;
   el.addEventListener("change", () => {
@@ -1113,7 +1089,7 @@ document.getElementById("clear-filters").addEventListener("click", () => {
     const el = document.getElementById(id);
     if (el) { el.value = ""; el.closest("th")?.classList.remove("filter-active"); }
   });
-  ["dd-brand","dd-price","dd-stock"].forEach(id => {
+  ["dd-brand","dd-price","dd-stock","dd-year"].forEach(id => {
     const el = document.getElementById(id);
     if (el) { el.value = ""; el.classList.remove("active"); }
   });
@@ -1349,138 +1325,6 @@ function buildDemo() {
   });
   return history;
 }
-</script>
-
-<script>
-// ── FB SYNC TAB ───────────────────────────────────────────────────────────────
-async function loadFBSync() {
-  const meta = document.getElementById('fb-sync-meta');
-  const summary = document.getElementById('fb-sync-summary');
-  const results = document.getElementById('fb-sync-results');
-  meta.textContent = 'Loading...';
-  summary.innerHTML = '';
-  results.innerHTML = '<p style="color:#888;padding:20px;">Loading FB sync data...</p>';
-  try {
-    const data = await fetchRepoFile('fb-sync-results.json');
-    renderFBSync(data);
-  } catch(e) {
-    results.innerHTML = `<div style="background:#fff8e1;border:1px solid #ffe082;border-radius:10px;padding:24px;color:#5d4037;">
-      <strong>⚠️ No FB sync data yet.</strong><br><br>
-      The 5am scraper will generate this automatically once <strong>FB_COOKIES</strong> is set as a GitHub Secret.<br><br>
-      To trigger manually: go to <strong>Actions</strong> tab in your GitHub repo and run the workflow.
-    </div>`;
-    meta.textContent = 'No data yet';
-  }
-}
-
-function renderFBSync(data) {
-  const meta = document.getElementById('fb-sync-meta');
-  const summary = document.getElementById('fb-sync-summary');
-  const results = document.getElementById('fb-sync-results');
-  meta.textContent = 'Last checked: ' + data.checked_at_et + '  ·  FB scraped: ' + data.fb_scraped_at_et;
-  const s = data.summary;
-
-  // 4 cards: Total Listed | Available for Sale | Not in WPB | Sold/OOS on FB
-  const soldOnFB = (data.sold_on_fb || []).length;
-  const available = s.active_fb_listings || s.ok || 0;
-  const cards = [
-    { count: s.total_fb_listings, label: 'Total Listed',      color: '#444',    bg: '#f7f7f7', border: '#ddd' },
-    { count: available,           label: 'Available for Sale', color: '#1877f2', bg: '#f0f4ff', border: '#93c5fd' },
-    { count: s.no_match,          label: 'Not in WPB',        color: '#dd6b20', bg: '#fffaf0', border: '#fbd38d' },
-    { count: s.mark_sold,         label: 'Mark as Sold',      color: '#e53e3e', bg: '#fff5f5', border: '#fc8181' },
-  ];
-  summary.innerHTML = cards.map(c => `<div style="background:${c.bg};border:1px solid ${c.border};border-radius:10px;padding:14px 20px;min-width:130px;"><div style="font-size:28px;font-weight:700;color:${c.color};">${c.count !== undefined ? c.count : 0}</div><div style="font-size:12px;color:#666;margin-top:2px;">${c.label}</div></div>`).join('');
-
-  // Helper: FB link for a listing
-  function fbLink(item) {
-    if (item.fb_url) return `<a href="${item.fb_url}" target="_blank" style="color:#1877f2;font-size:11px;text-decoration:none;margin-left:6px;" title="Open on Facebook">↗ FB</a>`;
-    return `<a href="https://www.facebook.com/marketplace/you/selling" target="_blank" style="color:#aaa;font-size:11px;text-decoration:none;margin-left:6px;" title="Go to your selling page">↗ FB</a>`;
-  }
-
-  // Helper: WPB link
-  function wpbLink(item) {
-    if (item.wpb_url) return `<a href="${item.wpb_url}" target="_blank" style="color:#333;font-size:11px;text-decoration:none;margin-left:6px;" title="Open on WPB">↗ WPB</a>`;
-    return '';
-  }
-
-  let html = '';
-
-  // MARK SOLD section
-  if (data.mark_sold && data.mark_sold.length) {
-    html += `<div style="margin-bottom:24px;">
-      <h3 style="color:#c53030;font-size:15px;margin:0 0 12px;padding:8px 14px;background:#fff5f5;border-radius:8px;border-left:4px solid #e53e3e;">
-        🔴 Mark as Sold on Facebook (${data.mark_sold.length})
-      </h3>
-      <table style="width:100%;border-collapse:collapse;background:white;border-radius:10px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.1);">
-        <thead><tr style="background:#1a1a2e;color:white;">
-          <th style="padding:10px 14px;text-align:left;font-size:12px;">FB Listing</th>
-          <th style="padding:10px 14px;text-align:left;font-size:12px;">FB Price</th>
-          <th style="padding:10px 14px;text-align:left;font-size:12px;">Product Code</th>
-          <th style="padding:10px 14px;text-align:left;font-size:12px;">WPB Status</th>
-        </tr></thead>
-        <tbody>${data.mark_sold.map(i => `<tr style="border-bottom:1px solid #f0f0f0;">
-          <td style="padding:10px 14px;font-size:13px;">${i.fb_title}${fbLink(i)}</td>
-          <td style="padding:10px 14px;font-size:13px;font-weight:600;">${i.fb_price}</td>
-          <td style="padding:10px 14px;font-size:12px;font-family:monospace;background:#f7f7f7;">${i.product_code}${wpbLink(i)}</td>
-          <td style="padding:10px 14px;"><span style="background:#fff5f5;color:#c53030;border:1px solid #fc8181;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;">Out of Stock</span></td>
-        </tr>`).join('')}</tbody>
-      </table></div>`;
-  }
-
-  // NOT IN WPB section
-  if (data.no_match && data.no_match.length) {
-    html += `<div style="margin-bottom:24px;">
-      <h3 style="color:#c05621;font-size:15px;margin:0 0 12px;padding:8px 14px;background:#fffaf0;border-radius:8px;border-left:4px solid #dd6b20;">
-        🟠 Not Found in WPB Inventory (${data.no_match.length})
-      </h3>
-      <table style="width:100%;border-collapse:collapse;background:white;border-radius:10px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.1);">
-        <thead><tr style="background:#1a1a2e;color:white;">
-          <th style="padding:10px 14px;text-align:left;font-size:12px;">FB Listing</th>
-          <th style="padding:10px 14px;text-align:left;font-size:12px;">FB Price</th>
-          <th style="padding:10px 14px;text-align:left;font-size:12px;">Listed</th>
-        </tr></thead>
-        <tbody>${data.no_match.map(i => `<tr style="border-bottom:1px solid #f0f0f0;">
-          <td style="padding:10px 14px;font-size:13px;">${i.fb_title}${fbLink(i)}</td>
-          <td style="padding:10px 14px;font-size:13px;font-weight:600;">${i.fb_price}</td>
-          <td style="padding:10px 14px;font-size:12px;color:#888;">${i.fb_listed}</td>
-        </tr>`).join('')}</tbody>
-      </table></div>`;
-  }
-
-  // ALL CLEAR section (collapsed)
-  if (data.ok && data.ok.length) {
-    html += `<div style="margin-bottom:24px;">
-      <h3 onclick="var el=document.getElementById('fb-ok');el.style.display=el.style.display==='none'?'block':'none'"
-          style="color:#276749;font-size:15px;margin:0 0 12px;padding:8px 14px;background:#f0fff4;border-radius:8px;border-left:4px solid #38a169;cursor:pointer;">
-        ✅ Available for Sale — ${data.ok.length} listings match WPB inventory
-        <span style="float:right;font-size:12px;color:#888;">click to expand ▾</span>
-      </h3>
-      <div id="fb-ok" style="display:none;">
-      <table style="width:100%;border-collapse:collapse;background:white;border-radius:10px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.1);">
-        <thead><tr style="background:#1a1a2e;color:white;">
-          <th style="padding:10px 14px;text-align:left;font-size:12px;">FB Listing</th>
-          <th style="padding:10px 14px;text-align:left;font-size:12px;">Price</th>
-          <th style="padding:10px 14px;text-align:left;font-size:12px;">Product Code</th>
-          <th style="padding:10px 14px;text-align:left;font-size:12px;">Listed</th>
-          <th style="padding:10px 14px;text-align:left;font-size:12px;">Links</th>
-        </tr></thead>
-        <tbody>${data.ok.map(i => `<tr style="border-bottom:1px solid #f0f0f0;">
-          <td style="padding:10px 14px;font-size:13px;">${i.fb_title}</td>
-          <td style="padding:10px 14px;font-size:13px;font-weight:600;">${i.fb_price}</td>
-          <td style="padding:10px 14px;font-size:12px;font-family:monospace;background:#f7f7f7;">${i.product_code}</td>
-          <td style="padding:10px 14px;font-size:12px;color:#888;">${i.fb_listed}</td>
-          <td style="padding:10px 14px;">${fbLink(i)}${wpbLink(i)}</td>
-        </tr>`).join('')}</tbody>
-      </table></div></div>`;
-  }
-
-  results.innerHTML = html || '<div style="text-align:center;padding:40px;color:#888;font-size:15px;">✅ Everything looks good — no action needed.</div>';
-}
-
-// Auto-load FB sync when that tab is clicked
-document.querySelectorAll('.tab').forEach(btn => {
-  btn.addEventListener('click', () => { if (btn.dataset.tab === 'fbsync') loadFBSync(); });
-});
 </script>
 </body>
 </html>
