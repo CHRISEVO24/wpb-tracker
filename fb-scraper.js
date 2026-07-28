@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// fb-scraper.js - Scrapes FB Marketplace selling page using saved session cookies
+  await page.goto('https://www.facebook.com/marketplace/seller/listings/', { waitUntil: 'domcontentloaded', timeout: 60000 });
 // Runs in GitHub Actions headlessly. Outputs: fb-listings.json
 
 const { chromium } = require('playwright');
