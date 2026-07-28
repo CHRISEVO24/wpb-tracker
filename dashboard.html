@@ -1350,26 +1350,25 @@ async function loadFBSync() {
     const res = await fetch("./fb-sync-results.json?t=" + Date.now());
     if (!res.ok) throw new Error("fb-sync-results.json not found");
     const data = await res.json();
-    const listings = data.listings || data || [];
-    count.textContent = listings.length + " listings";
-    if (!listings.length) {
-      el.innerHTML = `<div class="empty-state"><div class="empty-icon">🔄</div><div class="empty-title">No FB sync data found</div><div class="empty-sub">Run the scraper to generate FB sync results</div></div>`;
-      return;
-    }
-    el.innerHTML = `<table style="width:100%;border-collapse:collapse;">
-      <thead><tr style="background:var(--bg);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);">
-        <th style="padding:10px 14px;text-align:left;">Listing</th>
-        <th style="padding:10px 14px;text-align:left;">Price</th>
-        <th style="padding:10px 14px;text-align:left;">Status</th>
-        <th style="padding:10px 14px;text-align:left;">Link</th>
-      </tr></thead>
-      <tbody>${listings.map(l => `<tr style="border-bottom:1px solid var(--border);">
-        <td style="padding:10px 14px;font-weight:700;color:var(--text);">${x(l.title||l.name||"")}</td>
-        <td style="padding:10px 14px;color:var(--gold);font-weight:800;">${x(l.price||"")}</td>
-        <td style="padding:10px 14px;">${x(l.status||l.availability||"")}</td>
-        <td style="padding:10px 14px;">${l.url?`<a href="${x(l.url)}" target="_blank" style="color:var(--gold);font-size:11px;font-weight:700;">View →</a>`:""}</td>
-      </tr>`).join("")}</tbody>
-    </table>`;
+    const summary  = data.summary  || {};
+    const markSold = data.mark_sold || [];
+    const noMatch  = data.no_match  || [];
+    const ok       = data.ok        || [];
+    const total    = summary.total_fb_listings || 0;
+    count.textContent = total + " FB listings";
+    el.innerHTML = `
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px;">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px 20px;min-width:110px;text-align:center;"><div style="font-size:24px;font-weight:800;color:var(--gold);">${total}</div><div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-top:4px;">Total Listed</div></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px 20px;min-width:110px;text-align:center;"><div style="font-size:24px;font-weight:800;color:var(--green);">${ok.length}</div><div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-top:4px;">Active ✓</div></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px 20px;min-width:110px;text-align:center;"><div style="font-size:24px;font-weight:800;color:var(--red);">${markSold.length}</div><div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-top:4px;">Mark Sold</div></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px 20px;min-width:110px;text-align:center;"><div style="font-size:24px;font-weight:800;color:var(--muted);">${noMatch.length}</div><div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-top:4px;">No Match</div></div>
+      </div>
+      ${markSold.length ? `<div style="margin-bottom:16px;"><div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--red);padding-bottom:6px;border-bottom:2px solid var(--red-br);margin-bottom:8px;">🔴 Mark as Sold on Facebook (${markSold.length})</div>${markSold.map(l=>`<div class="watch-card" style="margin-bottom:6px;padding:10px 14px;"><div class="td-name">${x(l.title||l.name||"")}</div><div style="display:flex;align-items:center;gap:10px;margin-top:4px;"><span class="td-price">${x(l.price||"")}</span>${l.url?`<a href="${x(l.url)}" target="_blank" class="card-link">View on FB →</a>`:""}</div></div>`).join("")}</div>` : ""}
+      ${noMatch.length ? `<div style="margin-bottom:16px;"><div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-bottom:6px;border-bottom:2px solid var(--border);margin-bottom:8px;">⚪ Not in WPB Inventory (${noMatch.length})</div>${noMatch.map(l=>`<div class="watch-card" style="margin-bottom:6px;padding:10px 14px;"><div class="td-name">${x(l.title||l.name||"")}</div><div style="display:flex;align-items:center;gap:10px;margin-top:4px;"><span class="td-price">${x(l.price||"")}</span>${l.url?`<a href="${x(l.url)}" target="_blank" class="card-link">View on FB →</a>`:""}</div></div>`).join("")}</div>` : ""}
+      ${ok.length ? `<div><div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--green);padding-bottom:6px;border-bottom:2px solid var(--green-br);margin-bottom:8px;">🟢 Active & Matched (${ok.length})</div>${ok.map(l=>`<div class="watch-card" style="margin-bottom:6px;padding:10px 14px;"><div class="td-name">${x(l.title||l.name||"")}</div><div style="display:flex;align-items:center;gap:10px;margin-top:4px;"><span class="td-price">${x(l.price||"")}</span>${l.url?`<a href="${x(l.url)}" target="_blank" class="card-link">View on FB →</a>`:""}</div></div>`).join("")}</div>` : ""}
+      <div style="font-size:11px;color:var(--light);margin-top:14px;">Last checked: ${x(data.checked_at_et||data.checked_at||"")}</div>
+      ${total === 0 ? "<div style=\"font-size:12px;color:var(--muted);margin-top:8px;\">⚠️ No Facebook listings scraped yet. FB_COOKIES may need refreshing in GitHub Secrets.</div>" : ""}
+    `;
   } catch(e) {
     el.innerHTML = `<div class="empty-state"><div class="empty-icon">⚠️</div><div class="empty-title">Could not load FB sync data</div><div class="empty-sub">${x(e.message)}</div></div>`;
     count.textContent = "Error";
