@@ -199,6 +199,7 @@
   <button class="tab active" data-tab="inventory">📦 &nbsp;Current Inventory</button>
   <button class="tab" data-tab="changes">🔄 &nbsp;Changes / Sold</button>
   <button class="tab" data-tab="pricechanges">💲 &nbsp;Price Changes</button>
+  <button class="tab" data-tab="fbsync">🔄 &nbsp;FB Sync</button>
 </div>
 
 <!-- ═══════════════════════════════════════════════════
@@ -400,6 +401,21 @@
         <tr><td colspan="9" style="padding:40px;text-align:center;color:var(--muted);">Pick two snapshots and click Run Report to see price changes.</td></tr>
       </tbody>
     </table>
+  </div>
+</div><!-- ═══════════════════════════════════════════════════
+     TAB 4 — FB SYNC
+════════════════════════════════════════════════════ -->
+<div class="tab-panel" id="tab-fbsync">
+  <div class="inv-toolbar">
+    <span class="inv-count-badge" id="fb-sync-count">— listings</span>
+    <button class="xlsx-btn" onclick="loadFBSync()">↻ Refresh</button>
+  </div>
+  <div style="padding:20px;" id="fb-sync-content">
+    <div class="empty-state">
+      <div class="empty-icon">🔄</div>
+      <div class="empty-title">Click Refresh to load FB Sync data</div>
+      <div class="empty-sub">Compares your Facebook Marketplace listings against current WPB inventory</div>
+    </div>
   </div>
 </div>
 
@@ -1324,6 +1340,40 @@ function buildDemo() {
     history[key] = snap;
   });
   return history;
+}
+  // ── FB SYNC TAB ───────────────────────────────────────────────────────────────
+async function loadFBSync() {
+  const el = document.getElementById("fb-sync-content");
+  const count = document.getElementById("fb-sync-count");
+  el.innerHTML = `<div class="empty-state"><div class="spinner" style="width:36px;height:36px;border-width:3px;"></div><div class="empty-title" style="margin-top:8px;">Loading FB sync data…</div></div>`;
+  try {
+    const res = await fetch("./fb-sync-results.json?t=" + Date.now());
+    if (!res.ok) throw new Error("fb-sync-results.json not found");
+    const data = await res.json();
+    const listings = data.listings || data || [];
+    count.textContent = listings.length + " listings";
+    if (!listings.length) {
+      el.innerHTML = `<div class="empty-state"><div class="empty-icon">🔄</div><div class="empty-title">No FB sync data found</div><div class="empty-sub">Run the scraper to generate FB sync results</div></div>`;
+      return;
+    }
+    el.innerHTML = `<table style="width:100%;border-collapse:collapse;">
+      <thead><tr style="background:var(--bg);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);">
+        <th style="padding:10px 14px;text-align:left;">Listing</th>
+        <th style="padding:10px 14px;text-align:left;">Price</th>
+        <th style="padding:10px 14px;text-align:left;">Status</th>
+        <th style="padding:10px 14px;text-align:left;">Link</th>
+      </tr></thead>
+      <tbody>${listings.map(l => `<tr style="border-bottom:1px solid var(--border);">
+        <td style="padding:10px 14px;font-weight:700;color:var(--text);">${x(l.title||l.name||"")}</td>
+        <td style="padding:10px 14px;color:var(--gold);font-weight:800;">${x(l.price||"")}</td>
+        <td style="padding:10px 14px;">${x(l.status||l.availability||"")}</td>
+        <td style="padding:10px 14px;">${l.url?`<a href="${x(l.url)}" target="_blank" style="color:var(--gold);font-size:11px;font-weight:700;">View →</a>`:""}</td>
+      </tr>`).join("")}</tbody>
+    </table>`;
+  } catch(e) {
+    el.innerHTML = `<div class="empty-state"><div class="empty-icon">⚠️</div><div class="empty-title">Could not load FB sync data</div><div class="empty-sub">${x(e.message)}</div></div>`;
+    count.textContent = "Error";
+  }
 }
 </script>
 </body>
