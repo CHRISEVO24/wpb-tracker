@@ -189,7 +189,16 @@ function formatPrice(prices) {
   return "$" + dollars.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 });
 }
 
-// ── Build product record ──────────────────────────────────────────────────────
+function cleanStockStatus(raw, isInStock) {
+  if (!raw) return isInStock ? "In Stock" : "Out of Stock";
+  const cleaned = raw.replace(/https?:\/\/schema\.org\/\S+/gi, "").trim();
+  if (!cleaned) return isInStock ? "In Stock" : "Out of Stock";
+  if (cleaned.toLowerCase().includes("instock") || cleaned.toLowerCase().includes("in stock"))
+    return "In Stock";
+  if (cleaned.toLowerCase().includes("outofstock") || cleaned.toLowerCase().includes("out of stock"))
+    return "Out of Stock";
+  return cleaned;
+}// ── Build product record ──────────────────────────────────────────────────────
 
 function buildProduct(api, attrs) {
   // history.json stores LEAN fields only — just what's needed for dashboard display,
@@ -204,7 +213,7 @@ function buildProduct(api, attrs) {
     inStock:         !!api.is_in_stock,
     referenceNumber: attrs["Reference Number"] || "",
     productCode:     attrs["Product Code"]     || "",
-    stockStatus:     attrs["Stock Status"]     || (api.is_in_stock ? "In Stock" : "Out of Stock"),
+    stockStatus:     cleanStockStatus(attrs["Stock Status"], api.is_in_stock),
     brand:           attrs["Brand"]            || (api.attributes || []).find(a => a.name === "Brand")?.terms?.[0]?.name || "",
     year:            attrs["Year"]             || "",
     box:             attrs["Box"]              || "",
