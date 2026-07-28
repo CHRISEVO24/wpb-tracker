@@ -1,158 +1,76 @@
 #!/usr/bin/env node
-// fb-check.js
-// Compares fb-listings.json against history.json
-// ONLY flags items that are ACTIVELY FOR SALE on FB but Out of Stock on WPB
-// Ignores anything already marked Out of Stock, Sold, or inactive on FB
+// fb-check.js - Compares FB listings against WPB inventory
 
 const fs = require('fs');
 
-function normalize(s) {
-  return s.toLowerCase().replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim();
+function loadJSON(file) {
+    try { return JSON.parse(fs.readFileSync(file, 'utf8')); }
+    catch(e) { console.error('Could not load ' + file + ': ' + e.message); return null; }
 }
 
-function matchListing(fbTitle, inventory) {
-  const fbNorm = normalize(fbTitle);
-  // Extract reference numbers - including IWC style (IW123456) and others
-  const refs = fbTitle.match(/\b([A-Z]{2,}[\d]{3,}[A-Z]*[\d]*|[\d]{4,6}[A-Z]{0,4})\b/g) || [];
+const fbListings = loadJSON('fb-listings.json');
+const history = loadJSON('history.json');
 
-  // 1. Reference number match (exact)
-  for (const ref of refs) {
-    const match = inventory.find(item =>
-      item.referenceNumber &&
-      item.referenceNumber.toUpperCase().includes(ref.toUpperCase())
-    );
-    if (match) return match;
-  }
+if (!fbListings || !history) { console.error('Missing required files'); process.exit(1); }
 
-  // 2. Word overlap match
-  const fbWords = fbNorm.split(' ').filter(w => w.length > 4);
-  let bestMatch = null, bestScore = 0;
-  for (const item of inventory) {
-    const itemNorm = normalize(item.name || '');
-    const score = fbWords.filter(w => itemNorm.includes(w)).length / fbWords.length;
-    if (score > bestScore && score >= 0.5) { bestScore = score; bestMatch = item; }
-  }
-  return bestMatch;
-}
+// Get latest snapshot of WPB inventory
+const snapshots = Object.keys(history).sort();
+if (!snapshots.length) { console.error('No snapshots in history.json'); process.exit(1); }
+const latest = history[snapshots[snapshots.length - 1]] || {};
+const wpbItems = Object.values(latest);
 
-async function runCheck() {
-  if (!fs.existsSync('fb-listings.json')) {
-    console.error('fb-listings.json not found'); process.exit(1);
-  }
-  if (!fs.existsSync('history.json')) {
-    console.error('history.json not found'); process.exit(1);
-  }
+console.log('Inventory: ' + wpbItems.length + ' items | FB Listings: ' + fbListings.length);
 
-  const fbData = JSON.parse(fs.readFileSync('fb-listings.json', 'utf8'));
-  const history = JSON.parse(fs.readFileSync('history.json', 'utf8'));
+// Only look at active FB listings
+const activeFB = fbListings.filter(l => {
+    const s = (l.status || '').toLowerCase();
+    return s === 'active' || s === 'in stock' || s === '';
+});
+console.log('Active FB listings (for sale): ' + activeFB.length);
 
-  // Get latest snapshot
-  const timestamps = Object.keys(history).sort();
-  const latestSnapshot = history[timestamps[timestamps.length - 1]];
-  const inventory = Object.values(latestSnapshot);
+// Build WPB title index
+const wpbTitles = new Set(wpbItems.map(w => (w.name || '').toLowerCase().trim()));
+const wpbInStock = new Set(
+    wpbItems.filter(w => (w.stockStatus || '').toLowerCase().includes('in stock'))
+           .map(w => (w.name || '').toLowerCase().trim())
+  );
 
-  console.log(`Inventory: ${inventory.length} items | FB Listings: ${fbData.listings.length}`);
+const markSold = [];
+const noMatch = [];
+const ok = [];
 
-  // ── ONLY look at listings actively for sale on FB ──────────────────────────
-  // "Active" = listed in groups/marketplace, "In stock" = standard active listing
-  // Everything else (Out of Stock, Sold, inactive) is already handled — skip it
-  // Listings to exclude from sync check (ghost listings not in your selling dashboard)
-  const EXCLUDE_TITLES = [
-    '15210or',  // AP Code 11.59 Rose Gold - ghost listing not in selling dashboard
-  ];
-
-  const activeListings = fbData.listings.filter(fb => {
-    if (!['Active', 'In stock'].includes(fb.status)) return false;
-    // Exclude known ghost listings
-    const titleLower = fb.title.toLowerCase();
-    if (EXCLUDE_TITLES.some(ex => titleLower.includes(ex))) {
-      console.log('Excluding ghost listing:', fb.title);
-      return false;
-    }
-    return true;
-  });
-
-  console.log(`Active FB listings (for sale): ${activeListings.length}`);
-  console.log(`Skipping ${fbData.listings.length - activeListings.length} listings already marked Out of Stock/Sold on FB`);
-
-  const markSold = [];    // Active on FB + Out of Stock on WPB = needs to be marked sold
-  const noMatch = [];     // Active on FB but not found in WPB inventory
-  const ok = [];          // Active on FB + In Stock on WPB = all good
-  const seen = {};
-
-  for (const fb of activeListings) {
-    // Deduplicate
-    // Deduplicate by title+price — same watch at different prices = separate listings
-    const dedupKey = normalize(fb.title) + '|||' + (fb.price || '');
-    if (seen[dedupKey]) continue;
-    seen[dedupKey] = true;
-
-    const match = matchListing(fb.title, inventory);
-
-    if (!match) {
-      noMatch.push({
-        fb_title: fb.title,
-        fb_status: fb.status,
-        fb_price: fb.price,
-        fb_listed: fb.listed_date,
-        note: 'Not found in WPB inventory — may be consignment or missing product code'
-      });
-      continue;
-    }
-
-    const isOOS = !match.inStock || match.stockStatus === 'outofstock';
-
-    const item = {
-      fb_title: fb.title,
-      fb_status: fb.status,
-      fb_price: fb.price,
-      fb_listed: fb.listed_date,
-      wpb_name: match.name,
-      product_code: match.productCode,
-      reference_number: match.referenceNumber,
-      wpb_stock: isOOS ? 'Out of Stock' : 'In Stock',
-      wpb_url: match.url || ''
-    };
-
-    if (isOOS) {
-      // Active on FB but already sold on WPB website — needs to be marked sold on FB
-      markSold.push({ ...item, action: 'MARK_SOLD' });
+for (const listing of activeFB) {
+    const title = (listing.title || '').toLowerCase().trim();
+    if (!title) continue;
+    if (wpbInStock.has(title)) {
+          ok.push(listing);
+    } else if (wpbTitles.has(title)) {
+          markSold.push(listing);
     } else {
-      // Active on FB and In Stock on WPB — all good
-      ok.push({ ...item, action: 'OK' });
+          noMatch.push(listing);
     }
-  }
+}
 
-  const output = {
+console.log('=== FB SYNC RESULTS ===');
+console.log('Mark as Sold on FB: ' + markSold.length);
+console.log('Not in WPB: ' + noMatch.length);
+console.log('All clear: ' + ok.length);
+
+const result = {
     checked_at: new Date().toISOString(),
     checked_at_et: new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }),
-    fb_scraped_at_et: fbData.scraped_at_et,
+    fb_scraped_at_et: new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }),
     summary: {
-      total_fb_listings: fbData.listings.length,
-      active_fb_listings: activeListings.length,
-      mark_sold: markSold.length,
-      no_match: noMatch.length,
-      ok: ok.length
+          total_fb_listings: fbListings.length,
+          active_fb_listings: activeFB.length,
+          mark_sold: markSold.length,
+          no_match: noMatch.length,
+          ok: ok.length
     },
     mark_sold: markSold,
     no_match: noMatch,
-    ok
-  };
+    ok: ok
+};
 
-  fs.writeFileSync('fb-sync-results.json', JSON.stringify(output, null, 2));
-
-  console.log('');
-  console.log('=== FB SYNC RESULTS ===');
-  console.log(`🔴 Mark as Sold on FB:  ${markSold.length}`);
-  console.log(`🟠 Not in WPB:          ${noMatch.length}`);
-  console.log(`✅ All clear:           ${ok.length}`);
-
-  if (markSold.length > 0) {
-    console.log('\n🔴 MARK THESE AS SOLD ON FACEBOOK:');
-    markSold.forEach(i => console.log(`   • ${i.fb_title} (${i.product_code}) — ${i.fb_price}`));
-  }
-
-  console.log('\n💾 Saved fb-sync-results.json');
-}
-
-runCheck().catch(err => { console.error('Error:', err.message); process.exit(1); });
+fs.writeFileSync('fb-sync-results.json', JSON.stringify(result, null, 2));
+console.log('Saved fb-sync-results.json');
