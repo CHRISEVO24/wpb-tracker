@@ -35,7 +35,9 @@ async function scrapeFBListings() {
   });
 
   console.log('Loading FB Marketplace selling page...');
-  await page.goto('https://www.facebook.com/marketplace/you/selling', { waitUntil: 'domcontentloaded', timeout: 60000 });
+    await page.goto('https://www.facebook.com', { waitUntil: 'domcontentloaded', timeout: 30000 });
+    await page.waitForTimeout(3000);
+    await page.goto('https://www.facebook.com/marketplace/you/selling', { waitUntil: 'domcontentloaded', timeout: 60000 });
   await page.waitForTimeout(4000);
 
   const url = page.url();
