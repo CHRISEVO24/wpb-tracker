@@ -1,4 +1,4 @@
-—#!/usr/bin/env node
+#!/usr/bin/env node
 // fb-scraper.js - Scrapes FB Marketplace selling page using saved session cookies
 // Runs in GitHub Actions headlessly. Outputs: fb-listings.json
 
