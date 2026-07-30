@@ -1,13 +1,13 @@
 {
-  "checked_at": "2026-07-29T19:01:11.815Z",
-  "checked_at_et": "7/29/2026, 3:01:11 PM",
-  "fb_scraped_at_et": "7/29/2026, 3:01:11 PM",
+  "checked_at": "2026-07-30T10:02:37.703Z",
+  "checked_at_et": "7/30/2026, 6:02:37 AM",
+  "fb_scraped_at_et": "7/30/2026, 6:02:37 AM",
   "summary": {
     "total_fb_listings": 29,
     "active_fb_listings": 27,
     "mark_sold": 0,
-    "no_match": 1,
-    "ok": 26
+    "no_match": 2,
+    "ok": 25
   },
   "mark_sold": [],
   "no_match": [
@@ -19,6 +19,15 @@
       "fb_url": "https://www.facebook.com/marketplace/item/2296088227864077/",
       "share_url": "https://www.facebook.com/share/1DQNsct9xK/",
       "item_id": "2296088227864077"
+    },
+    {
+      "title": "Rolex Datejust 31 Stainless Steel and Rose Gold Pink Diamond Dial 278341RBR",
+      "price": "",
+      "status": "Active",
+      "listed_date": "",
+      "fb_url": "https://www.facebook.com/marketplace/item/1279483597404006/",
+      "share_url": "https://www.facebook.com/share/1Ds1d3E29b/",
+      "item_id": "1279483597404006"
     }
   ],
   "ok": [
@@ -246,15 +255,6 @@
       "fb_url": "https://www.facebook.com/marketplace/item/1551704009676803/",
       "share_url": "https://www.facebook.com/share/19F4McViAL/",
       "item_id": "1551704009676803"
-    },
-    {
-      "title": "Rolex Datejust 31 Stainless Steel and Rose Gold Pink Diamond Dial 278341RBR",
-      "price": "",
-      "status": "Active",
-      "listed_date": "",
-      "fb_url": "https://www.facebook.com/marketplace/item/1279483597404006/",
-      "share_url": "https://www.facebook.com/share/1Ds1d3E29b/",
-      "item_id": "1279483597404006"
     }
   ]
 }
