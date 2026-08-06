@@ -1,16 +1,34 @@
 {
-  "checked_at": "2026-08-05T19:01:31.840Z",
-  "checked_at_et": "8/5/2026, 3:01:31 PM",
-  "fb_scraped_at_et": "8/5/2026, 3:01:31 PM",
+  "checked_at": "2026-08-06T10:02:08.487Z",
+  "checked_at_et": "8/6/2026, 6:02:08 AM",
+  "fb_scraped_at_et": "8/6/2026, 6:02:08 AM",
   "summary": {
     "total_fb_listings": 29,
     "active_fb_listings": 27,
     "mark_sold": 0,
-    "no_match": 2,
-    "ok": 25
+    "no_match": 4,
+    "ok": 23
   },
   "mark_sold": [],
   "no_match": [
+    {
+      "title": "Rolex Oyster Perpetual 41 Stainless Steel \"Celebration\" Dial 124300",
+      "price": "",
+      "status": "Active",
+      "listed_date": "",
+      "fb_url": "https://www.facebook.com/marketplace/item/1047883110932644/",
+      "share_url": "https://www.facebook.com/share/1GGXBtBhVZ/",
+      "item_id": "1047883110932644"
+    },
+    {
+      "title": "Omega Speedmaster Moonwatch Stainless Steel White Dial 522.30.38.50.04.002",
+      "price": "",
+      "status": "Active",
+      "listed_date": "",
+      "fb_url": "https://www.facebook.com/marketplace/item/983883961160451/",
+      "share_url": "https://www.facebook.com/share/18zu865hHZ/",
+      "item_id": "983883961160451"
+    },
     {
       "title": "Patek Philippe Annual Calendar Flyback Chronograph Rose Gold Black Stick Dial 5905R-001",
       "price": "",
@@ -176,15 +194,6 @@
       "item_id": "968674762839255"
     },
     {
-      "title": "Rolex Oyster Perpetual 41 Stainless Steel \"Celebration\" Dial 124300",
-      "price": "",
-      "status": "Active",
-      "listed_date": "",
-      "fb_url": "https://www.facebook.com/marketplace/item/1047883110932644/",
-      "share_url": "https://www.facebook.com/share/1GGXBtBhVZ/",
-      "item_id": "1047883110932644"
-    },
-    {
       "title": "Rolex Daytona Stainless Steel Ceramic Bezel White Dial 116500LN",
       "price": "",
       "status": "Active",
@@ -219,15 +228,6 @@
       "fb_url": "https://www.facebook.com/marketplace/item/987577800867190/",
       "share_url": "https://www.facebook.com/share/1GevAPtTyy/",
       "item_id": "987577800867190"
-    },
-    {
-      "title": "Omega Speedmaster Moonwatch Stainless Steel White Dial 522.30.38.50.04.002",
-      "price": "",
-      "status": "Active",
-      "listed_date": "",
-      "fb_url": "https://www.facebook.com/marketplace/item/983883961160451/",
-      "share_url": "https://www.facebook.com/share/18zu865hHZ/",
-      "item_id": "983883961160451"
     },
     {
       "title": "Rolex Day-Date 40 Yellow Gold Onyx Diamond Dial 228238A",
