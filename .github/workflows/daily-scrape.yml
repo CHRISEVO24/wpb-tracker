@@ -77,13 +77,15 @@ jobs:
           curl -s -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -H "Content-Type: application/json" --data-binary @history.json "https://uploads.github.com/repos/${{ github.repository }}/releases/${RELEASE_ID}/assets?name=history.json"
           echo "Uploaded to release"
 
-      - name: Commit updated files to repo
-        run: |
-          git config --global user.name "WPB Scraper Bot"
-          git config --global user.email "scraper@wpbwatchco.com"
-          git add history.json attribute-cache.json fb-listings.json fb-sync-results.json 2>/dev/null || true
-                    git stash || true && git pull --rebase origin main || true && git stash pop || true
-          git diff --staged --quiet || git commit -m "Auto update [skip ci] - $(TZ='America/New_York' date '+%Y-%m-%d %I:%M %p ET')"
-          git push
-        env:
+            - name: Commit updated files to repo
+                    run: |
+                              git config --global user.name "WPB Scraper Bot"
+                                        git config --global user.email "scraper@wpbwatchco.com"
+                                                  git add history.json attribute-cache.json fb-listings.json fb-sync-results.json 2>/dev/null || true
+                                                            git diff --staged --quiet || git commit -m "Auto update [skip ci] - $(TZ='America/New_York' date '+%Y-%m-%d %I:%M %p ET')"
+                                                                      git fetch origin main
+                                                                                git rebase origin/main
+                                                                                          git push
+                                                                                                  env:
+                                                                                                            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
