@@ -1,13 +1,13 @@
 {
-  "checked_at": "2026-08-10T12:35:48.139Z",
-  "checked_at_et": "8/10/2026, 8:35:48 AM",
-  "fb_scraped_at_et": "8/10/2026, 8:35:48 AM",
+  "checked_at": "2026-08-10T19:01:19.312Z",
+  "checked_at_et": "8/10/2026, 3:01:19 PM",
+  "fb_scraped_at_et": "8/10/2026, 3:01:19 PM",
   "summary": {
     "total_fb_listings": 29,
     "active_fb_listings": 27,
     "mark_sold": 0,
-    "no_match": 4,
-    "ok": 23
+    "no_match": 5,
+    "ok": 22
   },
   "mark_sold": [],
   "no_match": [
@@ -37,6 +37,15 @@
       "fb_url": "https://www.facebook.com/marketplace/item/2296088227864077/",
       "share_url": "https://www.facebook.com/share/1DQNsct9xK/",
       "item_id": "2296088227864077"
+    },
+    {
+      "title": "A. Lange & Söhne Saxonia Thin White Gold Blue Dial 205.086",
+      "price": "",
+      "status": "Active",
+      "listed_date": "",
+      "fb_url": "https://www.facebook.com/marketplace/item/1551704009676803/",
+      "share_url": "https://www.facebook.com/share/19F4McViAL/",
+      "item_id": "1551704009676803"
     },
     {
       "title": "Rolex Datejust 31 Stainless Steel and Rose Gold Pink Diamond Dial 278341RBR",
@@ -246,15 +255,6 @@
       "fb_url": "https://www.facebook.com/marketplace/item/1401291405177166/",
       "share_url": "https://www.facebook.com/share/14nVVaGFgUH/",
       "item_id": "1401291405177166"
-    },
-    {
-      "title": "A. Lange & Söhne Saxonia Thin White Gold Blue Dial 205.086",
-      "price": "",
-      "status": "Active",
-      "listed_date": "",
-      "fb_url": "https://www.facebook.com/marketplace/item/1551704009676803/",
-      "share_url": "https://www.facebook.com/share/19F4McViAL/",
-      "item_id": "1551704009676803"
     }
   ]
 }
