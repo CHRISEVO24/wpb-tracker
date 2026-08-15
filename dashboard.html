@@ -624,15 +624,19 @@ function downloadCsv(rows, filename) {
 // Inventory tab — exports all filtered rows
 function exportInventoryXlsx() {
   const timestamp = new Date().toISOString().slice(0, 10);
-  const headers = ["Watch Name","Reference Number","Product Code","Stock Status","Price","Category","Brand","Model","Year","Box","Papers","Condition","Movement","Case","Bracelet","Dial","Bezel","URL"];
-  const rows = [headers, ...filtered.map(w => [
-    w.name, w.referenceNumber||"", w.productCode||w.sku||"",
-    w.stockStatus||"", w.price||"", w.categories||"",
-    w.brand||"", w.model||"", w.year||"",
-    w.box||"", w.papers||"", w.condition||"",
-    w.movement||"", w.caseMat||"", w.bracelet||"",
-    w.dial||"", w.bezel||"", w.url||""
-  ])];
+  const headers = ["Watch Name","Reference Number","Product Code","Stock Status","Price","Category","Brand","Model","Year","Box","Papers","Condition","Movement","Case","Bracelet","Dial","Bezel","URL","Image 1","Image 2","Image 3","Image 4","Image 5"];
+  const rows = [headers, ...filtered.map(w => {
+    const imgs = w.images || [];
+    return [
+      w.name, w.referenceNumber||"", w.productCode||w.sku||"",
+      w.stockStatus||"", w.price||"", w.categories||"",
+      w.brand||"", w.model||"", w.year||"",
+      w.box||"", w.papers||"", w.condition||"",
+      w.movement||"", w.caseMat||"", w.bracelet||"",
+      w.dial||"", w.bezel||"", w.url||"",
+      imgs[0]||"", imgs[1]||"", imgs[2]||"", imgs[3]||"", imgs[4]||""
+    ];
+  })];
   downloadCsv(rows, `wpb-inventory-${timestamp}.csv`);
   toast(`✓ Exported ${filtered.length} watch${filtered.length!==1?"es":""} to Excel`);
 }
