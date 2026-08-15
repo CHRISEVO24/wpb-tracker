@@ -220,6 +220,8 @@ function buildProduct(api, attrs) {
     papers:          attrs["Papers"]           || "",
     // Short description only (first 120 chars) — full version is in attribute-cache.json
     description:     (attrs._fullDescription || stripHtml(api.short_description || api.description || "")).slice(0, 120),
+    // Store up to 5 product image URLs for export
+    images:          (api.images || []).slice(0, 5).map(img => img.src || img.full || "").filter(Boolean),
   };
 }
 
