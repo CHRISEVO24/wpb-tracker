@@ -1,16 +1,25 @@
 {
-  "checked_at": "2026-08-25T10:41:24.002Z",
-  "checked_at_et": "8/25/2026, 6:41:24 AM",
-  "fb_scraped_at_et": "8/25/2026, 6:41:24 AM",
+  "checked_at": "2026-08-25T19:01:14.896Z",
+  "checked_at_et": "8/25/2026, 3:01:14 PM",
+  "fb_scraped_at_et": "8/25/2026, 3:01:14 PM",
   "summary": {
     "total_fb_listings": 29,
     "active_fb_listings": 27,
     "mark_sold": 0,
-    "no_match": 5,
-    "ok": 22
+    "no_match": 6,
+    "ok": 21
   },
   "mark_sold": [],
   "no_match": [
+    {
+      "title": "Audemars Piguet Code 11.59 Stainless Steel Green Stick Dial 15210ST.OO.A056KB.01",
+      "price": "",
+      "status": "Active",
+      "listed_date": "",
+      "fb_url": "https://www.facebook.com/marketplace/item/1815661572728722/",
+      "share_url": "https://www.facebook.com/share/1DAeHqhLin/",
+      "item_id": "1815661572728722"
+    },
     {
       "title": "Rolex Oyster Perpetual 41 Stainless Steel \"Celebration\" Dial 124300",
       "price": "",
@@ -129,15 +138,6 @@
       "fb_url": "https://www.facebook.com/marketplace/item/1668664080876538/",
       "share_url": "https://www.facebook.com/share/1BeXb9318X/",
       "item_id": "1668664080876538"
-    },
-    {
-      "title": "Audemars Piguet Code 11.59 Stainless Steel Green Stick Dial 15210ST.OO.A056KB.01",
-      "price": "",
-      "status": "Active",
-      "listed_date": "",
-      "fb_url": "https://www.facebook.com/marketplace/item/1815661572728722/",
-      "share_url": "https://www.facebook.com/share/1DAeHqhLin/",
-      "item_id": "1815661572728722"
     },
     {
       "title": "Rolex Datejust 36 Steel and White Gold Silver \"VIIX\" Diamond Dial 126284RBR",
