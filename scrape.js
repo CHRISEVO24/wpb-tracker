@@ -258,7 +258,7 @@ async function fetchAllProducts() {
     while (true) {
       const auth = Buffer.from(`${ck}:${cs}`).toString("base64");
       const url  = `https://wpbwatchco.com/wp-json/wc/v3/products?per_page=100&page=${page}&status=publish`;
-      const json = await fetchJson(url, { "Authorization": `Basic ${auth}` });
+      const { json } = await fetchJsonWithHeaders(url + `&consumer_key=${ck}&consumer_secret=${cs}`);
       if (!json || !json.length) break;
       // Map WC v3 fields to match store API shape
       all.push(...json.map(p => ({
