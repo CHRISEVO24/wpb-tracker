@@ -247,6 +247,49 @@ function buildFullProduct(api, attrs) {
 // ── Store API ─────────────────────────────────────────────────────────────────
 
 async function fetchAllProducts() {
+  const ck = process.env.WC_CONSUMER_KEY;
+  const cs = process.env.WC_CONSUMER_SECRET;
+
+  if (ck && cs) {
+    // Authenticated WC REST API v3 — returns ALL products including out-of-stock
+    console.log("  Using authenticated WC REST API (all products)...");
+    const all = [];
+    let page = 1;
+    while (true) {
+      const auth = Buffer.from(`${ck}:${cs}`).toString("base64");
+      const url  = `https://wpbwatchco.com/wp-json/wc/v3/products?per_page=100&page=${page}&status=publish`;
+      const json = await fetchJson(url, { "Authorization": `Basic ${auth}` });
+      if (!json || !json.length) break;
+      // Map WC v3 fields to match store API shape
+      all.push(...json.map(p => ({
+        id:              p.id,
+        name:            p.name,
+        sku:             p.sku || "",
+        slug:            p.slug,
+        permalink:       p.permalink,
+        is_in_stock:     p.stock_status === "instock",
+        stock_status:    p.stock_status,
+        prices: {
+          price:         String(Math.round(parseFloat(p.price || 0) * 100)),
+          regular_price: String(Math.round(parseFloat(p.regular_price || 0) * 100)),
+          sale_price:    String(Math.round(parseFloat(p.sale_price || 0) * 100)),
+        },
+        images:      (p.images || []).map(img => ({ src: img.src })),
+        categories:  (p.categories || []).map(c => ({ id: c.id, name: c.name, slug: c.slug })),
+        attributes:  (p.attributes || []).map(a => ({ name: a.name, terms: (a.options || []).map(o => ({ name: o })) })),
+        short_description: p.short_description || "",
+        description:       p.description || "",
+      })));
+      if (json.length < 100) break;
+      page++;
+      await sleep(200);
+    }
+    console.log(` done (${all.length} products)\n`);
+    return all;
+  }
+
+  // Fallback: public Store API (in-stock only)
+  console.log("  WC credentials not set — using public Store API (in-stock only)...");
   const all = [];
   let page = 1, totalPages = 1;
   process.stdout.write("  Fetching product list");
