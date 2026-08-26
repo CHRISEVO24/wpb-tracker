@@ -190,9 +190,14 @@ function formatPrice(prices) {
 }
 
 function cleanStockStatus(raw, isInStock) {
-  if (!raw) return isInStock ? "In Stock" : "Out of Stock";
+  // is_in_stock from the API is authoritative — trust it over the raw attribute
+  // which can be stale if manually overridden in WP admin
+  if (isInStock === true)  return "In Stock";
+  if (isInStock === false) return "Out of Stock";
+  // Fallback to raw attribute if is_in_stock is undefined
+  if (!raw) return "Out of Stock";
   const cleaned = raw.replace(/https?:\/\/schema\.org\/\S+/gi, "").trim();
-  if (!cleaned) return isInStock ? "In Stock" : "Out of Stock";
+  if (!cleaned) return "Out of Stock";
   if (cleaned.toLowerCase().includes("instock") || cleaned.toLowerCase().includes("in stock"))
     return "In Stock";
   if (cleaned.toLowerCase().includes("outofstock") || cleaned.toLowerCase().includes("out of stock"))
