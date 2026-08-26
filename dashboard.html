@@ -1257,13 +1257,36 @@ function runReport() {
   const toSnap   = HISTORY[toKey]   || {};
   const fromIds  = new Set(Object.keys(fromSnap).map(Number));
   const toIds    = new Set(Object.keys(toSnap).map(Number));
-  lastAdded = [...toIds].filter(id => !fromIds.has(id)).map(id => toSnap[id]);
-  lastSold  = [...fromIds].filter(id => !toIds.has(id)).map(id => fromSnap[id]);
+  const isInStock = w => w && w.inStock === true;
+
+  // New/Back In Stock: brand new in-stock items OR items that moved from out→in stock
+  lastAdded = [...toIds]
+    .filter(id => {
+      const toItem = toSnap[id], fromItem = fromSnap[id];
+      if (!isInStock(toItem)) return false;
+      if (!fromItem) return true;
+      return !isInStock(fromItem);
+    })
+    .map(id => toSnap[id]);
+
+  // Sold/Removed: was in stock, now out of stock or gone
+  lastSold = [...fromIds]
+    .filter(id => {
+      const fromItem = fromSnap[id], toItem = toSnap[id];
+      if (!isInStock(fromItem)) return false;
+      if (!toItem) return true;
+      return !isInStock(toItem);
+    })
+    .map(id => fromSnap[id]);
+
+  // In Stock Now = only truly in-stock items
+  const inStockNow = Object.values(toSnap).filter(isInStock).length;
+
   document.getElementById("stat-added").textContent    = lastAdded.length;
   document.getElementById("stat-added-sub").textContent = "between selected snapshots";
   document.getElementById("stat-sold").textContent     = lastSold.length;
   document.getElementById("stat-sold-sub").textContent  = "between selected snapshots";
-  document.getElementById("stat-total").textContent    = toIds.size;
+  document.getElementById("stat-total").textContent    = inStockNow;
   document.getElementById("stat-total-sub").textContent = "as of " + fmtKey(toKey);
   applySearch();
 }
