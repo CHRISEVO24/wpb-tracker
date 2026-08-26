@@ -1,16 +1,15 @@
 {
-  "checked_at": "2026-08-26T18:04:19.442Z",
-  "checked_at_et": "8/26/2026, 2:04:19 PM",
-  "fb_scraped_at_et": "8/26/2026, 2:04:19 PM",
+  "checked_at": "2026-08-26T18:14:37.513Z",
+  "checked_at_et": "8/26/2026, 2:14:37 PM",
+  "fb_scraped_at_et": "8/26/2026, 2:14:37 PM",
   "summary": {
     "total_fb_listings": 29,
     "active_fb_listings": 27,
-    "mark_sold": 0,
-    "no_match": 6,
-    "ok": 21
+    "mark_sold": 9,
+    "no_match": 0,
+    "ok": 18
   },
-  "mark_sold": [],
-  "no_match": [
+  "mark_sold": [
     {
       "title": "Audemars Piguet Code 11.59 Stainless Steel Green Stick Dial 15210ST.OO.A056KB.01",
       "price": "",
@@ -21,6 +20,24 @@
       "item_id": "1815661572728722"
     },
     {
+      "title": "Rolex GMT-Master II Rose Gold \"Root Beer\" Black Dial 126715CHNR",
+      "price": "",
+      "status": "Active",
+      "listed_date": "",
+      "fb_url": "https://www.facebook.com/marketplace/item/1308572164694094/",
+      "share_url": "https://www.facebook.com/share/1BwtKhpGCv/",
+      "item_id": "1308572164694094"
+    },
+    {
+      "title": "Rolex Daytona 'Le Mans' Rose Gold Black Dial 126525LN",
+      "price": "",
+      "status": "Active",
+      "listed_date": "",
+      "fb_url": "https://www.facebook.com/marketplace/item/968674762839255/",
+      "share_url": "https://www.facebook.com/share/1ER35n8jwX/",
+      "item_id": "968674762839255"
+    },
+    {
       "title": "Rolex Oyster Perpetual 41 Stainless Steel \"Celebration\" Dial 124300",
       "price": "",
       "status": "Active",
@@ -28,6 +45,15 @@
       "fb_url": "https://www.facebook.com/marketplace/item/1047883110932644/",
       "share_url": "https://www.facebook.com/share/1GGXBtBhVZ/",
       "item_id": "1047883110932644"
+    },
+    {
+      "title": "Rolex Daytona Stainless Steel Ceramic Bezel White Dial 116500LN",
+      "price": "",
+      "status": "Active",
+      "listed_date": "",
+      "fb_url": "https://www.facebook.com/marketplace/item/1548404803652904/",
+      "share_url": "https://www.facebook.com/share/14nJqjbSYak/",
+      "item_id": "1548404803652904"
     },
     {
       "title": "Omega Speedmaster Moonwatch Stainless Steel White Dial 522.30.38.50.04.002",
@@ -66,6 +92,7 @@
       "item_id": "1279483597404006"
     }
   ],
+  "no_match": [],
   "ok": [
     {
       "title": "Omega Seamaster Diver 300 M 007 Titanium Brown Bezel Black Dial 210.90.42.20.01.001",
@@ -158,15 +185,6 @@
       "item_id": "1013740581273912"
     },
     {
-      "title": "Rolex GMT-Master II Rose Gold \"Root Beer\" Black Dial 126715CHNR",
-      "price": "",
-      "status": "Active",
-      "listed_date": "",
-      "fb_url": "https://www.facebook.com/marketplace/item/1308572164694094/",
-      "share_url": "https://www.facebook.com/share/1BwtKhpGCv/",
-      "item_id": "1308572164694094"
-    },
-    {
       "title": "Rolex Daytona Yellow Gold Green Dial 116508",
       "price": "",
       "status": "Active",
@@ -192,24 +210,6 @@
       "fb_url": "https://www.facebook.com/marketplace/item/27309987025359346/",
       "share_url": "https://www.facebook.com/share/1E2VyhESUE/",
       "item_id": "27309987025359346"
-    },
-    {
-      "title": "Rolex Daytona 'Le Mans' Rose Gold Black Dial 126525LN",
-      "price": "",
-      "status": "Active",
-      "listed_date": "",
-      "fb_url": "https://www.facebook.com/marketplace/item/968674762839255/",
-      "share_url": "https://www.facebook.com/share/1ER35n8jwX/",
-      "item_id": "968674762839255"
-    },
-    {
-      "title": "Rolex Daytona Stainless Steel Ceramic Bezel White Dial 116500LN",
-      "price": "",
-      "status": "Active",
-      "listed_date": "",
-      "fb_url": "https://www.facebook.com/marketplace/item/1548404803652904/",
-      "share_url": "https://www.facebook.com/share/14nJqjbSYak/",
-      "item_id": "1548404803652904"
     },
     {
       "title": "Rolex Sky-Dweller Stainless Steel and White Gold Green Stick Dial 336934",
