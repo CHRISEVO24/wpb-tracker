@@ -1005,7 +1005,7 @@ function refreshTable() {
     const chk    = selected.has(w.id) ? "checked" : "";
     const rowCls = selected.has(w.id) ? "selected" : "";
     const code   = w.productCode || w.sku || "—";
-    const stockIn = w.inStock === true || (w.stockStatus || "").toLowerCase().includes("in stock");
+    const stockIn = (w.stockStatus || "").toLowerCase().includes("in stock");
     return `<tr class="${rowCls}" data-id="${w.id}">
       <td><input type="checkbox" class="row-chk" data-id="${w.id}" ${chk}></td>
       <td><div class="td-name">${x(w.name)}</div></td>
