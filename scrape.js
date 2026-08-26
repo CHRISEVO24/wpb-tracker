@@ -374,9 +374,9 @@ async function main() {
     console.log(`\n  ✅ All products cached with full descriptions — snapshot is instant!\n`);
   }
 
-  // Step 2 — build snapshot
+  // Step 2 — build snapshot (ALL products, not just in-stock)
   const snapshot = {};
-  for (const p of inStock) {
+  for (const p of apiProducts) {
     snapshot[p.id] = buildProduct(p, cache[p.id] || {});
   }
 
@@ -386,6 +386,8 @@ async function main() {
 
   // Summary
   const vals    = Object.values(snapshot);
+  const inStockCount = vals.filter(p => p.inStock).length;
+  console.log(`   In Stock: ${inStockCount} / Out of Stock: ${vals.length - inStockCount}`);
   const withRef  = vals.filter(p => p.referenceNumber).length;
   const withCode = vals.filter(p => p.productCode).length;
 
