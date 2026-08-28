@@ -69,15 +69,7 @@ jobs:
         run: |
           git config --global user.name "WPB Scraper Bot"
           git config --global user.email "scraper@wpbwatchco.com"
-          # Only commit history.json if under 95MB to avoid GitHub limit
-          SIZE=$(du -sm history.json 2>/dev/null | cut -f1 || echo 999)
-          if [ "$SIZE" -lt 95 ]; then
-            git add history.json 2>/dev/null || true
-            echo "history.json size: ${SIZE}MB - adding to commit"
-          else
-            echo "history.json too large (${SIZE}MB) - skipping repo commit, stays in releases only"
-          fi
-          git add attribute-cache.json fb-listings.json fb-sync-results.json 2>/dev/null || true
+          git add history.json attribute-cache.json fb-listings.json fb-sync-results.json 2>/dev/null || true
           git diff --staged --quiet || git commit -m "Auto update [skip ci] - $(TZ='America/New_York' date '+%Y-%m-%d %I:%M %p ET')"
           git fetch origin main
           git rebase origin/main
