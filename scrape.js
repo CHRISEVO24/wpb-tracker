@@ -397,33 +397,46 @@ async function main() {
   const trimmed = trimHistory(history); // remove snapshots older than 30 days
   saveHistory(trimmed);
 
-  // Push slim history.json to repo via GitHub API (keep last 10 snapshots only)
-  const token = process.env.GITHUB_TOKEN;
-  if (token) {
+  // Push slim history.json to repo via GitHub API using https module
+  const ghToken = process.env.GITHUB_TOKEN;
+  if (ghToken) {
     try {
-      // Build slim history with last 10 snapshots only
       const allKeys = Object.keys(trimmed).sort();
       const slimHistory = {};
       allKeys.slice(-10).forEach(k => { slimHistory[k] = trimmed[k]; });
       const slimContent = Buffer.from(JSON.stringify(slimHistory)).toString('base64');
-      console.log(`Pushing ${Object.keys(slimHistory).length} snapshots to repo (${Math.round(slimContent.length/1024)}KB)...`);
+      console.log(`Pushing ${Object.keys(slimHistory).length} snapshots to repo...`);
 
-      const getRes = await fetch('https://api.github.com/repos/CHRISEVO24/wpb-tracker/contents/history.json', {
-        headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json', 'User-Agent': 'WPBTracker' }
+      // Get current SHA using https module
+      const getSha = () => new Promise((resolve) => {
+        const opts = { hostname: 'api.github.com', path: '/repos/CHRISEVO24/wpb-tracker/contents/history.json',
+          headers: { 'Authorization': `token ${ghToken}`, 'User-Agent': 'WPBTracker', 'Accept': 'application/vnd.github.v3+json' } };
+        https.get(opts, res => {
+          let d = ''; res.on('data', c => d += c);
+          res.on('end', () => { try { resolve(JSON.parse(d).sha || ''); } catch { resolve(''); } });
+        }).on('error', () => resolve(''));
       });
-      const getJson = await getRes.json();
-      const fileSha = getJson.sha || '';
-      const body = { message: 'Auto update history.json [skip ci]', content: slimContent };
-      if (fileSha) body.sha = fileSha;
-      const putRes = await fetch('https://api.github.com/repos/CHRISEVO24/wpb-tracker/contents/history.json', {
-        method: 'PUT',
-        headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json', 'Accept': 'application/vnd.github.v3+json', 'User-Agent': 'WPBTracker' },
-        body: JSON.stringify(body)
+
+      const putFile = (fileSha) => new Promise((resolve) => {
+        const payload = { message: 'Auto update history.json [skip ci]', content: slimContent };
+        if (fileSha) payload.sha = fileSha;
+        const body = JSON.stringify(payload);
+        const opts = { hostname: 'api.github.com', path: '/repos/CHRISEVO24/wpb-tracker/contents/history.json',
+          method: 'PUT', headers: { 'Authorization': `token ${ghToken}`, 'User-Agent': 'WPBTracker',
+            'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(body) } };
+        const req = https.request(opts, res => {
+          let d = ''; res.on('data', c => d += c);
+          res.on('end', () => { try { const r = JSON.parse(d); resolve(r.content ? 'ok' : r.message); } catch { resolve('parse error'); } });
+        });
+        req.on('error', e => resolve(e.message));
+        req.write(body); req.end();
       });
-      const putJson = await putRes.json();
-      if (putJson.content) console.log('✅ history.json pushed to repo (' + Object.keys(slimHistory).length + ' snapshots)');
-      else console.log('❌ API push failed:', putJson.message);
-    } catch(e) { console.log('API push error:', e.message); }
+
+      const fileSha = await getSha();
+      const result = await putFile(fileSha);
+      if (result === 'ok') console.log(`✅ history.json pushed (${Object.keys(slimHistory).length} snapshots)`);
+      else console.log('❌ history.json push failed:', result);
+    } catch(e) { console.log('history push error:', e.message); }
   }
 
   // Summary
