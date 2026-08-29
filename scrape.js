@@ -397,17 +397,23 @@ async function main() {
   const trimmed = trimHistory(history); // remove snapshots older than 30 days
   saveHistory(trimmed);
 
-  // Push history.json to repo via GitHub API (avoids git size limit)
+  // Push slim history.json to repo via GitHub API (keep last 10 snapshots only)
   const token = process.env.GITHUB_TOKEN;
   if (token) {
     try {
-      const histContent = fs.readFileSync(HISTORY_FILE);
+      // Build slim history with last 10 snapshots only
+      const allKeys = Object.keys(trimmed).sort();
+      const slimHistory = {};
+      allKeys.slice(-10).forEach(k => { slimHistory[k] = trimmed[k]; });
+      const slimContent = Buffer.from(JSON.stringify(slimHistory)).toString('base64');
+      console.log(`Pushing ${Object.keys(slimHistory).length} snapshots to repo (${Math.round(slimContent.length/1024)}KB)...`);
+
       const getRes = await fetch('https://api.github.com/repos/CHRISEVO24/wpb-tracker/contents/history.json', {
         headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json', 'User-Agent': 'WPBTracker' }
       });
       const getJson = await getRes.json();
       const fileSha = getJson.sha || '';
-      const body = { message: 'Auto update history.json [skip ci]', content: histContent.toString('base64') };
+      const body = { message: 'Auto update history.json [skip ci]', content: slimContent };
       if (fileSha) body.sha = fileSha;
       const putRes = await fetch('https://api.github.com/repos/CHRISEVO24/wpb-tracker/contents/history.json', {
         method: 'PUT',
@@ -415,7 +421,7 @@ async function main() {
         body: JSON.stringify(body)
       });
       const putJson = await putRes.json();
-      if (putJson.content) console.log('✅ history.json pushed to repo via API');
+      if (putJson.content) console.log('✅ history.json pushed to repo (' + Object.keys(slimHistory).length + ' snapshots)');
       else console.log('❌ API push failed:', putJson.message);
     } catch(e) { console.log('API push error:', e.message); }
   }
