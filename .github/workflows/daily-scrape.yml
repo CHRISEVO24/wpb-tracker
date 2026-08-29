@@ -23,15 +23,16 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Download history.json from repo
+      - name: Download history.json.gz from repo
         run: |
-          # Use API (not raw URL) to avoid CDN cache issues
-          CONTENT=$(curl -s             -H "Authorization: token ${{ secrets.GH_TOKEN }}"             -H "Accept: application/vnd.github.v3+json"             "https://api.github.com/repos/${{ github.repository }}/contents/history.json.gz"             | python3 -c "import sys,json,base64,gzip; d=json.load(sys.stdin); c=d.get('content','').replace('\n',''); print(gzip.decompress(base64.b64decode(c)).decode() if c else '')" 2>/dev/null)
-          if [ -n "$CONTENT" ]; then
-            echo "$CONTENT" > history.json
-            echo "Downloaded history.json via API ($(du -sh history.json | cut -f1))"
+          HTTP=$(curl -s -o history.json.gz -w "%{http_code}" \
+            -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
+            "https://raw.githubusercontent.com/${{ github.repository }}/main/history.json.gz")
+          if [ "$HTTP" = "200" ]; then
+            echo "Downloaded history.json.gz ($(du -sh history.json.gz | cut -f1))"
+            gunzip -c history.json.gz > history.json
           else
-            echo "No history.json in repo - starting fresh"
+            echo "No history.json.gz - starting fresh"
             echo "{}" > history.json
           fi
 
