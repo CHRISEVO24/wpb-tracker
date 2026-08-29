@@ -403,7 +403,11 @@ async function main() {
     try {
       const allKeys = Object.keys(trimmed).sort();
       const slimHistory = {};
-      allKeys.slice(-25).forEach(k => { slimHistory[k] = trimmed[k]; });
+      // Keep 1 snapshot per day (latest of the day), 25 days max
+      const byDay = {};
+      allKeys.forEach(k => { byDay[k.slice(0,10)] = k; }); // last run per day wins
+      const dailyKeys = Object.values(byDay).sort().slice(-25);
+      dailyKeys.forEach(k => { slimHistory[k] = trimmed[k]; });
       const slimContent = Buffer.from(JSON.stringify(slimHistory)).toString('base64');
       console.log(`Pushing ${Object.keys(slimHistory).length} snapshots to repo...`);
 
