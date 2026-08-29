@@ -17,6 +17,7 @@
 const https = require("https");
 const fs    = require("fs");
 const path  = require("path");
+const zlib  = require("zlib");
 
 const HISTORY_FILE = path.join(__dirname, "history.json");
 const CACHE_FILE   = path.join(__dirname, "attribute-cache.json");
