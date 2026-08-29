@@ -46,6 +46,7 @@ jobs:
         env:
           WC_CONSUMER_KEY: ${{ secrets.WC_CONSUMER_KEY }}
           WC_CONSUMER_SECRET: ${{ secrets.WC_CONSUMER_SECRET }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           for attempt in 1 2 3; do
             echo "Scraper attempt $attempt of 3..."
