@@ -26,9 +26,9 @@ jobs:
       - name: Download history.json from repo
         run: |
           # Use API (not raw URL) to avoid CDN cache issues
-          CONTENT=$(curl -s             -H "Authorization: token ${{ secrets.GH_TOKEN }}"             -H "Accept: application/vnd.github.v3+json"             "https://api.github.com/repos/${{ github.repository }}/contents/history.json"             | python3 -c "import sys,json,base64; d=json.load(sys.stdin); print(d.get('content','').replace('\n',''))" 2>/dev/null)
+          CONTENT=$(curl -s             -H "Authorization: token ${{ secrets.GH_TOKEN }}"             -H "Accept: application/vnd.github.v3+json"             "https://api.github.com/repos/${{ github.repository }}/contents/history.json.gz"             | python3 -c "import sys,json,base64,gzip; d=json.load(sys.stdin); c=d.get('content','').replace('\n',''); print(gzip.decompress(base64.b64decode(c)).decode() if c else '')" 2>/dev/null)
           if [ -n "$CONTENT" ]; then
-            echo "$CONTENT" | base64 -d > history.json
+            echo "$CONTENT" > history.json
             echo "Downloaded history.json via API ($(du -sh history.json | cut -f1))"
           else
             echo "No history.json in repo - starting fresh"
@@ -73,7 +73,7 @@ jobs:
         run: |
           git config --global user.name "WPB Scraper Bot"
           git config --global user.email "scraper@wpbwatchco.com"
-          git add attribute-cache.json fb-listings.json fb-sync-results.json 2>/dev/null || true
+          git add history.json.gz attribute-cache.json fb-listings.json fb-sync-results.json 2>/dev/null || true
           git diff --staged --quiet || git commit -m "Auto update [skip ci] - $(TZ='America/New_York' date '+%Y-%m-%d %I:%M %p ET')"
           git fetch origin main
           git checkout -- .
