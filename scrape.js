@@ -403,7 +403,7 @@ async function main() {
     try {
       const allKeys = Object.keys(trimmed).sort();
       const slimHistory = {};
-      allKeys.slice(-10).forEach(k => { slimHistory[k] = trimmed[k]; });
+      allKeys.slice(-25).forEach(k => { slimHistory[k] = trimmed[k]; });
       const slimContent = Buffer.from(JSON.stringify(slimHistory)).toString('base64');
       console.log(`Pushing ${Object.keys(slimHistory).length} snapshots to repo...`);
 
