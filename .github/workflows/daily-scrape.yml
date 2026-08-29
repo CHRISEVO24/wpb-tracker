@@ -76,7 +76,7 @@ jobs:
           git add attribute-cache.json fb-listings.json fb-sync-results.json 2>/dev/null || true
           git diff --staged --quiet || git commit -m "Auto update [skip ci] - $(TZ='America/New_York' date '+%Y-%m-%d %I:%M %p ET')"
           git fetch origin main
-          git rebase origin/main
-          git push
+          git rebase origin/main || git rebase --abort
+          git push || git push --force
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
