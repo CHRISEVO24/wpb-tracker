@@ -21,7 +21,6 @@ const zlib  = require("zlib");
 
 const HISTORY_FILE    = path.join(__dirname, "history.json");
 const HISTORY_FILE_GZ = path.join(__dirname, "history.json.gz");
-const HISTORY_FILE_GZ = path.join(__dirname, "history.json.gz");
 const CACHE_FILE   = path.join(__dirname, "attribute-cache.json");
 const SITE_URL     = "https://wpbwatchco.com";
 const CONCURRENCY  = 5;
