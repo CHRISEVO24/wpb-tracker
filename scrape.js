@@ -397,6 +397,29 @@ async function main() {
   const trimmed = trimHistory(history); // remove snapshots older than 30 days
   saveHistory(trimmed);
 
+  // Push history.json to repo via GitHub API (avoids git size limit)
+  const token = process.env.GITHUB_TOKEN;
+  if (token) {
+    try {
+      const histContent = fs.readFileSync(HISTORY_FILE);
+      const getRes = await fetch('https://api.github.com/repos/CHRISEVO24/wpb-tracker/contents/history.json', {
+        headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json', 'User-Agent': 'WPBTracker' }
+      });
+      const getJson = await getRes.json();
+      const fileSha = getJson.sha || '';
+      const body = { message: 'Auto update history.json [skip ci]', content: histContent.toString('base64') };
+      if (fileSha) body.sha = fileSha;
+      const putRes = await fetch('https://api.github.com/repos/CHRISEVO24/wpb-tracker/contents/history.json', {
+        method: 'PUT',
+        headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json', 'Accept': 'application/vnd.github.v3+json', 'User-Agent': 'WPBTracker' },
+        body: JSON.stringify(body)
+      });
+      const putJson = await putRes.json();
+      if (putJson.content) console.log('✅ history.json pushed to repo via API');
+      else console.log('❌ API push failed:', putJson.message);
+    } catch(e) { console.log('API push error:', e.message); }
+  }
+
   // Summary
   const vals    = Object.values(snapshot);
   const inStockCount = vals.filter(p => p.inStock).length;
