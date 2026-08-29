@@ -25,12 +25,17 @@ jobs:
 
       - name: Download history.json.gz from repo
         run: |
-          HTTP=$(curl -s -o history.json.gz -w "%{http_code}" \
+          # Use API endpoint (not raw URL) to bypass CDN cache
+          CONTENT=$(curl -s \
             -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
-            "https://raw.githubusercontent.com/${{ github.repository }}/main/history.json.gz")
-          if [ "$HTTP" = "200" ]; then
-            echo "Downloaded history.json.gz ($(du -sh history.json.gz | cut -f1))"
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/${{ github.repository }}/contents/history.json.gz" \
+            | python3 -c "import sys,json,base64; d=json.load(sys.stdin); print(d.get('content','').replace('\\n',''))")
+          if [ -n "$CONTENT" ]; then
+            echo "$CONTENT" | base64 -d > history.json.gz
             gunzip -c history.json.gz > history.json
+            echo "Downloaded history.json.gz via API ($(du -sh history.json.gz | cut -f1))"
+            echo "Snapshots: $(python3 -c 'import json; h=json.load(open("history.json")); print(len(h))')"
           else
             echo "No history.json.gz - starting fresh"
             echo "{}" > history.json
