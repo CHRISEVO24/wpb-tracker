@@ -294,7 +294,12 @@ async function processInBatches(items, size, fn) {
 function loadCache()   { try { return JSON.parse(fs.readFileSync(CACHE_FILE,   "utf8")); } catch { return {}; } }
 function loadHistory() { try { return JSON.parse(fs.readFileSync(HISTORY_FILE, "utf8")); } catch { return {}; } }
 function saveCache(c)  { fs.writeFileSync(CACHE_FILE,   JSON.stringify(c, null, 2)); }
-function saveHistory(h){ fs.writeFileSync(HISTORY_FILE, JSON.stringify(h)); } // no pretty-print = ~40% smaller
+function saveHistory(h) {
+  const raw = JSON.stringify(h);
+  fs.writeFileSync(HISTORY_FILE, raw); // keep plain for releases upload
+  const compressed = zlib.gzipSync(Buffer.from(raw), { level: 9 });
+  fs.writeFileSync(HISTORY_FILE_GZ, compressed);
+}
 
 // ── Keep only last 30 days of snapshots ───────────────────────────────────────
 function trimHistory(history) {
@@ -406,14 +411,18 @@ async function main() {
       // Keep 1 snapshot per day (latest of the day), 25 days max
       const byDay = {};
       allKeys.forEach(k => { byDay[k.slice(0,10)] = k; }); // last run per day wins
-      const dailyKeys = Object.values(byDay).sort().slice(-25);
-      dailyKeys.forEach(k => { slimHistory[k] = trimmed[k]; });
-      const slimContent = Buffer.from(JSON.stringify(slimHistory)).toString('base64');
+      const dailyKeys = Object.values(byDay).sort().slice(-60);
+      const dailySlice = dailyKeys.slice(-60);
+      dailySlice.forEach(k => { slimHistory[k] = trimmed[k]; });
+      const slimJson = JSON.stringify(slimHistory);
+      const slimGz = zlib.gzipSync(Buffer.from(slimJson), { level: 9 });
+      const slimContent = slimGz.toString('base64');
+      console.log(`Slim: ${(slimJson.length/1024).toFixed(0)}KB JSON → ${(slimGz.length/1024).toFixed(0)}KB gzipped`);
       console.log(`Pushing ${Object.keys(slimHistory).length} snapshots to repo...`);
 
       // Get current SHA using https module
       const getSha = () => new Promise((resolve) => {
-        const opts = { hostname: 'api.github.com', path: '/repos/CHRISEVO24/wpb-tracker/contents/history.json',
+        const opts = { hostname: 'api.github.com', path: '/repos/CHRISEVO24/wpb-tracker/contents/history.json.gz',
           headers: { 'Authorization': `token ${ghToken}`, 'User-Agent': 'WPBTracker', 'Accept': 'application/vnd.github.v3+json' } };
         https.get(opts, res => {
           let d = ''; res.on('data', c => d += c);
@@ -422,10 +431,10 @@ async function main() {
       });
 
       const putFile = (fileSha) => new Promise((resolve) => {
-        const payload = { message: 'Auto update history.json [skip ci]', content: slimContent };
+        const payload = { message: 'Auto update history.json.gz [skip ci]', content: slimContent };
         if (fileSha) payload.sha = fileSha;
         const body = JSON.stringify(payload);
-        const opts = { hostname: 'api.github.com', path: '/repos/CHRISEVO24/wpb-tracker/contents/history.json',
+        const opts = { hostname: 'api.github.com', path: '/repos/CHRISEVO24/wpb-tracker/contents/history.json.gz',
           method: 'PUT', headers: { 'Authorization': `token ${ghToken}`, 'User-Agent': 'WPBTracker',
             'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(body) } };
         const req = https.request(opts, res => {
