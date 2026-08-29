@@ -19,7 +19,8 @@ const fs    = require("fs");
 const path  = require("path");
 const zlib  = require("zlib");
 
-const HISTORY_FILE = path.join(__dirname, "history.json");
+const HISTORY_FILE    = path.join(__dirname, "history.json");
+const HISTORY_FILE_GZ = path.join(__dirname, "history.json.gz");
 const CACHE_FILE   = path.join(__dirname, "attribute-cache.json");
 const SITE_URL     = "https://wpbwatchco.com";
 const CONCURRENCY  = 5;
@@ -293,7 +294,14 @@ async function processInBatches(items, size, fn) {
 // ── Cache & History I/O ───────────────────────────────────────────────────────
 
 function loadCache()   { try { return JSON.parse(fs.readFileSync(CACHE_FILE,   "utf8")); } catch { return {}; } }
-function loadHistory() { try { return JSON.parse(fs.readFileSync(HISTORY_FILE, "utf8")); } catch { return {}; } }
+function loadHistory() {
+  try {
+    if (fs.existsSync(HISTORY_FILE_GZ)) {
+      return JSON.parse(zlib.gunzipSync(fs.readFileSync(HISTORY_FILE_GZ)).toString("utf8"));
+    }
+  } catch(e) {}
+  try { return JSON.parse(fs.readFileSync(HISTORY_FILE, "utf8")); } catch { return {}; }
+}
 function saveCache(c)  { fs.writeFileSync(CACHE_FILE,   JSON.stringify(c, null, 2)); }
 function saveHistory(h) {
   const raw = JSON.stringify(h);
