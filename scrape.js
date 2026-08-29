@@ -21,6 +21,7 @@ const zlib  = require("zlib");
 
 const HISTORY_FILE    = path.join(__dirname, "history.json");
 const HISTORY_FILE_GZ = path.join(__dirname, "history.json.gz");
+const HISTORY_FILE_GZ = path.join(__dirname, "history.json.gz");
 const CACHE_FILE   = path.join(__dirname, "attribute-cache.json");
 const SITE_URL     = "https://wpbwatchco.com";
 const CONCURRENCY  = 5;
@@ -421,7 +422,7 @@ async function main() {
       const byDay = {};
       allKeys.forEach(k => { byDay[k.slice(0,10)] = k; }); // last run per day wins
       const dailyKeys = Object.values(byDay).sort().slice(-60);
-      const dailySlice = dailyKeys.slice(-60);
+      const dailySlice = dailyKeys.slice(-30);
       dailySlice.forEach(k => { slimHistory[k] = trimmed[k]; });
       const slimJson = JSON.stringify(slimHistory);
       const slimGz = zlib.gzipSync(Buffer.from(slimJson), { level: 9 });
