@@ -59,47 +59,9 @@ jobs:
       - name: Push history.json to repo via API
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
-        run: |
-          python3 -c "
-import urllib.request, json, base64, os, sys
+        run: python3 push_history.py
 
-token = os.environ['GH_TOKEN']
-repo  = os.environ['GITHUB_REPOSITORY']
-
-with open('history.json', 'rb') as f:
-    raw = f.read()
-
-history = json.loads(raw)
-all_keys = sorted(history.keys())
-by_day = {}
-for k in all_keys:
-    by_day[k[:10]] = k
-daily_keys = sorted(by_day.values())[-20:]
-slim = {k: history[k] for k in daily_keys}
-slim_raw = json.dumps(slim).encode()
-print(f'Pushing {len(slim)} snapshots ({len(slim_raw)/1024/1024:.1f}MB)...')
-
-req = urllib.request.Request(
-    f'https://api.github.com/repos/{repo}/contents/history.json',
-    headers={'Authorization': f'token {token}', 'Accept': 'application/vnd.github.v3+json'}
-)
-with urllib.request.urlopen(req) as r:
-    file_sha = json.loads(r.read()).get('sha', '')
-
-body = json.dumps({'message': 'Auto update history.json [skip ci]', 'content': base64.b64encode(slim_raw).decode(), 'sha': file_sha}).encode()
-req2 = urllib.request.Request(
-    f'https://api.github.com/repos/{repo}/contents/history.json',
-    data=body, method='PUT',
-    headers={'Authorization': f'token {token}', 'Content-Type': 'application/json', 'Accept': 'application/vnd.github.v3+json'}
-)
-with urllib.request.urlopen(req2) as r:
-    result = json.loads(r.read())
-    print('SUCCESS' if 'content' in result else f'FAILED: {result.get("message")}')
-"
-
-      
-      - name: Upload history.json to GitHub Releases
+            - name: Upload history.json to GitHub Releases
         run: |
           TSTAMP=$(TZ='America/New_York' date '+%Y-%m-%d-%H%M')
           RELEASE_ID=$(curl -s -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -H "Content-Type: application/json" https://api.github.com/repos/${{ github.repository }}/releases -d "{\"tag_name\":\"snapshot-${TSTAMP}\",\"name\":\"Snapshot ${TSTAMP} ET\",\"body\":\"Automated snapshot\"}" | python3 -c "import sys,json; print(json.load(sys.stdin).get('id',''))")
