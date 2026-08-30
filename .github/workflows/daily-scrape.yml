@@ -23,6 +23,29 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Download history.json from repo
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          python3 -c "
+import urllib.request, json, base64, os
+token = os.environ['GH_TOKEN']
+repo = os.environ.get('GITHUB_REPOSITORY','CHRISEVO24/wpb-tracker')
+try:
+    req = urllib.request.Request(
+        f'https://raw.githubusercontent.com/{repo}/main/history.json',
+        headers={'Authorization': f'token {token}', 'Cache-Control':'no-cache','Pragma':'no-cache'}
+    )
+    with urllib.request.urlopen(req) as r:
+        data = r.read()
+    h = json.loads(data)
+    open('history.json','wb').write(data)
+    print(f'Downloaded {len(h)} snapshots, latest: {sorted(h.keys())[-1]}')
+except Exception as e:
+    print(f'Could not download history: {e}')
+    open('history.json','w').write('{}')
+"
+
       - name: Run inventory scraper (with retry)
         env:
           WC_CONSUMER_KEY: ${{ secrets.WC_CONSUMER_KEY }}
