@@ -447,40 +447,24 @@ let ATTR_CACHE = {}; // loaded from attribute-cache.json for FB export enrichmen
 
 async function autoLoadHistory() {
   try {
-    // Try gzip first (89% smaller), fall back to plain JSON
-    let HISTORY_raw;
+    const res = await fetch("./history.json?t=" + Date.now());
+    if (!res.ok) throw new Error(`history.json not found (${res.status})`);
+    HISTORY = await res.json();
+
     try {
-      const res = await fetch('./history.json.gz?t=' + Date.now());
-      if (res.ok) {
-        const buf = await res.arrayBuffer();
-        const ds = new DecompressionStream('gzip');
-        const writer = ds.writable.getWriter();
-        writer.write(new Uint8Array(buf));
-        writer.close();
-        const out = await new Response(ds.readable).arrayBuffer();
-        HISTORY_raw = new TextDecoder().decode(out);
+      const cacheRes = await fetch("./attribute-cache.json?t=" + Date.now());
+      if (cacheRes.ok) {
+        ATTR_CACHE = await cacheRes.json();
+        console.log("Attribute cache loaded:", Object.keys(ATTR_CACHE).length, "products");
       }
-    } catch(e) {}
-
-    if (!HISTORY_raw) {
-      const res = await fetch('./history.json?t=' + Date.now());
-      if (!res.ok) throw new Error('history.json not found (' + res.status + '). Run the scraper first.');
-      HISTORY_raw = await res.text();
-    }
-
-    HISTORY = JSON.parse(HISTORY_raw);
-
-    try {
-      const cacheRes = await fetch('./attribute-cache.json?t=' + Date.now());
-      if (cacheRes.ok) ATTR_CACHE = await cacheRes.json();
-    } catch {}
+    } catch { /* cache optional */ }
 
     init();
   } catch (e) {
-    document.getElementById('overlay-loading').style.display = 'none';
-    document.getElementById('overlay-error').style.display   = 'block';
-    document.getElementById('overlay-error-msg').textContent =
-      'Could not auto-load: ' + e.message + '. Use manual load below.';
+    document.getElementById("overlay-loading").style.display = "none";
+    document.getElementById("overlay-error").style.display   = "block";
+    document.getElementById("overlay-error-msg").textContent =
+      "Could not auto-load: " + e.message + ". Use manual load below.";
   }
 }
 
