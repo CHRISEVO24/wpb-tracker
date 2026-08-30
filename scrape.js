@@ -294,7 +294,31 @@ async function processInBatches(items, size, fn) {
 // ── Cache & History I/O ───────────────────────────────────────────────────────
 
 function loadCache()   { try { return JSON.parse(fs.readFileSync(CACHE_FILE,   "utf8")); } catch { return {}; } }
-function loadHistory() {
+async function loadHistory() {
+  const ghToken = process.env.GITHUB_TOKEN;
+  if (ghToken) {
+    try {
+      // Download history.json.gz directly from GitHub API - always fresh, no cache
+      const data = await new Promise((resolve, reject) => {
+        const opts = {
+          hostname: "api.github.com",
+          path: "/repos/CHRISEVO24/wpb-tracker/contents/history.json.gz",
+          headers: { "Authorization": `token ${ghToken}`, "User-Agent": "WPBTracker", "Accept": "application/vnd.github.v3+json" }
+        };
+        https.get(opts, res => {
+          let d = ""; res.on("data", c => d += c);
+          res.on("end", () => { try { resolve(JSON.parse(d)); } catch(e) { reject(e); } });
+        }).on("error", reject);
+      });
+      if (data.content) {
+        const gz = Buffer.from(data.content.replace(/\n/g, ""), "base64");
+        const history = JSON.parse(zlib.gunzipSync(gz).toString("utf8"));
+        console.log(`  Loaded ${Object.keys(history).length} snapshots from repo`);
+        return history;
+      }
+    } catch(e) { console.log("  Could not load from API:", e.message); }
+  }
+  // Fallback to local file
   try {
     if (fs.existsSync(HISTORY_FILE_GZ)) {
       return JSON.parse(zlib.gunzipSync(fs.readFileSync(HISTORY_FILE_GZ)).toString("utf8"));
@@ -345,7 +369,7 @@ function nowKey() {
 async function main() {
   const key     = nowKey();
   const cache   = loadCache();
-  const history = loadHistory();
+  const history = await loadHistory();
   const cached  = Object.keys(cache).length;
 
   console.log(`\nWPB Watch Co — Inventory Snapshot`);
