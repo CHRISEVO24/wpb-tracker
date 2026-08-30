@@ -62,6 +62,7 @@ jobs:
         run: node fb-sync.js 2>/dev/null || echo "FB sync skipped"
 
       - name: Push history.json to repo
+        continue-on-error: true
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: python3 push_history.py
