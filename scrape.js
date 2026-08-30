@@ -298,24 +298,24 @@ async function loadHistory() {
   const ghToken = process.env.GITHUB_TOKEN;
   if (ghToken) {
     try {
-      // Download history.json from GitHub API - always fresh, no CDN cache
-      const data = await new Promise((resolve, reject) => {
+      // Use raw URL with Authorization header - auth header bypasses CDN cache
+      const history = await new Promise((resolve, reject) => {
         const opts = {
-          hostname: "api.github.com",
-          path: "/repos/CHRISEVO24/wpb-tracker/contents/history.json",
-          headers: { "Authorization": `token ${ghToken}`, "User-Agent": "WPBTracker", "Accept": "application/vnd.github.v3+json" }
+          hostname: "raw.githubusercontent.com",
+          path: "/CHRISEVO24/wpb-tracker/main/history.json",
+          headers: { "Authorization": `token ${ghToken}`, "User-Agent": "WPBTracker", "Cache-Control": "no-cache" }
         };
         https.get(opts, res => {
           let d = ""; res.on("data", c => d += c);
-          res.on("end", () => { try { resolve(JSON.parse(d)); } catch(e) { reject(e); } });
+          res.on("end", () => {
+            try { resolve(JSON.parse(d)); }
+            catch(e) { reject(new Error("Parse failed: " + d.slice(0,100))); }
+          });
         }).on("error", reject);
       });
-      if (data.content) {
-        const history = JSON.parse(Buffer.from(data.content.replace(/\n/g, ""), "base64").toString("utf8"));
-        console.log(`  Loaded ${Object.keys(history).length} snapshots from repo`);
-        return history;
-      }
-    } catch(e) { console.log("  Could not load history from API:", e.message); }
+      console.log(`  Loaded ${Object.keys(history).length} snapshots from repo`);
+      return history;
+    } catch(e) { console.log("  Could not load history:", e.message); }
   }
   try { return JSON.parse(fs.readFileSync(HISTORY_FILE, "utf8")); } catch { return {}; }
 }
