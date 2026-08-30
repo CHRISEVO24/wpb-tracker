@@ -1,25 +1,23 @@
 #!/usr/bin/env python3
-"""
-Reads history.json written by scraper (full merged history),
-keeps last 20 daily snapshots, pushes to repo via API.
-"""
 import urllib.request, json, base64, os, sys, time
 
 token = os.environ.get('GH_TOKEN')
 repo  = os.environ.get('GITHUB_REPOSITORY', 'CHRISEVO24/wpb-tracker')
 
 if not token:
-    print("No GH_TOKEN - skipping")
-    sys.exit(0)
+    print("ERROR: No GH_TOKEN")
+    sys.exit(1)
 
-# Read history from disk (written by scraper with full history + new snapshot)
+# Read history.json written by scraper
 with open('history.json', 'rb') as f:
-    history = json.loads(f.read())
-
-print(f"History from scraper: {len(history)} snapshots")
-
-# Keep last 20 daily snapshots (1 per day, latest run wins)
+    raw = f.read()
+history = json.loads(raw)
 all_keys = sorted(history.keys())
+print(f"Disk file: {len(all_keys)} snapshots")
+for k in all_keys[-5:]:
+    print(f"  {k}")
+
+# Keep last 20 daily snapshots - LATEST per day wins
 by_day = {}
 for k in all_keys:
     day = k[:10]
@@ -29,41 +27,65 @@ daily_keys = sorted(by_day.values())[-20:]
 slim = {k: history[k] for k in daily_keys}
 slim_raw = json.dumps(slim).encode()
 
-print(f"Pushing {len(slim)} snapshots ({len(slim_raw)/1024/1024:.1f}MB)")
-print(f"Latest: {sorted(slim.keys())[-1]}")
+print(f"After dedup: {len(slim)} snapshots, latest={sorted(slim.keys())[-1]}")
+print(f"Size: {len(slim_raw)/1024/1024:.2f}MB")
 
-# Push with retry on conflict
+# Get current file SHA and content hash to detect if push needed
+req = urllib.request.Request(
+    f'https://api.github.com/repos/{repo}/contents/history.json',
+    headers={'Authorization': f'token {token}', 'Accept': 'application/vnd.github.v3+json'}
+)
+with urllib.request.urlopen(req) as r:
+    meta = json.loads(r.read())
+file_sha = meta.get('sha', '')
+print(f"Current repo SHA: {file_sha[:8]}")
+
+# Push
+body = json.dumps({
+    'message': 'Auto update history.json [skip ci]',
+    'content': base64.b64encode(slim_raw).decode(),
+    'sha': file_sha
+}).encode()
+
 for attempt in range(3):
     try:
-        req = urllib.request.Request(
-            f'https://api.github.com/repos/{repo}/contents/history.json',
-            headers={'Authorization': f'token {token}', 'Accept': 'application/vnd.github.v3+json'}
-        )
-        with urllib.request.urlopen(req) as r:
-            file_sha = json.loads(r.read()).get('sha', '')
-
-        body = json.dumps({
-            'message': 'Auto update history.json [skip ci]',
-            'content': base64.b64encode(slim_raw).decode(),
-            'sha': file_sha
-        }).encode()
-
         req2 = urllib.request.Request(
             f'https://api.github.com/repos/{repo}/contents/history.json',
             data=body, method='PUT',
-            headers={'Authorization': f'token {token}', 'Content-Type': 'application/json', 'Accept': 'application/vnd.github.v3+json'}
+            headers={
+                'Authorization': f'token {token}',
+                'Content-Type': 'application/json',
+                'Accept': 'application/vnd.github.v3+json'
+            }
         )
         with urllib.request.urlopen(req2) as r:
             result = json.loads(r.read())
-
         if 'content' in result:
-            print(f"SUCCESS: pushed sha={result['content']['sha'][:8]}")
+            new_sha = result['content']['sha'][:8]
+            if new_sha == file_sha[:8]:
+                print(f"WARNING: SHA unchanged after push - content was identical")
+            else:
+                print(f"SUCCESS: new SHA={new_sha}, latest={sorted(slim.keys())[-1]}")
             sys.exit(0)
         else:
-            print(f"Attempt {attempt+1}: {result.get('message')}")
-            time.sleep(5)
+            print(f"Attempt {attempt+1} FAILED: {result.get('message','unknown')}")
+            if attempt < 2:
+                # Get fresh SHA and retry
+                req3 = urllib.request.Request(
+                    f'https://api.github.com/repos/{repo}/contents/history.json',
+                    headers={'Authorization': f'token {token}', 'Accept': 'application/vnd.github.v3+json'}
+                )
+                with urllib.request.urlopen(req3) as r:
+                    meta2 = json.loads(r.read())
+                file_sha = meta2.get('sha', '')
+                body = json.dumps({
+                    'message': 'Auto update history.json [skip ci]',
+                    'content': base64.b64encode(slim_raw).decode(),
+                    'sha': file_sha
+                }).encode()
+                time.sleep(5)
     except Exception as e:
-        print(f"Attempt {attempt+1} error: {e}")
+        print(f"Attempt {attempt+1} ERROR: {e}")
         time.sleep(5)
 
 print("All attempts failed")
