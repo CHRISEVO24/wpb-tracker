@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Runs after each scrape. Merges today scrape (history.json on disk)
-with existing repo history, keeps last 20 daily snapshots, pushes via API.
+Runs after each scrape. Merges today scrape with repo history, pushes via API.
+Retries on SHA conflict.
 """
-import urllib.request, json, base64, os, sys
+import urllib.request, json, base64, os, sys, time
 
 token = os.environ.get('GH_TOKEN')
 repo  = os.environ.get('GITHUB_REPOSITORY', 'CHRISEVO24/wpb-tracker')
@@ -12,32 +12,39 @@ if not token:
     print("No GH_TOKEN - skipping push")
     sys.exit(0)
 
-# 1. Load today's scrape from disk
+def api_req(url, method='GET', data=None, extra_headers=None):
+    headers = {
+        'Authorization': f'token {token}',
+        'Accept': 'application/vnd.github.v3+json',
+        'User-Agent': 'WPBTracker'
+    }
+    if extra_headers:
+        headers.update(extra_headers)
+    req = urllib.request.Request(url, data=data, headers=headers, method=method)
+    with urllib.request.urlopen(req) as r:
+        return json.loads(r.read()), r.status
+
+# 1. Load today scrape from disk
 with open('history.json', 'rb') as f:
     today_history = json.loads(f.read())
-print(f"Today scrape: {len(today_history)} snapshot(s) — {list(today_history.keys())}")
+today_keys = list(today_history.keys())
+print(f"Today scrape: {today_keys}")
 
-# 2. Download existing history from repo via raw URL with auth (bypasses CDN)
+# 2. Download existing repo history via raw URL with auth
 existing = {}
 try:
     req = urllib.request.Request(
         f'https://raw.githubusercontent.com/{repo}/main/history.json',
-        headers={
-            'Authorization': f'token {token}',
-            'Cache-Control': 'no-cache',
-            'Pragma': 'no-cache'
-        }
+        headers={'Authorization': f'token {token}', 'Cache-Control': 'no-cache', 'Pragma': 'no-cache'}
     )
     with urllib.request.urlopen(req) as r:
         existing = json.loads(r.read())
-    print(f"Existing repo history: {len(existing)} snapshots")
+    print(f"Existing: {len(existing)} snapshots, latest: {sorted(existing.keys())[-1]}")
 except Exception as e:
-    print(f"Could not load existing history (will start fresh): {e}")
+    print(f"Could not load existing: {e}")
 
-# 3. Merge: existing + today (today overwrites same-timestamp keys)
+# 3. Merge and deduplicate
 merged = {**existing, **today_history}
-
-# 4. Keep 1 snapshot per day (last run of the day), max 20 days
 all_keys = sorted(merged.keys())
 by_day = {}
 for k in all_keys:
@@ -48,38 +55,37 @@ daily_keys = sorted(by_day.values())[-20:]
 slim = {k: merged[k] for k in daily_keys}
 slim_raw = json.dumps(slim).encode()
 
-print(f"Pushing {len(slim)} snapshots ({len(slim_raw)/1024/1024:.1f}MB):")
-for k in sorted(slim.keys()):
-    print(f"  {k}: {len(slim[k])} items")
+print(f"Pushing {len(slim)} snapshots, latest: {sorted(slim.keys())[-1]}")
 
-# 5. Get current SHA
-req2 = urllib.request.Request(
-    f'https://api.github.com/repos/{repo}/contents/history.json',
-    headers={'Authorization': f'token {token}', 'Accept': 'application/vnd.github.v3+json'}
-)
-with urllib.request.urlopen(req2) as r:
-    file_sha = json.loads(r.read()).get('sha', '')
+# 4. Push with retry on SHA conflict
+for attempt in range(3):
+    try:
+        # Get fresh SHA each attempt
+        meta, _ = api_req(f'https://api.github.com/repos/{repo}/contents/history.json')
+        file_sha = meta.get('sha', '')
 
-# 6. Push via API
-body = json.dumps({
-    'message': 'Auto update history.json [skip ci]',
-    'content': base64.b64encode(slim_raw).decode(),
-    'sha': file_sha
-}).encode()
+        body = json.dumps({
+            'message': 'Auto update history.json [skip ci]',
+            'content': base64.b64encode(slim_raw).decode(),
+            'sha': file_sha
+        }).encode()
 
-req3 = urllib.request.Request(
-    f'https://api.github.com/repos/{repo}/contents/history.json',
-    data=body, method='PUT',
-    headers={
-        'Authorization': f'token {token}',
-        'Content-Type': 'application/json',
-        'Accept': 'application/vnd.github.v3+json'
-    }
-)
-with urllib.request.urlopen(req3) as r:
-    result = json.loads(r.read())
-    if 'content' in result:
-        print(f"SUCCESS: {len(slim)} snapshots in repo")
-    else:
-        print(f"FAILED: {result.get('message')}")
-        sys.exit(1)
+        result, status = api_req(
+            f'https://api.github.com/repos/{repo}/contents/history.json',
+            method='PUT',
+            data=body,
+            extra_headers={'Content-Type': 'application/json'}
+        )
+        if 'content' in result:
+            new_sha = result['content']['sha'][:8]
+            print(f"SUCCESS: {len(slim)} snapshots pushed (sha={new_sha})")
+            sys.exit(0)
+        else:
+            print(f"Attempt {attempt+1} failed: {result.get('message')}")
+            time.sleep(5)
+    except Exception as e:
+        print(f"Attempt {attempt+1} error: {e}")
+        time.sleep(5)
+
+print("All attempts failed")
+sys.exit(1)
