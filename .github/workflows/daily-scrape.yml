@@ -30,29 +30,11 @@ jobs:
             -H "Cache-Control: no-cache" \
             "https://raw.githubusercontent.com/${{ github.repository }}/main/history.json")
           if [ "$HTTP" = "200" ]; then
-            SNAPS=$(python3 -c "import json; h=json.load(open('history.json')); print(len(h),sorted(h.keys())[-1])" 2>/dev/null || echo "?")
-            echo "Downloaded history.json: $SNAPS"
+            echo "Downloaded history.json OK"
           else
-            echo "Could not download history.json (HTTP $HTTP) - starting fresh"
+            echo "Starting fresh - no history"
             echo "{}" > history.json
           fi
-
-            - name: Run inventory scraper (with retry)
-        env:
-          WC_CONSUMER_KEY: ${{ secrets.WC_CONSUMER_KEY }}
-          WC_CONSUMER_SECRET: ${{ secrets.WC_CONSUMER_SECRET }}
-        run: |
-          for attempt in 1 2 3; do
-            echo "Scraper attempt $attempt of 3..."
-            node scrape.js && break
-            if [ $attempt -lt 3 ]; then
-              echo "Attempt $attempt failed, waiting 60s before retry..."
-              sleep 60
-            else
-              echo "All 3 attempts failed"
-              exit 1
-            fi
-          done
 
       - name: Run inventory scraper (with retry)
         env:
