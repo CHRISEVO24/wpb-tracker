@@ -67,6 +67,7 @@ jobs:
         run: |
           git config --global user.name "WPB Scraper Bot"
           git config --global user.email "scraper@wpbwatchco.com"
+          rm -f history.json history.json.gz
           git add attribute-cache.json fb-listings.json fb-sync-results.json 2>/dev/null || true
           git diff --staged --quiet || git commit -m "Auto update [skip ci] - $(TZ='America/New_York' date '+%Y-%m-%d %I:%M %p ET')"
           git fetch origin main
