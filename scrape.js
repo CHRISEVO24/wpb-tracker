@@ -428,51 +428,34 @@ async function main() {
   const trimmed = trimHistory(history); // remove snapshots older than 30 days
   saveHistory(trimmed);
 
-  // Push slim history.json to repo via GitHub API using https module
+  // Push history.json to repo via curl (reliable for large files)
   const ghToken = process.env.GITHUB_TOKEN;
   if (ghToken) {
     try {
+      const { execSync } = require('child_process');
       const allKeys = Object.keys(trimmed).sort();
-      const slimHistory = {};
-      // Keep 1 snapshot per day (latest of the day), 25 days max
       const byDay = {};
-      allKeys.forEach(k => { byDay[k.slice(0,10)] = k; }); // last run per day wins
-      const dailyKeys = Object.values(byDay).sort().slice(-60);
-      const dailySlice = dailyKeys.slice(-30);
-      dailySlice.forEach(k => { slimHistory[k] = trimmed[k]; });
+      allKeys.forEach(k => { byDay[k.slice(0,10)] = k; });
+      const dailyKeys = Object.values(byDay).sort().slice(-20);
+      const slimHistory = {};
+      dailyKeys.forEach(k => { slimHistory[k] = trimmed[k]; });
       const slimJson = JSON.stringify(slimHistory);
       const slimContent = Buffer.from(slimJson).toString('base64');
-      console.log(`Pushing ${Object.keys(slimHistory).length} snapshots (${(slimJson.length/1024).toFixed(0)}KB) to repo...`);
+      console.log(`Pushing ${Object.keys(slimHistory).length} snapshots (${(slimJson.length/1024/1024).toFixed(1)}MB)...`);
 
-      // Get current SHA using https module
-      const getSha = () => new Promise((resolve) => {
-        const opts = { hostname: 'api.github.com', path: '/repos/CHRISEVO24/wpb-tracker/contents/history.json',
-          headers: { 'Authorization': `token ${ghToken}`, 'User-Agent': 'WPBTracker', 'Accept': 'application/vnd.github.v3+json' } };
-        https.get(opts, res => {
-          let d = ''; res.on('data', c => d += c);
-          res.on('end', () => { try { resolve(JSON.parse(d).sha || ''); } catch { resolve(''); } });
-        }).on('error', () => resolve(''));
-      });
+      // Get current SHA
+      const shaOut = execSync(`curl -s -H "Authorization: token ${ghToken}" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/CHRISEVO24/wpb-tracker/contents/history.json`).toString();
+      const fileSha = JSON.parse(shaOut).sha || '';
 
-      const putFile = (fileSha) => new Promise((resolve) => {
-        const payload = { message: 'Auto update history.json [skip ci]', content: slimContent };
-        if (fileSha) payload.sha = fileSha;
-        const body = JSON.stringify(payload);
-        const opts = { hostname: 'api.github.com', path: '/repos/CHRISEVO24/wpb-tracker/contents/history.json',
-          method: 'PUT', headers: { 'Authorization': `token ${ghToken}`, 'User-Agent': 'WPBTracker',
-            'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(body) } };
-        const req = https.request(opts, res => {
-          let d = ''; res.on('data', c => d += c);
-          res.on('end', () => { try { const r = JSON.parse(d); resolve(r.content ? 'ok' : r.message); } catch { resolve('parse error'); } });
-        });
-        req.on('error', e => resolve(e.message));
-        req.write(body); req.end();
-      });
+      // Write payload to temp file and use curl with file input (avoids memory issues)
+      const payload = { message: 'Auto update history.json [skip ci]', content: slimContent };
+      if (fileSha) payload.sha = fileSha;
+      fs.writeFileSync('/tmp/gh_payload.json', JSON.stringify(payload));
 
-      const fileSha = await getSha();
-      const result = await putFile(fileSha);
-      if (result === 'ok') console.log(`✅ history.json pushed (${Object.keys(slimHistory).length} snapshots)`);
-      else console.log('❌ history.json push failed:', result);
+      const result = execSync(`curl -s -X PUT -H "Authorization: token ${ghToken}" -H "Content-Type: application/json" -H "Accept: application/vnd.github.v3+json" -d @/tmp/gh_payload.json https://api.github.com/repos/CHRISEVO24/wpb-tracker/contents/history.json`).toString();
+      const parsed = JSON.parse(result);
+      if (parsed.content) console.log(`✅ history.json pushed (${Object.keys(slimHistory).length} snapshots)`);
+      else console.log('❌ Push failed:', parsed.message);
     } catch(e) { console.log('history push error:', e.message); }
   }
 
