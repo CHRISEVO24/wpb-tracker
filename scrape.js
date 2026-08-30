@@ -298,11 +298,11 @@ async function loadHistory() {
   const ghToken = process.env.GITHUB_TOKEN;
   if (ghToken) {
     try {
-      // Download history.json.gz directly from GitHub API - always fresh, no cache
+      // Download history.json from GitHub API - always fresh, no CDN cache
       const data = await new Promise((resolve, reject) => {
         const opts = {
           hostname: "api.github.com",
-          path: "/repos/CHRISEVO24/wpb-tracker/contents/history.json.gz",
+          path: "/repos/CHRISEVO24/wpb-tracker/contents/history.json",
           headers: { "Authorization": `token ${ghToken}`, "User-Agent": "WPBTracker", "Accept": "application/vnd.github.v3+json" }
         };
         https.get(opts, res => {
@@ -311,19 +311,12 @@ async function loadHistory() {
         }).on("error", reject);
       });
       if (data.content) {
-        const gz = Buffer.from(data.content.replace(/\n/g, ""), "base64");
-        const history = JSON.parse(zlib.gunzipSync(gz).toString("utf8"));
+        const history = JSON.parse(Buffer.from(data.content.replace(/\n/g, ""), "base64").toString("utf8"));
         console.log(`  Loaded ${Object.keys(history).length} snapshots from repo`);
         return history;
       }
-    } catch(e) { console.log("  Could not load from API:", e.message); }
+    } catch(e) { console.log("  Could not load history from API:", e.message); }
   }
-  // Fallback to local file
-  try {
-    if (fs.existsSync(HISTORY_FILE_GZ)) {
-      return JSON.parse(zlib.gunzipSync(fs.readFileSync(HISTORY_FILE_GZ)).toString("utf8"));
-    }
-  } catch(e) {}
   try { return JSON.parse(fs.readFileSync(HISTORY_FILE, "utf8")); } catch { return {}; }
 }
 function saveCache(c)  { fs.writeFileSync(CACHE_FILE,   JSON.stringify(c, null, 2)); }
@@ -448,14 +441,12 @@ async function main() {
       const dailySlice = dailyKeys.slice(-30);
       dailySlice.forEach(k => { slimHistory[k] = trimmed[k]; });
       const slimJson = JSON.stringify(slimHistory);
-      const slimGz = zlib.gzipSync(Buffer.from(slimJson), { level: 9 });
-      const slimContent = slimGz.toString('base64');
-      console.log(`Slim: ${(slimJson.length/1024).toFixed(0)}KB JSON → ${(slimGz.length/1024).toFixed(0)}KB gzipped`);
-      console.log(`Pushing ${Object.keys(slimHistory).length} snapshots to repo...`);
+      const slimContent = Buffer.from(slimJson).toString('base64');
+      console.log(`Pushing ${Object.keys(slimHistory).length} snapshots (${(slimJson.length/1024).toFixed(0)}KB) to repo...`);
 
       // Get current SHA using https module
       const getSha = () => new Promise((resolve) => {
-        const opts = { hostname: 'api.github.com', path: '/repos/CHRISEVO24/wpb-tracker/contents/history.json.gz',
+        const opts = { hostname: 'api.github.com', path: '/repos/CHRISEVO24/wpb-tracker/contents/history.json',
           headers: { 'Authorization': `token ${ghToken}`, 'User-Agent': 'WPBTracker', 'Accept': 'application/vnd.github.v3+json' } };
         https.get(opts, res => {
           let d = ''; res.on('data', c => d += c);
@@ -464,10 +455,10 @@ async function main() {
       });
 
       const putFile = (fileSha) => new Promise((resolve) => {
-        const payload = { message: 'Auto update history.json.gz [skip ci]', content: slimContent };
+        const payload = { message: 'Auto update history.json [skip ci]', content: slimContent };
         if (fileSha) payload.sha = fileSha;
         const body = JSON.stringify(payload);
-        const opts = { hostname: 'api.github.com', path: '/repos/CHRISEVO24/wpb-tracker/contents/history.json.gz',
+        const opts = { hostname: 'api.github.com', path: '/repos/CHRISEVO24/wpb-tracker/contents/history.json',
           method: 'PUT', headers: { 'Authorization': `token ${ghToken}`, 'User-Agent': 'WPBTracker',
             'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(body) } };
         const req = https.request(opts, res => {
