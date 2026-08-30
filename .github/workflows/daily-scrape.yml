@@ -61,7 +61,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: python3 push_history.py
 
-            - name: Upload history.json to GitHub Releases
+      - name: Upload history.json to GitHub Releases
         run: |
           TSTAMP=$(TZ='America/New_York' date '+%Y-%m-%d-%H%M')
           RELEASE_ID=$(curl -s -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -H "Content-Type: application/json" https://api.github.com/repos/${{ github.repository }}/releases -d "{\"tag_name\":\"snapshot-${TSTAMP}\",\"name\":\"Snapshot ${TSTAMP} ET\",\"body\":\"Automated snapshot\"}" | python3 -c "import sys,json; print(json.load(sys.stdin).get('id',''))")
