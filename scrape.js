@@ -404,6 +404,6 @@ async function main() {
   const trimmed = trimHistory(history); // remove snapshots older than 30 days
   saveHistory(trimmed);
 
-
+}
 
 main().catch(e => { console.error("\nFatal:", e.message); process.exit(1); });
