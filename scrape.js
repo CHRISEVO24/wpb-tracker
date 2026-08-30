@@ -294,31 +294,7 @@ async function processInBatches(items, size, fn) {
 // ── Cache & History I/O ───────────────────────────────────────────────────────
 
 function loadCache()   { try { return JSON.parse(fs.readFileSync(CACHE_FILE,   "utf8")); } catch { return {}; } }
-async function loadHistory() {
-  const ghToken = process.env.GITHUB_TOKEN;
-  if (ghToken) {
-    try {
-      // Use raw URL with Authorization header - auth header bypasses CDN cache
-      const history = await new Promise((resolve, reject) => {
-        const opts = {
-          hostname: "raw.githubusercontent.com",
-          path: "/CHRISEVO24/wpb-tracker/main/history.json",
-          headers: { "Authorization": `token ${ghToken}`, "User-Agent": "WPBTracker", "Cache-Control": "no-cache" }
-        };
-        https.get(opts, res => {
-          let d = ""; res.on("data", c => d += c);
-          res.on("end", () => {
-            try { resolve(JSON.parse(d)); }
-            catch(e) { reject(new Error("Parse failed: " + d.slice(0,100))); }
-          });
-        }).on("error", reject);
-      });
-      console.log(`  Loaded ${Object.keys(history).length} snapshots from repo`);
-      return history;
-    } catch(e) { console.log("  Could not load history:", e.message); }
-  }
-  try { return JSON.parse(fs.readFileSync(HISTORY_FILE, "utf8")); } catch { return {}; }
-}
+function loadHistory() { try { return JSON.parse(fs.readFileSync(HISTORY_FILE, "utf8")); } catch { return {}; } }
 function saveCache(c)  { fs.writeFileSync(CACHE_FILE,   JSON.stringify(c, null, 2)); }
 function saveHistory(h) {
   const raw = JSON.stringify(h);
@@ -362,7 +338,7 @@ function nowKey() {
 async function main() {
   const key     = nowKey();
   const cache   = loadCache();
-  const history = await loadHistory();
+  const history = loadHistory();
   const cached  = Object.keys(cache).length;
 
   console.log(`\nWPB Watch Co — Inventory Snapshot`);
@@ -428,59 +404,6 @@ async function main() {
   const trimmed = trimHistory(history); // remove snapshots older than 30 days
   saveHistory(trimmed);
 
-  // Push history.json to repo via curl (reliable for large files)
-  const ghToken = process.env.GITHUB_TOKEN;
-  if (ghToken) {
-    try {
-      const { execSync } = require('child_process');
-      const allKeys = Object.keys(trimmed).sort();
-      const byDay = {};
-      allKeys.forEach(k => { byDay[k.slice(0,10)] = k; });
-      const dailyKeys = Object.values(byDay).sort().slice(-20);
-      const slimHistory = {};
-      dailyKeys.forEach(k => { slimHistory[k] = trimmed[k]; });
-      const slimJson = JSON.stringify(slimHistory);
-      const slimContent = Buffer.from(slimJson).toString('base64');
-      console.log(`Pushing ${Object.keys(slimHistory).length} snapshots (${(slimJson.length/1024/1024).toFixed(1)}MB)...`);
 
-      // Get current SHA
-      const shaOut = execSync(`curl -s -H "Authorization: token ${ghToken}" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/CHRISEVO24/wpb-tracker/contents/history.json`).toString();
-      const fileSha = JSON.parse(shaOut).sha || '';
-
-      // Write payload to temp file and use curl with file input (avoids memory issues)
-      const payload = { message: 'Auto update history.json [skip ci]', content: slimContent };
-      if (fileSha) payload.sha = fileSha;
-      fs.writeFileSync('/tmp/gh_payload.json', JSON.stringify(payload));
-
-      const result = execSync(`curl -s -X PUT -H "Authorization: token ${ghToken}" -H "Content-Type: application/json" -H "Accept: application/vnd.github.v3+json" -d @/tmp/gh_payload.json https://api.github.com/repos/CHRISEVO24/wpb-tracker/contents/history.json`).toString();
-      const parsed = JSON.parse(result);
-      if (parsed.content) console.log(`✅ history.json pushed (${Object.keys(slimHistory).length} snapshots)`);
-      else console.log('❌ Push failed:', parsed.message);
-    } catch(e) { console.log('history push error:', e.message); }
-  }
-
-  // Summary
-  const vals    = Object.values(snapshot);
-  const inStockCount = vals.filter(p => p.inStock).length;
-  console.log(`   In Stock: ${inStockCount} / Out of Stock: ${vals.length - inStockCount}`);
-  const withRef  = vals.filter(p => p.referenceNumber).length;
-  const withCode = vals.filter(p => p.productCode).length;
-
-  console.log(`✅ Snapshot saved — ${key} ET`);
-  console.log(`   Products : ${vals.length}`);
-  console.log(`   Snapshots on file : ${Object.keys(trimmed).length} (last 30 days)`);
-  console.log(`\n   Attribute capture:`);
-  console.log(`   Reference Number : ${withRef}/${vals.length}`);
-  console.log(`   Product Code     : ${withCode}/${vals.length}`);
-  console.log(`\n   Sample (first 3):`);
-  vals.slice(0, 3).forEach(p => {
-    console.log(`   ┌ ${p.name.slice(0, 55)}`);
-    console.log(`   │ Reference Number : ${p.referenceNumber || "(blank on site)"}`);
-    console.log(`   │ Product Code     : ${p.productCode    || "(blank on site)"}`);
-    console.log(`   └ Stock Status     : ${p.stockStatus}`);
-  });
-
-  console.log(`\n→ Open dashboard.html and load history.json to explore.\n`);
-}
 
 main().catch(e => { console.error("\nFatal:", e.message); process.exit(1); });
