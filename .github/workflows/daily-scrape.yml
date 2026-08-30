@@ -23,27 +23,10 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Download latest history.json from releases
-        run: |
-          ASSET_URL=$(curl -s -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
-            -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/${{ github.repository }}/releases/latest \
-            | python3 -c "import sys,json; d=json.load(sys.stdin); assets=d.get('assets',[]); match=next((a['url'] for a in assets if a['name']=='history.json'),''); print(match)")
-          if [ -n "$ASSET_URL" ]; then
-            curl -s -L -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
-              -H "Accept: application/octet-stream" "$ASSET_URL" -o history.json \
-              && echo "Downloaded history.json ($(du -sh history.json | cut -f1))"
-            SNAPS=$(python3 -c "import json; h=json.load(open('history.json')); print(len(h))" 2>/dev/null || echo "?")
-            echo "Snapshots loaded: $SNAPS"
-          else
-            echo "No existing history.json in releases - starting fresh"
-          fi
-
       - name: Run inventory scraper (with retry)
         env:
           WC_CONSUMER_KEY: ${{ secrets.WC_CONSUMER_KEY }}
           WC_CONSUMER_SECRET: ${{ secrets.WC_CONSUMER_SECRET }}
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           for attempt in 1 2 3; do
             echo "Scraper attempt $attempt of 3..."
@@ -65,6 +48,11 @@ jobs:
         continue-on-error: true
         run: node fb-sync.js 2>/dev/null || echo "FB sync skipped"
 
+      - name: Push history.json to repo
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: python3 push_history.py
+
       - name: Upload history.json to GitHub Releases
         run: |
           TSTAMP=$(TZ='America/New_York' date '+%Y-%m-%d-%H%M')
@@ -81,7 +69,7 @@ jobs:
             "https://uploads.github.com/repos/${{ github.repository }}/releases/${RELEASE_ID}/assets?name=history.json"
           echo "Uploaded to release snapshot-${TSTAMP}"
 
-      - name: Commit updated files to repo
+      - name: Commit small files to repo
         run: |
           git config --global user.name "WPB Scraper Bot"
           git config --global user.email "scraper@wpbwatchco.com"
