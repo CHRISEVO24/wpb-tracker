@@ -56,6 +56,64 @@ jobs:
         run: |
           if [ -f "fb-listings.json" ]; then node fb-check.js; else echo "fb-listings.json not found - skipping"; fi
 
+      - name: Push history.json to repo via API
+        run: |
+          python3 << 'PYEOF'
+import urllib.request, json, base64, os
+
+token = os.environ.get('GH_TOKEN')
+repo  = os.environ.get('GITHUB_REPOSITORY', 'CHRISEVO24/wpb-tracker')
+
+# Read the history.json written by scraper
+with open('history.json', 'rb') as f:
+    raw = f.read()
+
+# Keep only last 20 daily snapshots
+history = json.loads(raw)
+all_keys = sorted(history.keys())
+by_day = {}
+for k in all_keys:
+    by_day[k[:10]] = k
+daily_keys = sorted(by_day.values())[-20:]
+slim = {k: history[k] for k in daily_keys}
+slim_raw = json.dumps(slim).encode()
+
+print(f"Pushing {len(slim)} snapshots ({len(slim_raw)/1024/1024:.1f}MB)...")
+
+# Get current SHA
+req = urllib.request.Request(
+    f'https://api.github.com/repos/{repo}/contents/history.json',
+    headers={'Authorization': f'token {token}', 'Accept': 'application/vnd.github.v3+json'}
+)
+with urllib.request.urlopen(req) as r:
+    file_sha = json.loads(r.read()).get('sha', '')
+
+body = json.dumps({
+    'message': 'Auto update history.json [skip ci]',
+    'content': base64.b64encode(slim_raw).decode(),
+    'sha': file_sha
+}).encode()
+
+req2 = urllib.request.Request(
+    f'https://api.github.com/repos/{repo}/contents/history.json',
+    data=body,
+    headers={
+        'Authorization': f'token {token}',
+        'Content-Type': 'application/json',
+        'Accept': 'application/vnd.github.v3+json'
+    },
+    method='PUT'
+)
+with urllib.request.urlopen(req2) as r:
+    result = json.loads(r.read())
+    if 'content' in result:
+        print(f"SUCCESS: history.json pushed ({len(slim)} snapshots)")
+    else:
+        print(f"FAILED: {result.get('message')}")
+PYEOF
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
       - name: Upload history.json to GitHub Releases
         run: |
           TSTAMP=$(TZ='America/New_York' date '+%Y-%m-%d-%H%M')
