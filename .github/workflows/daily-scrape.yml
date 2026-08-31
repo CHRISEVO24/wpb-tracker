@@ -23,19 +23,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Download history.json from repo
-        run: |
-          HTTP=$(curl -s -o history.json -w "%{http_code}" \
-            -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
-            -H "Cache-Control: no-cache" \
-            "https://raw.githubusercontent.com/${{ github.repository }}/main/history.json")
-          if [ "$HTTP" = "200" ]; then
-            echo "Downloaded OK"
-          else
-            echo "Starting fresh"
-            echo "{}" > history.json
-          fi
-
       - name: Run inventory scraper (with retry)
         env:
           WC_CONSUMER_KEY: ${{ secrets.WC_CONSUMER_KEY }}
@@ -61,33 +48,11 @@ jobs:
         continue-on-error: true
         run: node fb-sync.js 2>/dev/null || echo "FB sync skipped"
 
-      - name: Push history.json to repo
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: python3 push_history.py
-
-      - name: Upload history.json to GitHub Releases
-        run: |
-          TSTAMP=$(TZ='America/New_York' date '+%Y-%m-%d-%H%M')
-          RELEASE_ID=$(curl -s -X POST \
-            -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            https://api.github.com/repos/${{ github.repository }}/releases \
-            -d "{\"tag_name\":\"snapshot-${TSTAMP}\",\"name\":\"Snapshot ${TSTAMP} ET\",\"body\":\"Automated snapshot\"}" \
-            | python3 -c "import sys,json; print(json.load(sys.stdin).get('id',''))")
-          curl -s -X POST \
-            -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
-            -H "Content-Type: application/octet-stream" \
-            --data-binary @history.json \
-            "https://uploads.github.com/repos/${{ github.repository }}/releases/${RELEASE_ID}/assets?name=history.json"
-          echo "Uploaded release snapshot-${TSTAMP}"
-
-      - name: Commit small files to repo
+      - name: Commit all files to repo
         run: |
           git config --global user.name "WPB Scraper Bot"
           git config --global user.email "scraper@wpbwatchco.com"
-          rm -f history.json
-          git add attribute-cache.json fb-listings.json fb-sync-results.json 2>/dev/null || true
+          git add history.json attribute-cache.json fb-listings.json fb-sync-results.json 2>/dev/null || true
           git diff --staged --quiet || git commit -m "Auto update [skip ci] - $(TZ='America/New_York' date '+%Y-%m-%d %I:%M %p ET')"
           git fetch origin main
           git checkout -- .
