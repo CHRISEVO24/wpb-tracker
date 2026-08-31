@@ -305,23 +305,13 @@ function saveHistory(h) {
 
 // ── Keep only last 30 days of snapshots ───────────────────────────────────────
 function trimHistory(history) {
-  const cutoff    = new Date();
-  cutoff.setDate(cutoff.getDate() - 30);
-  const cutoffStr = cutoff.toISOString().slice(0, 10); // "YYYY-MM-DD"
-  const before    = Object.keys(history).length;
-  const trimmed   = {};
-
-  for (const key of Object.keys(history)) {
-    // Keys are "YYYY-MM-DD HH:MM" — first 10 chars are the date
-    if (key.slice(0, 10) >= cutoffStr) {
-      trimmed[key] = history[key];
-    }
-  }
-
-  const removed = before - Object.keys(trimmed).length;
-  if (removed > 0) {
-    console.log(`  🗑️  Trimmed ${removed} snapshot${removed > 1 ? "s" : ""} older than 30 days`);
-  }
+  // Keep last 20 snapshots by timestamp - prevents file growing past ~26MB
+  const keys = Object.keys(history).sort();
+  const keep = keys.slice(-20);
+  const trimmed = {};
+  for (const k of keep) trimmed[k] = history[k];
+  const removed = keys.length - keep.length;
+  if (removed > 0) console.log(`  Trimmed ${removed} old snapshot(s), keeping ${keep.length}`);
   return trimmed;
 }
 
