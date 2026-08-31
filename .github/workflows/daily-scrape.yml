@@ -64,7 +64,7 @@ jobs:
       - name: Push history.json to repo
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: timeout 120 python3 push_history.py || echo "Push warning - continuing"
+        run: python3 push_history.py
 
       - name: Upload history.json to GitHub Releases
         run: |
