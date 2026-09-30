@@ -1,9 +1,6 @@
 name: WPB Daily Inventory Scrape
 
 on:
-  schedule:
-    - cron: '1 10 * * *'
-    - cron: '1 19 * * *'
   workflow_dispatch:
 
 jobs:
